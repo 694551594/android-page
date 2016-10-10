@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Library</string>
+    <!-- 上拉刷新，下拉加载控件 -->
+    <string name="header_hint_refresh_normal">下拉可以刷新</string>
+    <string name="header_hint_refresh_ready">松开可以刷新</string>
+    <string name="header_hint_refresh_loading">加载中&#8230;</string>
+    <string name="header_hint_refresh_time">上次刷新时间：</string>
+    <string name="footer_hint_load_normal">加载更多</string>
+    <string name="footer_hint_load_ready">松开加载更多</string>
+    <string name="footer_hint_load_no_more">没有更多数据</string>
+</resources>
