@@ -17,8 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:textColor="@color/summary_color"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
+        android:textAlignment="center"
         android:layout_marginTop="10dp"
         android:text="暂无数据" />
 
