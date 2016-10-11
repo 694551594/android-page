@@ -32,14 +32,8 @@ public final class PageContext<T, I> {
         pageContextProvider.onPageConfig(mPageConfig);
         pageContextProvider.addPageDataIntercepts(mPageDataIntercepts);
         OnPullToRefreshProvider onPullToRefreshProvider = pageContextProvider.getOnPullToRefreshProvider();
-        if (onPullToRefreshProvider == null) {
-            if (mPageView instanceof XListView) {
-                onPullToRefreshProvider = new PullToRefreshListViewContext((XListView) mPageView);
-            } else if (mPageView instanceof XExpandableListView) {
-                onPullToRefreshProvider = new PullToRefreshExpandableListViewContext((XExpandableListView) mPageView);
-            }
-        }
-        mOnPageListeners.add(new DefaultPageListener(mPageView));
+        OnPageListener onPageListener = pageContextProvider.getOnPageListener();
+        mOnPageListeners.add(onPageListener);
         mPageEngine = new PageEngine.Builder<T, I>(context)
                 .setPageSize(mPageConfig.pageSize)
                 .setPageAdapter(pageContextProvider.getPageAdapter())
@@ -65,6 +59,27 @@ public final class PageContext<T, I> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public final OnPullToRefreshProvider getDefaultOnPullToRefreshProvider() {
+        OnPullToRefreshProvider onPullToRefreshProvider = null;
+        if (mPageView instanceof XListView) {
+            onPullToRefreshProvider = new PullToRefreshListViewContext((XListView) mPageView);
+        } else if (mPageView instanceof XExpandableListView) {
+            onPullToRefreshProvider = new PullToRefreshExpandableListViewContext((XExpandableListView) mPageView);
+        }
+        return onPullToRefreshProvider;
+    }
+
+    public final OnPageListener getDefaultOnPageListener() {
+        DefaultPageListener onPageListener = new DefaultPageListener(mPageView);
+        onPageListener.setOnReRequestListener(new OnReRequestListener() {
+            @Override
+            public void onReRequest() {
+                refreshPageData();
+            }
+        });
+        return onPageListener;
     }
 
     public final void onSavePageDataState(Bundle savedInstanceState) {

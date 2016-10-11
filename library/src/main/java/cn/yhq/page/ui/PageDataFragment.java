@@ -7,6 +7,7 @@ import java.util.List;
 import cn.yhq.dialog.BaseFragment;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
+import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
 
 
@@ -74,6 +75,16 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
     @Override
     public void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts) {
 
+    }
+
+    @Override
+    public OnPageListener getOnPageListener() {
+        return mPageContext.getDefaultOnPageListener();
+    }
+
+    @Override
+    public OnPullToRefreshProvider getOnPullToRefreshProvider() {
+        return mPageContext.getDefaultOnPullToRefreshProvider();
     }
 
     @Override
