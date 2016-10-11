@@ -39,6 +39,7 @@ public final class PageContext<T, I> {
                 onPullToRefreshProvider = new PullToRefreshExpandableListViewContext((XExpandableListView) mPageView);
             }
         }
+        mOnPageListeners.add(new DefaultPageListener(mPageView));
         mPageEngine = new PageEngine.Builder<T, I>(context)
                 .setPageSize(mPageConfig.pageSize)
                 .setPageAdapter(pageContextProvider.getPageAdapter())
@@ -50,7 +51,7 @@ public final class PageContext<T, I> {
                 .build();
     }
 
-    public void onCreated(Bundle savedInstanceState) {
+    public final void onCreated(Bundle savedInstanceState) {
         try {
             if (savedInstanceState != null) {
                 // 恢复配置信息
@@ -66,7 +67,7 @@ public final class PageContext<T, I> {
         }
     }
 
-    public void onSavePageDataState(Bundle savedInstanceState) {
+    public final void onSavePageDataState(Bundle savedInstanceState) {
         try {
             // 保存配置信息，配置信息是必须保存的
             mPageConfig.onSaveInstanceState(savedInstanceState);
@@ -75,15 +76,15 @@ public final class PageContext<T, I> {
         }
     }
 
-    public PageManager<T, I> getPageManager() {
+    public final PageManager<T, I> getPageManager() {
         return mPageEngine.getPageManager();
     }
 
-    public void clearPageData() {
+    public final void clearPageData() {
         mPageEngine.clearPageData();
     }
 
-    public void initPageData() {
+    public final void initPageData() {
         if (mPageConfig.clearPageDataBeforeRequest) {
             clearPageData();
         }
@@ -91,19 +92,19 @@ public final class PageContext<T, I> {
         mPageEngine.initPageData();
     }
 
-    public void refreshPageData() {
+    public final void refreshPageData() {
         mPageEngine.refreshPageData();
     }
 
-    public void onDestroy() {
+    public final void onDestroy() {
         mPageEngine.cancel();
     }
 
-    public PageConfig getPageConfig() {
+    public final PageConfig getPageConfig() {
         return this.mPageConfig;
     }
 
-    public void addOnPageListener(OnPageListener onPageListener) {
+    public final void addOnPageListener(OnPageListener onPageListener) {
         this.mOnPageListeners.add(onPageListener);
     }
 }
