@@ -18,7 +18,7 @@ import retrofit2.Call;
  * Created by Yanghuiqiang on 2016/10/11.
  */
 
-public final class RetrofitPageRequester<T, I> extends PageRequester<T, I> {
+final class RetrofitPageRequester<T, I> extends PageRequester<T, I> {
   private final static int PAGE_REQUEST_CODE = -1;
   private Call<T> mCall;
   private IPageRequestExecutor<T, I> pageRequestExecutor;
