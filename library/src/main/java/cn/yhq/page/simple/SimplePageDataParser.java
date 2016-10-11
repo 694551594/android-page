@@ -10,13 +10,13 @@ import cn.yhq.page.core.IPageDataParser;
 
 class SimplePageDataParser<I> implements IPageDataParser<List<I>, I> {
 
-  @Override
-  public List<I> getPageList(List<I> data, boolean isFromCache) {
-    return data;
-  }
+    @Override
+    public List<I> getPageList(List<I> data, boolean isFromCache) {
+        return data;
+    }
 
-  @Override
-  public long getPageTotal(List<I> data, boolean isFromCache) {
-    return data.size();
-  }
+    @Override
+    public long getPageTotal(List<I> data, boolean isFromCache) {
+        return data.size();
+    }
 }

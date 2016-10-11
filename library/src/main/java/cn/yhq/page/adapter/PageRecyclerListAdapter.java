@@ -9,31 +9,30 @@ import cn.yhq.page.core.IPageAdapter;
 
 public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implements IPageAdapter<T> {
 
-  public PageRecyclerListAdapter(Context context) {
-    super(context);
-  }
+    public PageRecyclerListAdapter(Context context) {
+        super(context);
+    }
 
-  @Override
-  public List<T> getPageListData() {
-    return this.getListData();
-  }
+    @Override
+    public List<T> getPageListData() {
+        return this.getListData();
+    }
 
-  /**
-   * 清空列表数据
-   *
-   */
-  @Override
-  public void clear() {
-    mListData.clear();
-  }
+    /**
+     * 清空列表数据
+     */
+    @Override
+    public void clear() {
+        mListData.clear();
+    }
 
-  @Override
-  public void addAll(List<T> data) {
-    this.mListData.addAll(data);
-  }
+    @Override
+    public void addAll(List<T> data) {
+        this.mListData.addAll(data);
+    }
 
-  @Override
-  public int getPageDataCount() {
-    return this.getItemCount();
-  }
+    @Override
+    public int getPageDataCount() {
+        return this.getItemCount();
+    }
 }

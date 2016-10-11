@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface IPageAdapter<I> {
 
-  int getPageDataCount();
+    int getPageDataCount();
 
-  void clear();
+    void clear();
 
-  void addAll(List<I> data);
+    void addAll(List<I> data);
 
-  List<I> getPageListData();
+    List<I> getPageListData();
 
-  void notifyDataSetChanged();
+    void notifyDataSetChanged();
 
 }

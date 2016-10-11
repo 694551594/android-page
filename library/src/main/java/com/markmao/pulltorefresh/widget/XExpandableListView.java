@@ -12,15 +12,16 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
-import cn.android.developers.sdk.R;
 
-import com.diegocarloslima.fgelv.lib.FloatingGroupExpandableListView;
+import cn.yhq.page.R;
 
-public class XExpandableListView extends FloatingGroupExpandableListView implements OnScrollListener {
+
+public class XExpandableListView extends ExpandableListView implements OnScrollListener {
   // private static final String TAG = "XExpandableListView";
 
   private final static int SCROLL_BACK_HEADER = 0;

@@ -7,7 +7,7 @@ import android.content.Context;
  */
 
 public interface IPageResponse<T> {
-  void onResponse(PageAction pageAction, T response, boolean isFromCache);
+    void onResponse(PageAction pageAction, T response, boolean isFromCache);
 
-  void onException(Context context, Throwable throwable);
+    void onException(Context context, Throwable throwable);
 }
