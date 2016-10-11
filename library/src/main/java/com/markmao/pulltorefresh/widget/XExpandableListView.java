@@ -517,7 +517,7 @@ public class XExpandableListView extends FloatingGroupExpandableListView impleme
   // if (state instanceof SavedState) {
   // SavedState ss = (SavedState) state;
   // super.onRestoreInstanceState(ss.getSuperState());
-  // this.setHasMoreData(ss.isHaveMoreData);
+  // this.setHaveMoreData(ss.isHaveMoreData);
   // this.setPullLoadEnable(ss.loadMoreEnable);
   // this.setPullRefreshEnable(ss.refreshEnable);
   // this.setRefreshTime(ss.refreshTime);

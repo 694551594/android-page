@@ -1,17 +1,15 @@
-package cn.yhq.page.list;
+package cn.yhq.page.ui;
+
+import com.markmao.pulltorefresh.widget.XListView;
+import com.markmao.pulltorefresh.widget.XListView.IXListViewListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.os.Bundle;
+import cn.yhq.page.core.OnPullToRefreshProvider;
 
-import com.markmao.pulltorefresh.widget.XListView;
-import com.markmao.pulltorefresh.widget.XListView.IXListViewListener;
-
-import cn.developer.sdk.page2.core.IPullToRefreshListener;
-
-public class PullToRefreshListViewContext extends IPullToRefreshListener {
+public class PullToRefreshListViewContext implements OnPullToRefreshProvider {
   private final static SimpleDateFormat mSimpleDateFormat =
       new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA);
   private XListView xListView;
@@ -21,17 +19,17 @@ public class PullToRefreshListViewContext extends IPullToRefreshListener {
   }
 
   @Override
-  public void setHasMoreData(boolean isHasMoreData) {
-    xListView.setHasMoreData(isHasMoreData);
+  public void setHaveMoreData(boolean isHaveMoreData) {
+    xListView.setHasMoreData(isHaveMoreData);
   }
 
   @Override
-  public void pullRefreshEnable(boolean enable) {
+  public void setPullRefreshEnable(boolean enable) {
     xListView.setPullRefreshEnable(enable);
   }
 
   @Override
-  public void pullLoadMoreEnable(boolean enable) {
+  public void setPullLoadMoreEnable(boolean enable) {
     xListView.setPullLoadEnable(enable);
   }
 
@@ -50,38 +48,24 @@ public class PullToRefreshListViewContext extends IPullToRefreshListener {
       public void onRefresh() {
         // 刷新的时候设置为还有下一页数据。是否真的有下一页数据获取到数据后再判断
         xListView.setHasMoreData(true);
-        onRefreshListener.pullToRefresh();
+        onRefreshListener.onPullToRefresh();
       }
 
       @Override
       public void onLoadMore() {
-        onRefreshListener.pullToLoadMore();
+        onRefreshListener.onPullToLoadMore();
       }
 
     });
   }
 
   @Override
-  public Bundle onSaveInstanceState() {
-    Bundle bundle = new Bundle();
-    bundle.putParcelable("listview", xListView.onSaveInstanceState());
-    bundle.putBundle("pullInfoBundle", xListView.onSavePullInfoState());
-    return bundle;
-  }
-
-  @Override
-  public void onRestoreInstanceState(Bundle state) {
-    xListView.onRestoreInstanceState(state.getParcelable("listview"));
-    xListView.onRestorePullInfoState(state.getBundle("pullInfoBundle"));
-  }
-
-  @Override
-  public boolean pullRefreshEnable() {
+  public boolean isPullRefreshEnable() {
     return xListView.isEnablePullRefresh();
   }
 
   @Override
-  public boolean pullLoadMoreEnable() {
+  public boolean isPullLoadMoreEnable() {
     return xListView.isEnablePullLoad();
   }
 }

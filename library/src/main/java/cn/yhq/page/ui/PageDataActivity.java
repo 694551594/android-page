@@ -1,30 +1,26 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AbsListView;
 
-import cn.developer.sdk.base.BaseActivity;
-import cn.developer.sdk.page2.core.IPageContextProvider;
-import cn.developer.sdk.page2.core.IPageDataHandler;
-import cn.developer.sdk.page2.core.OnPageListener;
-import cn.developer.sdk.page2.core.PageConfig;
-import cn.developer.sdk.page2.core.PageContext;
-import cn.developer.sdk.page2.core.PageException;
-import cn.developer.sdk.page2.core.PageManager.PageRequestType;
+import java.util.List;
 
-public abstract class PageDataActivity<T, L, I> extends BaseActivity
+import cn.yhq.dialog.BaseActivity;
+import cn.yhq.page.core.IPageDataIntercept;
+import cn.yhq.page.core.OnPageListener;
+import cn.yhq.page.core.PageAction;
+
+
+public abstract class PageDataActivity<T, I> extends BaseActivity
     implements
       OnPageListener,
-      IPageContextProvider<T, L, I> {
-  private PageContext<T, L, I> mPageContext;
+      IPageContextProvider<T, I> {
+  private PageContext<T, I> mPageContext;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     onViewCreated(savedInstanceState);
-    mPageContext = PageContext.Builder.fromPageContextProvider(this.getContext(), this)
-        .addOnPageListener(this).setTag(this.getClass()).build();
+    mPageContext = new PageContext<>(this, this);
     mPageContext.onCreated(savedInstanceState);
   }
 
@@ -33,39 +29,13 @@ public abstract class PageDataActivity<T, L, I> extends BaseActivity
   }
 
   public final void refreshPageData() {
-    mPageContext.forceRefresh();
+    mPageContext.refreshPageData();
   }
-
-  /**
-   * 请调用{@link cn.developer.sdk.page2.ui.PageDataActivity}中的refreshPageData()方法 或者调用
-   * {@link cn.developer.sdk.page2.ui.PageDataActivity}中的initPageData()方法
-   * 
-   */
-  @Deprecated
-  public final void request() {
-    initPageData();
-  }
-
-  @Override
-  public void onPageRestoreInstanceState(Bundle state) {}
-
-  @Override
-  public void onPageSaveInstanceState(Bundle state) {}
 
   @Override
   public void onSaveInstanceState(Bundle bundle) {
     super.onSaveInstanceState(bundle);
-    mPageContext.onSavePageData(bundle);
-  }
-
-  /**
-   * 使用getPageView代替
-   *
-   * @return
-   */
-  @Deprecated
-  public AbsListView getAbsListView() {
-    return null;
+    mPageContext.onSavePageDataState(bundle);
   }
 
   /**
@@ -78,17 +48,13 @@ public abstract class PageDataActivity<T, L, I> extends BaseActivity
 
   public abstract void onViewCreated(Bundle savedInstanceState);
 
-  public final void cancelRequests() {
-    mPageContext.cancelRequest();
-  }
-
   @Override
   public void onDestroy() {
     mPageContext.onDestroy();
     super.onDestroy();
   }
 
-  public final PageContext<T, L, I> getPageContext() {
+  public final PageContext<T, I> getPageContext() {
     return mPageContext;
   }
 
@@ -97,38 +63,49 @@ public abstract class PageDataActivity<T, L, I> extends BaseActivity
   }
 
   @Override
-  public void onPageCancelRequests() {}
+  public void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts) {
 
-  @Override
-  public void onPageRequestStart(PageRequestType pageRequestType) {}
-
-  @Override
-  public void onPageLoadComplete(PageRequestType pageRequestType, boolean isFromCache,
-      boolean success) {}
-
-  @Override
-  public void onPageLoadCache(PageRequestType pageRequestType, boolean isHaveCache) {}
-
-  @Override
-  public void onPageRefresh() {}
-
-  @Override
-  public void onPageLoadMore() {}
-
-  @Override
-  public void onPageException(PageRequestType pageRequestType, PageException e) {}
-
-  @Override
-  public IPageDataHandler<L> getPageDataHandler() {
-    return PageContext.getDefaultPageDataHandler();
   }
 
   @Override
-  public View getPageView() {
-    return this.getAbsListView();
+  public void onPageCancelRequests() {
+
   }
 
   @Override
-  public void onPageContextBuild(PageContext.Builder<T, L, I> builder) {}
+  public void onPageRequestStart(PageAction pageAction) {
+
+  }
+
+  @Override
+  public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+
+  }
+
+  @Override
+  public void onPageLoadCache(PageAction pageAction, boolean isHaveCache) {
+
+  }
+
+  @Override
+  public void onPageRefresh() {
+
+  }
+
+  @Override
+  public void onPageLoadMore() {
+
+  }
+
+  @Override
+  public void onPageInit() {
+
+  }
+
+  @Override
+  public void onPageException(Throwable e) {
+
+  }
+
 }
 

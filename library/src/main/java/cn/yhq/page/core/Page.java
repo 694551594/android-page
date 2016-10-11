@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 
  * @param <T>
  */
-public class Page<T> implements Serializable {
+public final class Page<T> implements Serializable {
   // 数据大小
   public long dataSize;
   // 一页的大小
@@ -29,6 +29,10 @@ public class Page<T> implements Serializable {
       pageCount = count + 1;
     }
     mData = null;
+  }
+
+  public void reset() {
+    currentPage = 1;
   }
 
   public void next() {
