@@ -7,10 +7,7 @@ import android.widget.AbsListView;
  * Created by Yanghuiqiang on 2016/10/11.
  */
 
-public class AbsListViewProvider implements PageViewProvider {
-
-    public AbsListViewProvider() {
-    }
+class AbsListViewProvider implements PageViewProvider {
 
     @Override
     public void setEmptyView(View pageView, View emptyView) {

@@ -6,6 +6,6 @@ import android.view.View;
  * Created by Yanghuiqiang on 2016/10/11.
  */
 
-public interface PageViewProvider {
+interface PageViewProvider {
     void setEmptyView(View pageView, View emptyView);
 }
