@@ -8,6 +8,14 @@ android 分页列表数据加载引擎，主要封装了android分页列表数�
 - 支持加载视图、空视图的定制。
 - 支持加载失败点击重试的功能。
 
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164901.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164901.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164912.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164912.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164915.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164915.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164922.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164922.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164948.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164948.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164951.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164951.png)
+[![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164957.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164957.png)
+
 ## 基本介绍
 该框架主要有如下主要组件：
 - 分页列表数据请求器：IPageRequester，主要负责客户端向服务端的数据请求以及数据回调，框架自带了Retrofit+okhttp的请求器，如过你想使用其他请求器，请参考自带示例里的：OkHttpPageRequester
