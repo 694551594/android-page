@@ -49,7 +49,6 @@ public class PageViewManager implements IPageViewManager {
         this.mParentView.removeView(this.mPageView);
         linearLayout.addView(this.mPageView, params);
         this.mParentView.addView(linearLayout, params);
-        this.mParentView.requestLayout();
         //  this.mParentView.addView(mLoadingView, params);
         //  this.mParentView.addView(mEmptyView, params);
     }
