@@ -21,7 +21,7 @@ import cn.yhq.page.ui.PageDataActivity;
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class OkhttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
+public class OkHttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
     private ListView mListView;
     private AlbumPageAdapter mPageAdapter;
 

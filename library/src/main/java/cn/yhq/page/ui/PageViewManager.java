@@ -59,11 +59,12 @@ public class PageViewManager implements IPageViewManager {
         if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
             if (count == 0) {
                 mEmptyView.setVisibility(View.VISIBLE);
+                mPageView.setVisibility(View.GONE);
             } else {
                 mEmptyView.setVisibility(View.GONE);
+                mPageView.setVisibility(View.VISIBLE);
             }
             mLoadingView.setVisibility(View.GONE);
-            mPageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -71,11 +72,12 @@ public class PageViewManager implements IPageViewManager {
     public void cancelPageRequest(int count) {
         if (count == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
+            mPageView.setVisibility(View.GONE);
         } else {
             mEmptyView.setVisibility(View.GONE);
+            mPageView.setVisibility(View.VISIBLE);
         }
         mLoadingView.setVisibility(View.GONE);
-        mPageView.setVisibility(View.VISIBLE);
     }
 
     @Override

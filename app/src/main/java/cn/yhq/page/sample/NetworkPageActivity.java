@@ -18,7 +18,7 @@ import retrofit2.Call;
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class NetworkPageActivity1 extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
+public class NetworkPageActivity extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
     private ListView mListView;
     private AlbumPageAdapter mPageAdapter;
 

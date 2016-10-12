@@ -13,13 +13,19 @@
         android:layout_height="fill_parent"
         android:scrollbars="vertical">
 
-        <com.markmao.pulltorefresh.widget.XListView
-            android:id="@+id/list_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            android:layout_height="match_parent">
+
+            <com.markmao.pulltorefresh.widget.XListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </LinearLayout>
+
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

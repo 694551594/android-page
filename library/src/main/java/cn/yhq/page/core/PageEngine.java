@@ -101,7 +101,7 @@ public final class PageEngine<T, I> {
         this.initPageManager(builder);
     }
 
-    private void initPullToRefresh(Builder<T, I> builder) {
+    private final void initPullToRefresh(Builder<T, I> builder) {
         OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
         if (onPullToRefreshProvider != null) {
             // 设置滑动监听
@@ -121,7 +121,7 @@ public final class PageEngine<T, I> {
         }
     }
 
-    private void initPageManager(Builder builder) {
+    private final void initPageManager(Builder builder) {
         // 初始化分页管理器
         this.mPageManager = new PageManager<>(mContext, builder.mPageSize);
         final OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
@@ -192,40 +192,45 @@ public final class PageEngine<T, I> {
             }
 
             @Override
-            public void onException(Context context, Throwable t) {
+            public void onException(Context context, PageAction pageAction, Throwable t) {
+                if (onPullToRefreshProvider != null) {
+                    onPullToRefreshProvider.onRefreshComplete(true);
+                }
+
                 mOnPageListenerDispatcher.onPageException(t);
+                mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), false, false);
             }
         });
 
     }
 
-    public PageManager<T, I> getPageManager() {
+    public final PageManager<T, I> getPageManager() {
         return mPageManager;
     }
 
-    public void clearPageData() {
+    public final void clearPageData() {
         this.mPageAdapter.clear();
         this.mPageAdapter.notifyDataSetChanged();
     }
 
-    public void cancel() {
+    public final void cancel() {
         mOnPageListenerDispatcher.onPageCancelRequests(this.mPageAdapter.getPageDataCount());
         this.mPageManager.cancel();
     }
 
-    public void initPageData() {
+    public final void initPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.INIT);
         mOnPageListenerDispatcher.onPageInit();
         this.mPageManager.init();
     }
 
-    public void refreshPageData() {
+    public final void refreshPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.REFRESH);
         mOnPageListenerDispatcher.onPageRefresh();
         mPageManager.refresh();
     }
 
-    public void loadMorePageData() {
+    public final void loadMorePageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.LOADMORE);
         mOnPageListenerDispatcher.onPageLoadMore();
         mPageManager.loadMore();

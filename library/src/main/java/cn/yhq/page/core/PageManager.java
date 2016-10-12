@@ -21,7 +21,7 @@ public final class PageManager<T, I> {
         void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
                                 boolean isFromCache);
 
-        void onException(Context context, Throwable t);
+        void onException(Context context, PageAction pageAction, Throwable t);
     }
 
     PageManager(final Context context, int pageSize) {
@@ -44,13 +44,13 @@ public final class PageManager<T, I> {
                     mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache);
                     // 最终要适配的数据
                 } catch (Exception e) {
-                    onException(context, e);
+                    onException(context, pageAction, e);
                 }
             }
 
             @Override
-            public void onException(Context context, Throwable throwable) {
-                mPageDataCallback.onException(context, throwable);
+            public void onException(Context context, PageAction pageAction, Throwable throwable) {
+                mPageDataCallback.onException(context, pageAction, throwable);
             }
         };
     }
