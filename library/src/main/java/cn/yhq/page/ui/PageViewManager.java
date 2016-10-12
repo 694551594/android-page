@@ -48,7 +48,7 @@ public class PageViewManager implements IPageViewManager {
     public void startPageRequest(PageAction pageAction) {
         if (pageAction == PageAction.INIT) {
             // 请求开始的时候必须要把listview显示出来
-            mPageView.setVisibility(View.VISIBLE);
+            mPageView.setVisibility(View.GONE);
             mEmptyView.setVisibility(View.GONE);
             mLoadingView.setVisibility(View.VISIBLE);
         }

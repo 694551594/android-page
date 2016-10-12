@@ -45,6 +45,9 @@ public class MainActivity extends SimplePageDataActivity<String> {
                     case 3:
                         intent = new Intent(MainActivity.this, SwipeRefreshLayoutPageActivity.class);
                         break;
+                    case 4:
+                        intent = new Intent(MainActivity.this, OkhttpPageActivity.class);
+                        break;
                 }
                 startActivity(intent);
             }
