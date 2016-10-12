@@ -1,5 +1,5 @@
 <resources>
     <dimen name="footer_padding">10dp</dimen>
     <dimen name="header_height">60dp</dimen>
-    <dimen name="footer_height">16dp</dimen>
+    <dimen name="footer_height">13dp</dimen>
 </resources>

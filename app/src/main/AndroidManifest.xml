@@ -18,6 +18,7 @@
         <activity android:name=".SimplePageActivity1"/>
         <activity android:name=".SimplePageActivity2"/>
         <activity android:name=".NetworkPageActivity1"/>
+        <activity android:name=".SwipeRefreshLayoutPageActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

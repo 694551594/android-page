@@ -9,7 +9,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.yhq.http.core.HttpRequester;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.simple.SimplePageDataActivity;
 
@@ -20,8 +19,7 @@ public class MainActivity extends SimplePageDataActivity<String> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HttpRequester.init(this);
-        HttpRequester.registerAPI("http://v5.pc.duomi.com", API.class);
+        HttpAPIClient.init(this);
     }
 
     @Override
@@ -45,6 +43,7 @@ public class MainActivity extends SimplePageDataActivity<String> {
                         intent = new Intent(MainActivity.this, NetworkPageActivity1.class);
                         break;
                     case 3:
+                        intent = new Intent(MainActivity.this, SwipeRefreshLayoutPageActivity.class);
                         break;
                 }
                 startActivity(intent);
@@ -69,6 +68,8 @@ public class MainActivity extends SimplePageDataActivity<String> {
         data.add("非耗时返回本地数据");
         data.add("耗时返回本地数据");
         data.add("耗时返回网络数据");
+        data.add("自定义下拉刷新控件返回网络数据");
+        data.add("自定义网络请求框架返回网络数据");
         return data;
     }
 

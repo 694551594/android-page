@@ -1,26 +1,31 @@
 package cn.yhq.page.sample;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.ListView;
+
+import com.markmao.pulltorefresh.widget.XListView;
 
 import java.util.List;
 
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
+import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.http.RetrofitPageDataActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
+import cn.yhq.page.ui.PullToRefreshSwipeLayoutListViewContext;
 import retrofit2.Call;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class NetworkPageActivity1 extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
-    private ListView mListView;
+public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
+    private XListView mListView;
     private AlbumPageAdapter mPageAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +34,18 @@ public class NetworkPageActivity1 extends RetrofitPageDataActivity<AlbumInfo, Tr
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_network_page);
-        mListView = (ListView) this.findViewById(R.id.list_view);
+        setContentView(R.layout.activity_swipe_refresh);
+        mListView = (XListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.swiperefreshlayout);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
+    }
+
+    @Override
+    public OnPullToRefreshProvider getOnPullToRefreshProvider() {
+        return new PullToRefreshSwipeLayoutListViewContext(mSwipeRefreshLayout, mListView);
     }
 
     @Override
@@ -43,6 +56,7 @@ public class NetworkPageActivity1 extends RetrofitPageDataActivity<AlbumInfo, Tr
     @Override
     public void onPageConfig(PageConfig pageConfig) {
         super.onPageConfig(pageConfig);
+        // 设置分页大小
         pageConfig.setPageSize(5);
     }
 
