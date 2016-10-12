@@ -39,8 +39,6 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<Alb
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
         mSwipeRefreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.swiperefreshlayout);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
     }
 
     @Override

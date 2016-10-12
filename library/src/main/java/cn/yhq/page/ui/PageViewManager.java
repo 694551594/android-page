@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
 import cn.yhq.page.core.PageAction;
 
@@ -35,13 +36,22 @@ public class PageViewManager implements IPageViewManager {
                 }
             }
         });
-        this.mParentView = (ViewGroup) this.mPageView.getParent();
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        this.mParentView.addView(mLoadingView, params);
-        this.mParentView.addView(mEmptyView, params);
         this.mPageView.setVisibility(View.VISIBLE);
         this.mEmptyView.setVisibility(View.GONE);
         this.mLoadingView.setVisibility(View.GONE);
+
+        this.mParentView = (ViewGroup) this.mPageView.getParent();
+        LinearLayout linearLayout = new LinearLayout(mContext);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        linearLayout.setLayoutParams(params);
+        linearLayout.addView(mLoadingView, params);
+        linearLayout.addView(mEmptyView, params);
+        this.mParentView.removeView(this.mPageView);
+        linearLayout.addView(this.mPageView, params);
+        this.mParentView.addView(linearLayout, params);
+        this.mParentView.requestLayout();
+        //  this.mParentView.addView(mLoadingView, params);
+        //  this.mParentView.addView(mEmptyView, params);
     }
 
     @Override

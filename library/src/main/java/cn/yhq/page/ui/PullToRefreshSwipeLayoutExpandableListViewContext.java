@@ -10,6 +10,8 @@ public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRef
     public PullToRefreshSwipeLayoutExpandableListViewContext(SwipeRefreshLayout swipeRefreshLayout, XExpandableListView xListView) {
         super(xListView);
         this.swipeRefreshLayout = swipeRefreshLayout;
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
     }
 
     @Override
