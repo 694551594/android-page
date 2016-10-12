@@ -20,6 +20,7 @@ public abstract class PageRequester<T, I> implements IPageRequester<T, I> {
     public final void onRequest(PageAction pageAction, Page<I> page, IPageResponse<T> pageResponse) {
         this.page = page;
         this.pageResponse = pageResponse;
+        this.pageAction = pageAction;
         executeRequest(context, pageAction, page);
     }
 

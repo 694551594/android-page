@@ -12,7 +12,7 @@ public interface OnPageListener {
     void onPageRequestStart(PageAction pageAction);
 
     // 请求载入完成，如果没有缓存，则不会回调此方法
-    void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess);
+    void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess);
 
     // 载入缓存，如果有缓存，会回调onPageLoadComplete
     void onPageLoadCache(PageAction pageAction, boolean isHaveCache);

@@ -1,14 +1,11 @@
 package cn.yhq.page.ui;
 
-import android.view.View;
-
 import java.util.List;
 
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 
 /**
@@ -54,14 +51,24 @@ public interface IPageContextProvider<T, I> {
     void onPageConfig(PageConfig pageConfig);
 
     /**
-     * 获取pageview，比如listview，gridview，recyclerview等等
+     * 分页视图管理器，负责分页视图的显示
      *
      * @return
      */
-    View getPageView();
+    IPageViewManager getPageViewManager();
 
+    /**
+     * 分页视图提供器
+     *
+     * @return
+     */
+    IPageViewProvider getPageViewProvider();
 
+    /**
+     * 下拉刷新上拉加载的组件
+     *
+     * @return
+     */
     OnPullToRefreshProvider getOnPullToRefreshProvider();
 
-    OnPageListener getOnPageListener();
 }

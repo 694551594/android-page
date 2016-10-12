@@ -16,8 +16,8 @@ public abstract class RetrofitPageDataFragment<T, I> extends PageDataFragment<T,
         RetrofitPageRequester.IPageRequestExecutor<T, I> {
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-        super.onPageLoadComplete(pageAction, isFromCache, isSuccess);
+    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
+        super.onPageLoadComplete(pageAction, count, isFromCache, isSuccess);
         if (pageAction == PageAction.INIT && isFromCache) {
             this.refreshPageData();
         }

@@ -1,11 +1,20 @@
 package cn.yhq.page.ui;
 
-import android.view.View;
+import cn.yhq.page.R;
 
 /**
- * Created by Yanghuiqiang on 2016/10/11.
+ * Created by Yanghuiqiang on 2016/10/12.
  */
 
-interface PageViewProvider {
-    void setEmptyView(View pageView, View emptyView);
+public abstract class PageViewProvider implements IPageViewProvider {
+
+    @Override
+    public int getPageLoadingView() {
+        return R.layout.loadingview;
+    }
+
+    @Override
+    public int getPageEmptyView() {
+        return R.layout.emptyview;
+    }
 }

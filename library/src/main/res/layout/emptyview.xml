@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/listview_emptyview"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -10,15 +12,18 @@
         android:id="@+id/imageView1"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_no_content" />
+        android:src="@drawable/ic_no_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/tv_listview_empty_text"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/summary_color"
         android:textAlignment="center"
-        android:layout_marginTop="10dp"
-        android:text="暂无数据" />
+        android:text="暂无数据，点击重新加载"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="10dp"/>
 
-</LinearLayout>
+</RelativeLayout>

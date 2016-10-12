@@ -8,7 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cn.android.developers.sdk.R;
+
+import cn.yhq.page.R;
 
 /**
  * The footer view for {@link XListView} and

@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 
@@ -30,7 +31,8 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPageContext = new PageContext<>(this.getContext(), this);
+        mPageContext = new PageContext<>(this.getContext());
+        mPageContext.initPageContext(this);
         mPageContext.addOnPageListener(this);
         mPageContext.onCreated(savedInstanceState);
     }
@@ -77,14 +79,26 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
 
     }
 
+    /**
+     * 获取pageview，比如listview，gridview，recyclerview等等
+     *
+     * @return
+     */
+    public abstract View getPageView();
+
     @Override
-    public OnPageListener getOnPageListener() {
-        return mPageContext.getDefaultOnPageListener();
+    public IPageViewManager getPageViewManager() {
+        return mPageContext.getDefaultPageViewManager(this.getPageViewProvider());
+    }
+
+    @Override
+    public IPageViewProvider getPageViewProvider() {
+        return mPageContext.getDefaultPageViewProvider(this.getPageView());
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultOnPullToRefreshProvider();
+        return mPageContext.getDefaultOnPullToRefreshProvider(this.getPageView());
     }
 
     @Override
@@ -98,7 +112,7 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
     }
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
 
     }
 

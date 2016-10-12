@@ -122,6 +122,8 @@ public final class PageEngine<T, I> {
     }
 
     private void initPageManager(Builder builder) {
+        // 初始化分页管理器
+        this.mPageManager = new PageManager<>(mContext, builder.mPageSize);
         final OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
         // 数据请求器
         this.mPageManager.setPageRequester(builder.mPageRequester);
@@ -129,8 +131,6 @@ public final class PageEngine<T, I> {
         this.mPageManager.setPageDataParser(builder.mPageParser);
         // 分页处理器
         this.mPageManager.setPageDataIntercepts(builder.mPageDataIntercepts);
-        // 初始化分页管理器
-        this.mPageManager = new PageManager<>(mContext, builder.mPageSize);
         this.mPageManager.setPageDataCallback(new PageManager.IPageDataCallback<I>() {
 
             @Override
@@ -185,9 +185,9 @@ public final class PageEngine<T, I> {
                     boolean isHaveCache =
                             isFromCache && afterDataSize != 0 && afterDataSize - beforeDataSize != 0;
                     mOnPageListenerDispatcher.onPageLoadCache(pageAction, isHaveCache);
-                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
+                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), isFromCache, true);
                 } else {
-                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
+                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), isFromCache, true);
                 }
             }
 

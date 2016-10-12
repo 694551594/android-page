@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import cn.android.developers.sdk.R;
+
+import cn.yhq.page.R;
 
 /**
  * The header view for {@link XListView} and

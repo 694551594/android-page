@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.List;
 
@@ -20,9 +21,10 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onViewCreated(savedInstanceState);
-        mPageContext = new PageContext<>(this, this);
+        mPageContext = new PageContext<>(this);
         mPageContext.addOnPageListener(this);
+        onViewCreated(savedInstanceState);
+        mPageContext.initPageContext(this);
         mPageContext.onCreated(savedInstanceState);
     }
 
@@ -70,14 +72,26 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
 
     }
 
+    /**
+     * 获取pageview，比如listview，gridview，recyclerview等等
+     *
+     * @return
+     */
+    public abstract View getPageView();
+
     @Override
-    public OnPageListener getOnPageListener() {
-        return mPageContext.getDefaultOnPageListener();
+    public IPageViewManager getPageViewManager() {
+        return mPageContext.getDefaultPageViewManager(this.getPageViewProvider());
+    }
+
+    @Override
+    public IPageViewProvider getPageViewProvider() {
+        return mPageContext.getDefaultPageViewProvider(this.getPageView());
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultOnPullToRefreshProvider();
+        return mPageContext.getDefaultOnPullToRefreshProvider(this.getPageView());
     }
 
     @Override
@@ -91,7 +105,7 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     }
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
 
     }
 

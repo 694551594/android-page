@@ -3,6 +3,7 @@ package cn.yhq.page.simple;
 import java.util.List;
 
 import cn.yhq.page.core.IPageDataParser;
+import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.ui.PageDataFragment;
 
 /**
@@ -16,4 +17,16 @@ public abstract class SimplePageDataFragment<I> extends PageDataFragment<List<I>
         return new SimplePageDataParser();
     }
 
+    @Override
+    public IPageRequester<List<I>, I> getPageRequester() {
+        return new SimplePageRequester<I>(this.getContext()) {
+
+            @Override
+            public List<I> getSimplePageData() {
+                return getPageData();
+            }
+        };
+    }
+
+    public abstract List<I> getPageData();
 }

@@ -21,25 +21,26 @@ import cn.yhq.page.core.PageManager;
  */
 
 public final class PageContext<T, I> {
+    private Context mContext;
     private PageEngine<T, I> mPageEngine;
     private PageConfig mPageConfig = new PageConfig();
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
     private List<OnPageListener> mOnPageListeners = new ArrayList<>();
-    private View mPageView;
 
-    public PageContext(Context context, IPageContextProvider<T, I> pageContextProvider) {
-        mPageView = pageContextProvider.getPageView();
+    public PageContext(Context context) {
+       this.mContext = context;
+    }
+
+    public void initPageContext(IPageContextProvider<T, I> pageContextProvider) {
         pageContextProvider.onPageConfig(mPageConfig);
         pageContextProvider.addPageDataIntercepts(mPageDataIntercepts);
-        OnPullToRefreshProvider onPullToRefreshProvider = pageContextProvider.getOnPullToRefreshProvider();
-        OnPageListener onPageListener = pageContextProvider.getOnPageListener();
-        mOnPageListeners.add(onPageListener);
-        mPageEngine = new PageEngine.Builder<T, I>(context)
+        mOnPageListeners.add(new DefaultPageListener(pageContextProvider.getPageViewManager()));
+        mPageEngine = new PageEngine.Builder<T, I>(mContext)
                 .setPageSize(mPageConfig.pageSize)
                 .setPageAdapter(pageContextProvider.getPageAdapter())
                 .setPageParser(pageContextProvider.getPageDataParser())
                 .setPageRequester(pageContextProvider.getPageRequester())
-                .setOnPullToRefreshProvider(onPullToRefreshProvider)
+                .setOnPullToRefreshProvider(pageContextProvider.getOnPullToRefreshProvider())
                 .setPageDataIntercept(mPageDataIntercepts)
                 .setOnPageListeners(mOnPageListeners)
                 .build();
@@ -61,25 +62,34 @@ public final class PageContext<T, I> {
         }
     }
 
-    public final OnPullToRefreshProvider getDefaultOnPullToRefreshProvider() {
+    public final OnPullToRefreshProvider getDefaultOnPullToRefreshProvider(View pageView) {
         OnPullToRefreshProvider onPullToRefreshProvider = null;
-        if (mPageView instanceof XListView) {
-            onPullToRefreshProvider = new PullToRefreshListViewContext((XListView) mPageView);
-        } else if (mPageView instanceof XExpandableListView) {
-            onPullToRefreshProvider = new PullToRefreshExpandableListViewContext((XExpandableListView) mPageView);
+        if (pageView instanceof XListView) {
+            onPullToRefreshProvider = new PullToRefreshListViewContext((XListView) pageView);
+        } else if (pageView instanceof XExpandableListView) {
+            onPullToRefreshProvider = new PullToRefreshExpandableListViewContext((XExpandableListView) pageView);
         }
         return onPullToRefreshProvider;
     }
 
-    public final OnPageListener getDefaultOnPageListener() {
-        DefaultPageListener onPageListener = new DefaultPageListener(mPageView);
-        onPageListener.setOnReRequestListener(new OnReRequestListener() {
+    public final IPageViewProvider getDefaultPageViewProvider(final View pageView) {
+        return new PageViewProvider() {
+            @Override
+            public View getPageView() {
+                return pageView;
+            }
+        };
+    }
+
+    public final IPageViewManager getDefaultPageViewManager(IPageViewProvider pageViewProvider) {
+        IPageViewManager pageViewManager = new PageViewManager(pageViewProvider);
+        pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
                 refreshPageData();
             }
         });
-        return onPageListener;
+        return pageViewManager;
     }
 
     public final void onSavePageDataState(Bundle savedInstanceState) {

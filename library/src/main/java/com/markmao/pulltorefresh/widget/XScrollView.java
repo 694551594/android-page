@@ -16,7 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.TextView;
-import cn.android.developers.sdk.R;
+
+import cn.yhq.page.R;
 
 /**
  * XScrollView, modified from {@link XListView}
