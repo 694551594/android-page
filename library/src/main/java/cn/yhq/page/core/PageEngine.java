@@ -209,7 +209,7 @@ public final class PageEngine<T, I> {
     }
 
     public void cancel() {
-        mOnPageListenerDispatcher.onPageCancelRequests();
+        mOnPageListenerDispatcher.onPageCancelRequests(this.mPageAdapter.getPageDataCount());
         this.mPageManager.cancel();
     }
 

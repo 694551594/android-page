@@ -28,13 +28,18 @@ public final class PageContext<T, I> {
     private List<OnPageListener> mOnPageListeners = new ArrayList<>();
 
     public PageContext(Context context) {
-       this.mContext = context;
+        this.mContext = context;
     }
 
     public void initPageContext(IPageContextProvider<T, I> pageContextProvider) {
         pageContextProvider.onPageConfig(mPageConfig);
         pageContextProvider.addPageDataIntercepts(mPageDataIntercepts);
         mOnPageListeners.add(new DefaultPageListener(pageContextProvider.getPageViewManager()));
+        OnPullToRefreshProvider onPullToRefreshProvider = pageContextProvider.getOnPullToRefreshProvider();
+        if (onPullToRefreshProvider != null) {
+            onPullToRefreshProvider.setPullLoadMoreEnable(mPageConfig.pullLoadMoreEnable);
+            onPullToRefreshProvider.setPullRefreshEnable(mPageConfig.pullRefreshEnable);
+        }
         mPageEngine = new PageEngine.Builder<T, I>(mContext)
                 .setPageSize(mPageConfig.pageSize)
                 .setPageAdapter(pageContextProvider.getPageAdapter())

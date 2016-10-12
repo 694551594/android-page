@@ -1,13 +1,75 @@
 package cn.yhq.page.sample;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.yhq.http.core.HttpRequester;
+import cn.yhq.page.core.IPageAdapter;
+import cn.yhq.page.simple.SimplePageDataActivity;
+
+public class MainActivity extends SimplePageDataActivity<String> {
+    private ListView mListView;
+    private SimplePageAdapter mPageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        HttpRequester.init(this);
+        HttpRequester.registerAPI("http://v5.pc.duomi.com", API.class);
     }
+
+    @Override
+    public void onViewCreated(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
+        mListView = (ListView) this.findViewById(R.id.list_view);
+        mPageAdapter = new SimplePageAdapter(this);
+        mListView.setAdapter(mPageAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+                switch (position) {
+                    case 0:
+                        intent = new Intent(MainActivity.this, SimplePageActivity1.class);
+                        break;
+                    case 1:
+                        intent = new Intent(MainActivity.this, SimplePageActivity2.class);
+                        break;
+                    case 2:
+                        intent = new Intent(MainActivity.this, NetworkPageActivity1.class);
+                        break;
+                    case 3:
+                        break;
+                }
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public View getPageView() {
+        return mListView;
+    }
+
+    @Override
+    public IPageAdapter<String> getPageAdapter() {
+        return mPageAdapter;
+    }
+
+    // 如果是非耗时操作，则可以直接返回要适配的数据
+    @Override
+    public List<String> getPageData() {
+        List<String> data = new ArrayList<>();
+        data.add("非耗时返回本地数据");
+        data.add("耗时返回本地数据");
+        data.add("耗时返回网络数据");
+        return data;
+    }
+
 }

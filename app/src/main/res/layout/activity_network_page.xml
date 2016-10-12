@@ -7,7 +7,7 @@
 
     tools:context="cn.yhq.page.sample.MainActivity">
 
-    <ListView
+    <com.markmao.pulltorefresh.widget.XListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

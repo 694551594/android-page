@@ -6,7 +6,7 @@ package cn.yhq.page.core;
 public interface OnPageListener {
 
     // 取消请求
-    void onPageCancelRequests();
+    void onPageCancelRequests(int count);
 
     // 开始请求
     void onPageRequestStart(PageAction pageAction);

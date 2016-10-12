@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import cn.yhq.page.core.PageAction;
+
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
@@ -43,15 +45,30 @@ public class PageViewManager implements IPageViewManager {
     }
 
     @Override
-    public void startPageRequest() {
-        // 请求开始的时候必须要把listview显示出来
-        mPageView.setVisibility(View.VISIBLE);
-        mEmptyView.setVisibility(View.GONE);
-        mLoadingView.setVisibility(View.VISIBLE);
+    public void startPageRequest(PageAction pageAction) {
+        if (pageAction == PageAction.INIT) {
+            // 请求开始的时候必须要把listview显示出来
+            mPageView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
-    public void completePageRequest(int count) {
+    public void completePageRequest(PageAction pageAction, int count) {
+        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+            if (count == 0) {
+                mEmptyView.setVisibility(View.VISIBLE);
+            } else {
+                mEmptyView.setVisibility(View.GONE);
+            }
+            mLoadingView.setVisibility(View.GONE);
+            mPageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void cancelPageRequest(int count) {
         if (count == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
         } else {

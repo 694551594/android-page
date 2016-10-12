@@ -13,9 +13,9 @@ public class OnPageListenerDispatcher implements OnPageListener {
     }
 
     @Override
-    public void onPageCancelRequests() {
+    public void onPageCancelRequests(int count) {
         for (OnPageListener l : mOnPageListeners) {
-            l.onPageCancelRequests();
+            l.onPageCancelRequests(count);
         }
     }
 

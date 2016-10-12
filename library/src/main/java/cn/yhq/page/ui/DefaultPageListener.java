@@ -17,22 +17,18 @@ final class DefaultPageListener implements OnPageListener {
     }
 
     @Override
-    public void onPageCancelRequests() {
-        mPageViewManager.completePageRequest(0);
+    public void onPageCancelRequests(int count) {
+        mPageViewManager.cancelPageRequest(count);
     }
 
     @Override
     public void onPageRequestStart(PageAction pageAction) {
-        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
-            mPageViewManager.startPageRequest();
-        }
+        mPageViewManager.startPageRequest(pageAction);
     }
 
     @Override
     public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
-        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
-            mPageViewManager.completePageRequest(count);
-        }
+        mPageViewManager.completePageRequest(pageAction, count);
     }
 
     @Override

@@ -95,7 +95,7 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     }
 
     @Override
-    public void onPageCancelRequests() {
+    public void onPageCancelRequests(int count) {
 
     }
 
