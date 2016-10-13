@@ -20,8 +20,6 @@ public final class PageConfig {
     boolean pullLoadMoreEnable;
     // pull（下拉或者上拉）是否有效
     boolean pullEnable;
-    // listview是否总是显示
-    boolean listViewAlwaysVisiable;
 
     static final String KEY_SAVED_STATE = "saved_state_pageconfig";
 
@@ -31,7 +29,6 @@ public final class PageConfig {
         clearPageDataBeforeRequest = false;
         pullRefreshEnable = true;
         pullLoadMoreEnable = true;
-        listViewAlwaysVisiable = false;
         pullEnable = true;
     }
 
@@ -42,7 +39,6 @@ public final class PageConfig {
         b.putBoolean("clearPageDataBeforeRequest", clearPageDataBeforeRequest);
         b.putBoolean("setPullRefreshEnable", pullRefreshEnable);
         b.putBoolean("setPullLoadMoreEnable", pullLoadMoreEnable);
-        b.putBoolean("listViewAlwaysVisiable", listViewAlwaysVisiable);
         b.putBoolean("pullEnable", pullEnable);
         bundle.putBundle(KEY_SAVED_STATE, b);
     }
@@ -54,7 +50,6 @@ public final class PageConfig {
         clearPageDataBeforeRequest = b.getBoolean("clearPageDataBeforeRequest");
         pullRefreshEnable = b.getBoolean("setPullRefreshEnable");
         pullLoadMoreEnable = b.getBoolean("setPullLoadMoreEnable");
-        listViewAlwaysVisiable = b.getBoolean("listViewAlwaysVisiable");
         pullEnable = b.getBoolean("pullEnable");
     }
 
@@ -80,11 +75,6 @@ public final class PageConfig {
 
     public PageConfig setPullLoadMoreEnable(boolean pullLoadMoreEnable) {
         this.pullLoadMoreEnable = pullLoadMoreEnable;
-        return this;
-    }
-
-    public PageConfig setListViewAlwaysVisiable(boolean listViewAlwaysVisiable) {
-        this.listViewAlwaysVisiable = listViewAlwaysVisiable;
         return this;
     }
 

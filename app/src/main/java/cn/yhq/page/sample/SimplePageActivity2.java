@@ -125,4 +125,25 @@ public class SimplePageActivity2 extends SimplePageDataActivity<String> {
     public List<String> getPageData() {
         return null;
     }
+
+//    @Override
+//    public IPageViewProvider getPageViewProvider() {
+//        return new IPageViewProvider() {
+//
+//            @Override
+//            public View getPageView() {
+//                return SimplePageActivity2.this.getPageView();
+//            }
+//
+//            @Override
+//            public int getPageLoadingView() {
+//                return R.layout.custom_loading_view;
+//            }
+//
+//            @Override
+//            public int getPageEmptyView() {
+//                return R.layout.custom_empty_view;
+//            }
+//        };
+//    }
 }

@@ -453,3 +453,30 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
           });
       }
  ```
+
+### 7、自定义加载视图与空视图
+
+在当前的activity重写getPageViewProvider()方法：
+
+```java
+ @Override
+    public IPageViewProvider getPageViewProvider() {
+        return new IPageViewProvider() {
+
+            @Override
+            public View getPageView() {
+                return SimplePageActivity2.this.getPageView();
+            }
+
+            @Override
+            public int getPageLoadingView() {
+                return R.layout.custom_loading_view;
+            }
+
+            @Override
+            public int getPageEmptyView() {
+                return R.layout.custom_empty_view;
+            }
+        };
+    }
+```
