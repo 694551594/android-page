@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface IPageDataIntercept<I> {
-    List<I> intercept(Chain<List<I>> chain) throws Exception;
+    List<I> intercept(Chain<I> chain) throws Exception;
 
     interface Chain<I> {
         List<I> data();

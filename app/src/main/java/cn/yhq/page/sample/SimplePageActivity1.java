@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.yhq.page.core.IPageAdapter;
+import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.simple.SimplePageDataActivity;
 
 /**
@@ -51,4 +52,15 @@ public class SimplePageActivity1 extends SimplePageDataActivity<String> {
         return data;
     }
 
+    @Override
+    public void addPageDataIntercepts(List<IPageDataIntercept<String>> pageDataIntercepts) {
+        pageDataIntercepts.add(new IPageDataIntercept<String>() {
+            @Override
+            public List<String> intercept(Chain<String> chain) throws Exception {
+                List<String> data = chain.data();
+                data.add(0, "拦截器增加的条目");
+                return chain.handler(data);
+            }
+        });
+    }
 }
