@@ -185,9 +185,9 @@ public final class PageEngine<T, I> {
                     boolean isHaveCache =
                             isFromCache && afterDataSize != 0 && afterDataSize - beforeDataSize != 0;
                     mOnPageListenerDispatcher.onPageLoadCache(pageAction, isHaveCache);
-                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), isFromCache, true);
+                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
                 } else {
-                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), isFromCache, true);
+                    mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
                 }
             }
 
@@ -198,7 +198,7 @@ public final class PageEngine<T, I> {
                 }
 
                 mOnPageListenerDispatcher.onPageException(t);
-                mOnPageListenerDispatcher.onPageLoadComplete(pageAction, mPageAdapter.getPageDataCount(), false, false);
+                mOnPageListenerDispatcher.onPageLoadComplete(pageAction, false, false);
             }
         });
 
@@ -214,7 +214,7 @@ public final class PageEngine<T, I> {
     }
 
     public final void cancel() {
-        mOnPageListenerDispatcher.onPageCancelRequests(this.mPageAdapter.getPageDataCount());
+        mOnPageListenerDispatcher.onPageCancelRequests();
         this.mPageManager.cancel();
     }
 
