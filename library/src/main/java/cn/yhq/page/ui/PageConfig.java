@@ -7,7 +7,7 @@ import android.os.Bundle;
  *
  * @author Yanghuiqiang 2015-5-25
  */
-public class PageConfig {
+public final class PageConfig {
     // 分页大小
     int pageSize;
     // 是否自动载入数据

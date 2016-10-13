@@ -102,7 +102,7 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
     }
 
     @Override
-    public void onPageCancelRequests(int count) {
+    public void onPageCancelRequests() {
 
     }
 
@@ -112,7 +112,7 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
     }
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
+    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
 
     }
 

@@ -424,6 +424,7 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
 ### 5、自定义下拉刷新上拉加载框架
 
 （1）实现OnPullToRefreshProvider接口。
+
 （2）在当前的当前的Activity里面返回你自定义的OnPullToRefreshProvider实现类。
       
 ```java

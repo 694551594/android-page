@@ -1,5 +1,6 @@
 package cn.yhq.page.ui;
 
+import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.PageAction;
 
@@ -9,16 +10,18 @@ import cn.yhq.page.core.PageAction;
  *
  * @author Yanghuiqiang 2015-5-22
  */
-final class DefaultPageListener implements OnPageListener {
+final class DefaultPageListener<T, I> implements OnPageListener {
     private IPageViewManager mPageViewManager;
+    private IPageAdapter<I> mPageAdapter;
 
-    public DefaultPageListener(IPageViewManager pageViewManager) {
-        this.mPageViewManager = pageViewManager;
+    public DefaultPageListener(IPageContextProvider<T, I> pageContextProvider) {
+        this.mPageViewManager = pageContextProvider.getPageViewManager();
+        this.mPageAdapter = pageContextProvider.getPageAdapter();
     }
 
     @Override
-    public void onPageCancelRequests(int count) {
-        mPageViewManager.cancelPageRequest(count);
+    public void onPageCancelRequests() {
+        mPageViewManager.cancelPageRequest(this.mPageAdapter.getPageDataCount());
     }
 
     @Override
@@ -27,8 +30,8 @@ final class DefaultPageListener implements OnPageListener {
     }
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
-        mPageViewManager.completePageRequest(pageAction, count);
+    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+        mPageViewManager.completePageRequest(pageAction, this.mPageAdapter.getPageDataCount());
     }
 
     @Override

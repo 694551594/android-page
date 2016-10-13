@@ -13,9 +13,9 @@ public class OnPageListenerDispatcher implements OnPageListener {
     }
 
     @Override
-    public void onPageCancelRequests(int count) {
+    public void onPageCancelRequests() {
         for (OnPageListener l : mOnPageListeners) {
-            l.onPageCancelRequests(count);
+            l.onPageCancelRequests();
         }
     }
 
@@ -27,9 +27,9 @@ public class OnPageListenerDispatcher implements OnPageListener {
     }
 
     @Override
-    public void onPageLoadComplete(PageAction pageAction, int count, boolean isFromCache, boolean isSuccess) {
+    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
         for (OnPageListener l : mOnPageListeners) {
-            l.onPageLoadComplete(pageAction, count, isFromCache, isSuccess);
+            l.onPageLoadComplete(pageAction, isFromCache, isSuccess);
         }
     }
 

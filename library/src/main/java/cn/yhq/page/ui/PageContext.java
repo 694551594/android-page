@@ -34,7 +34,7 @@ public final class PageContext<T, I> {
     public void initPageContext(IPageContextProvider<T, I> pageContextProvider) {
         pageContextProvider.onPageConfig(mPageConfig);
         pageContextProvider.addPageDataIntercepts(mPageDataIntercepts);
-        mOnPageListeners.add(new DefaultPageListener(pageContextProvider.getPageViewManager()));
+        mOnPageListeners.add(new DefaultPageListener(pageContextProvider));
         OnPullToRefreshProvider onPullToRefreshProvider = pageContextProvider.getOnPullToRefreshProvider();
         if (onPullToRefreshProvider != null) {
             onPullToRefreshProvider.setPullLoadMoreEnable(mPageConfig.pullLoadMoreEnable);
