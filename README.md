@@ -433,3 +433,23 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
        return new CustomPullToRefreshContext();
    }
  ```
+
+### 6、拦截器的用法
+
+（1）目前拦截器是处于UI线程，所以不适用于耗时操作
+
+（2）在当前的当前的Activity里面实现public void addPageDataIntercepts(List<IPageDataIntercept<String>> intercepts)方法，调用intercepts.add(new IPageDataIntercept() {}) 添加拦截器。
+      
+```java
+   @Override
+      public void addPageDataIntercepts(List<IPageDataIntercept<String>> intercepts) {
+          intercepts.add(new IPageDataIntercept<String>() {
+              @Override
+              public List<String> intercept(Chain<String> chain) throws Exception {
+                  List<String> data = chain.data();
+                  data.add(0, "拦截器增加的条目");
+                  return chain.handler(data);
+              }
+          });
+      }
+ ```
