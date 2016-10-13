@@ -1,7 +1,7 @@
 package cn.yhq.page.core;
 
 /**
- * 上拉加载下拉刷新的组件提供器
+ * 主要负责提供上拉加载下拉刷新组件，我们这里提供了XListView、XExpandableListView以及google的SwipeRefreshLayout组件，如果你使用的是其他的上拉加载下拉刷新组件，你需要实现OnPullToRefreshProvider接口。
  *
  * @author Yanghuiqiang 2014-9-4
  */

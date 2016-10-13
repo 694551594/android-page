@@ -1,6 +1,8 @@
 package cn.yhq.page.core;
 
 /**
+ * 涵盖了整个请求过程的生命周期。最常用的可能就是onPageLoadComplete方法了，这个方法在数据适配到adapter后回调，也就是说，你可以在这个方法里面拿到最终适配并显示出来的数据。
+ *
  * Created by 杨慧强 on 2016/2/17.
  */
 public interface OnPageListener {

@@ -3,7 +3,7 @@ package cn.yhq.page.core;
 import java.util.List;
 
 /**
- * 数据处理拦截器
+ * 主要负责对解析后以及适配到列表之前的数据的拦截，有的时候我们可能要对这部分数据进行特殊处理，那我们就可以使用分页列表数据拦截器。
  * <p>
  * Created by Yanghuiqiang on 2016/10/11.
  */

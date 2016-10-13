@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 主要负责对请求器、解析器、拦截器的调度管理，此外，PageManager里面还维护了一个Page对象，用来保存分页信息，比如分页大小，数据总大小以及当前页码等等，供数据请求器使用。
+ *
  * Created by Yanghuiqiang on 2016/10/11.
+ *
  */
 
 public final class PageManager<T, I> {
