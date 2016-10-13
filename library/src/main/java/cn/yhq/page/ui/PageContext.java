@@ -77,13 +77,8 @@ public final class PageContext<T, I> {
         return onPullToRefreshProvider;
     }
 
-    public final IPageViewProvider getDefaultPageViewProvider(final View pageView) {
-        return new PageViewProvider() {
-            @Override
-            public View getPageView() {
-                return pageView;
-            }
-        };
+    public final IPageViewProvider getDefaultPageViewProvider(View pageView) {
+        return new PageViewProvider(pageView);
     }
 
     public final IPageViewManager getDefaultPageViewManager(IPageViewProvider pageViewProvider) {
@@ -137,4 +132,5 @@ public final class PageContext<T, I> {
     public final void addOnPageListener(OnPageListener onPageListener) {
         this.mOnPageListeners.add(onPageListener);
     }
+
 }

@@ -58,7 +58,15 @@ public class SimplePageActivity1 extends SimplePageDataActivity<String> {
             @Override
             public List<String> intercept(Chain<String> chain) throws Exception {
                 List<String> data = chain.data();
-                data.add(0, "拦截器增加的条目");
+                data.add(0, "拦截器增加的条目1");
+                return chain.handler(data);
+            }
+        });
+        intercepts.add(new IPageDataIntercept<String>() {
+            @Override
+            public List<String> intercept(Chain<String> chain) throws Exception {
+                List<String> data = chain.data();
+                data.add(0, "拦截器增加的条目2");
                 return chain.handler(data);
             }
         });
