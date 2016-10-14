@@ -12,7 +12,7 @@ public class HttpAPIClient {
 
     public static void init(Context context) {
         HttpRequester.init(context);
-        HttpRequester.registerAPI("http://v5.pc.duomi.com", API.class);
+        HttpRequester.registerXAPI("http://v5.pc.duomi.com", API.class);
     }
 
     public static API getAPI() {

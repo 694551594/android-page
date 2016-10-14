@@ -8,6 +8,7 @@ import com.markmao.pulltorefresh.widget.XListView;
 
 import java.util.List;
 
+import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.OnPullToRefreshProvider;
@@ -16,7 +17,6 @@ import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
 import cn.yhq.page.ui.PullToRefreshSwipeLayoutListViewContext;
-import retrofit2.Call;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
@@ -59,7 +59,7 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<Alb
     }
 
     @Override
-    public Call<AlbumInfo> executePageRequest(int pageSize, int currentPage, Tracks mData) {
+    public ICall<AlbumInfo> executePageRequest(int pageSize, int currentPage, Tracks mData) {
         return HttpAPIClient.getAPI().getAlbumInfo("夜曲", pageSize, currentPage);
     }
 

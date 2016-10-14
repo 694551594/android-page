@@ -1,7 +1,7 @@
 package cn.yhq.page.sample;
 
+import cn.yhq.http.core.ICall;
 import cn.yhq.page.sample.entity.AlbumInfo;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 public interface API {
 
     @GET("search-ajaxsearch-searchall")
-    Call<AlbumInfo> getAlbumInfo(@Query("kw") String keyword, @Query("pz") int pageSize, @Query("pi") int pageIndex);
+    ICall<AlbumInfo> getAlbumInfo(@Query("kw") String keyword, @Query("pz") int pageSize, @Query("pi") int pageIndex);
 
 }
