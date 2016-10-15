@@ -194,7 +194,7 @@ public final class PageEngine<T, I> {
             @Override
             public void onException(Context context, PageAction pageAction, Throwable t) {
                 if (onPullToRefreshProvider != null) {
-                    onPullToRefreshProvider.onRefreshComplete(true);
+                    onPullToRefreshProvider.onRefreshComplete(false);
                 }
 
                 mOnPageListenerDispatcher.onPageException(t);
