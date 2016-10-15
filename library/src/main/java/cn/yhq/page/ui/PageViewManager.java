@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +47,18 @@ public class PageViewManager implements IPageViewManager {
         linearLayout.setLayoutParams(params);
         linearLayout.addView(mLoadingView, params);
         linearLayout.addView(mEmptyView, params);
-        this.mParentView.removeView(this.mPageView);
-        linearLayout.addView(this.mPageView, params);
-        this.mParentView.addView(linearLayout, params);
-        //  this.mParentView.addView(mLoadingView, params);
-        //  this.mParentView.addView(mEmptyView, params);
+
+        if (this.mParentView instanceof SwipeRefreshLayout) {
+            View swipeRefreshLayout = this.mParentView;
+            this.mParentView = (ViewGroup) this.mParentView.getParent();
+            this.mParentView.removeView(swipeRefreshLayout);
+            linearLayout.addView(swipeRefreshLayout, params);
+            this.mParentView.addView(linearLayout, params);
+        } else {
+            this.mParentView.removeView(this.mPageView);
+            linearLayout.addView(this.mPageView, params);
+            this.mParentView.addView(linearLayout, params);
+        }
     }
 
     @Override
