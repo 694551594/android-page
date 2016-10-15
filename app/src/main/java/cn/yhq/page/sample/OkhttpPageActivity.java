@@ -26,11 +26,6 @@ public class OkHttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
     private AlbumPageAdapter mPageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onViewCreated(Bundle savedInstanceState) {
         setContentView(R.layout.activity_network_page);
         mListView = (ListView) this.findViewById(R.id.list_view);
