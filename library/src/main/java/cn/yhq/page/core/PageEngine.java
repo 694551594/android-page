@@ -192,9 +192,9 @@ public final class PageEngine<T, I> {
             }
 
             private void appendData(List<I> data) {
-                if (mPageAdapter.getDataAppendType() == IPageAdapter.DataAppendType.TYPE_AFTER) {
+                if (mPageAdapter.getDataAppendMode() == IPageAdapter.DataAppendMode.MODE_AFTER) {
                     mPageAdapter.appendAfter(data);
-                } else if (mPageAdapter.getDataAppendType() == IPageAdapter.DataAppendType.TYPE_BEFORE) {
+                } else if (mPageAdapter.getDataAppendMode() == IPageAdapter.DataAppendMode.MODE_BEFORE) {
                     mPageAdapter.appendBefore(data);
                 }
             }

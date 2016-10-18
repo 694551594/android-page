@@ -47,7 +47,7 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     }
 
     @Override
-    public DataAppendType getDataAppendType() {
-        return DataAppendType.TYPE_AFTER;
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
     }
 }

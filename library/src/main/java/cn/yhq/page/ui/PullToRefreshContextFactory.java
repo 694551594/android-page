@@ -14,7 +14,7 @@ import cn.yhq.widget.AutoRefreshListView;
  * Created by Yanghuiqiang on 2016/10/18.
  */
 
-public class PullToRefreshContextFactory {
+public final class PullToRefreshContextFactory {
     private final static Map<Class<? extends View>, Class<? extends PullToRefreshContext>> pullToRefreshContexts = new HashMap();
 
     static {

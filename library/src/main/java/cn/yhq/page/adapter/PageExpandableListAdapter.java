@@ -53,8 +53,8 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
     }
 
     @Override
-    public DataAppendType getDataAppendType() {
-        return DataAppendType.TYPE_AFTER;
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
     }
 
 }

@@ -42,8 +42,8 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     @Override
-    public DataAppendType getDataAppendType() {
-        return DataAppendType.TYPE_AFTER;
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
     }
 
     @Override
