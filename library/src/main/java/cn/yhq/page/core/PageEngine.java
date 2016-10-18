@@ -1,7 +1,9 @@
 package cn.yhq.page.core;
 
 import android.content.Context;
+import android.os.Bundle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,10 @@ import java.util.List;
  * Created by Yanghuiqiang on 2016/10/11.
  */
 public final class PageEngine<T, I> {
+    private Context mContext;
+    private PageManager<T, I> mPageManager;
+    private IPageAdapter<I> mPageAdapter;
+    private OnPageListenerDispatcher mOnPageListenerDispatcher;
 
     public static class Builder<T, I> {
         private Context mContext;
@@ -93,21 +99,16 @@ public final class PageEngine<T, I> {
         }
     }
 
-    private Context mContext;
-    private PageManager<T, I> mPageManager;
-    private IPageAdapter<I> mPageAdapter;
-    private OnPageListenerDispatcher mOnPageListenerDispatcher;
-
     PageEngine(Builder<T, I> builder) {
         this.mContext = builder.mContext;
         this.mPageAdapter = builder.mPageAdapter;
         // 分页事件监听分发器
         this.mOnPageListenerDispatcher = new OnPageListenerDispatcher(builder.mOnPageListeners);
-        this.initPullToRefresh(builder);
-        this.initPageManager(builder);
+        this.setupPullToRefreshProvider(builder);
+        this.setupPageManager(builder);
     }
 
-    private final void initPullToRefresh(Builder<T, I> builder) {
+    private final void setupPullToRefreshProvider(Builder<T, I> builder) {
         OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
         if (onPullToRefreshProvider != null) {
             // 设置滑动监听
@@ -127,7 +128,7 @@ public final class PageEngine<T, I> {
         }
     }
 
-    private final void initPageManager(Builder builder) {
+    private final void setupPageManager(Builder builder) {
         // 初始化分页管理器
         this.mPageManager = new PageManager<>(mContext, builder.mPageSize);
         final OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
@@ -251,4 +252,27 @@ public final class PageEngine<T, I> {
         mPageManager.loadMore();
     }
 
+    public final boolean saveState(Bundle state) {
+        mPageManager.saveState(state);
+        if (mPageAdapter.getPageDataCount() != 0) {
+            // 判断是否序列化了。如果序列化就可以直接传值
+            if (mPageAdapter.getPageListData() instanceof Serializable) {
+                state.putSerializable("PageData", (Serializable) mPageAdapter.getPageListData());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public final boolean restoreState(Bundle state) {
+        mPageManager.restoreState(state);
+        List<I> listData = (List<I>) state.getSerializable("PageData");
+        if (listData != null) {
+            mPageAdapter.clear();
+            mPageAdapter.appendAfter(listData);
+            mPageAdapter.notifyDataSetChanged();
+            return true;
+        }
+        return false;
+    }
 }

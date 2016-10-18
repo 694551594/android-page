@@ -51,12 +51,13 @@ public final class PageContext<T, I> {
                 .build();
     }
 
-    public final void onCreated(Bundle savedInstanceState) {
+    public final void start(Bundle savedInstanceState) {
         try {
             if (savedInstanceState != null) {
-                // 恢复配置信息
-                mPageConfig.onRestoreInstanceState(savedInstanceState);
-                this.initPageData();
+                boolean success = mPageEngine.restoreState(savedInstanceState);
+                if (!success) {
+                    this.initPageData();
+                }
             } else {
                 if (mPageConfig.autoInitPageData) {
                     this.initPageData();
@@ -90,12 +91,13 @@ public final class PageContext<T, I> {
         return pageViewManager;
     }
 
-    public final void onSavePageDataState(Bundle savedInstanceState) {
+    public final boolean savePageDataState(Bundle savedInstanceState) {
         try {
             // 保存配置信息，配置信息是必须保存的
-            mPageConfig.onSaveInstanceState(savedInstanceState);
+            return mPageEngine.saveState(savedInstanceState);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 

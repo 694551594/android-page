@@ -34,13 +34,13 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
         mPageContext = new PageContext<>(this.getContext());
         mPageContext.initPageContext(this);
         mPageContext.addOnPageListener(this);
-        mPageContext.onCreated(savedInstanceState);
+        mPageContext.start(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        mPageContext.onSavePageDataState(bundle);
+        mPageContext.savePageDataState(bundle);
     }
 
     public final void initPageData() {

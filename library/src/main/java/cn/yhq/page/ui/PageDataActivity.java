@@ -25,7 +25,7 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
         mPageContext.addOnPageListener(this);
         onViewCreated(savedInstanceState);
         mPageContext.initPageContext(this);
-        mPageContext.onCreated(savedInstanceState);
+        mPageContext.start(savedInstanceState);
     }
 
     public final void initPageData() {
@@ -39,7 +39,7 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        mPageContext.onSavePageDataState(bundle);
+        mPageContext.savePageDataState(bundle);
     }
 
     /**
