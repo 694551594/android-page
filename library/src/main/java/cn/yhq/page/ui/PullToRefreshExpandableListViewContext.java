@@ -42,6 +42,7 @@ public class PullToRefreshExpandableListViewContext extends PullToRefreshContext
 
             @Override
             public void onRefresh() {
+                mPageView.setHasMoreData(true);
                 onRefreshListener.onPullToRefresh();
             }
 
