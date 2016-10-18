@@ -154,7 +154,7 @@ public final class PageEngine<T, I> {
                 int beforeDataSize = mPageAdapter.getPageDataCount();
 
                 if (data != null) {
-                    mPageAdapter.addAll(data);
+                    appendData(data);
                 }
 
                 int afterDataSize = mPageAdapter.getPageDataCount();
@@ -162,13 +162,13 @@ public final class PageEngine<T, I> {
                 if (beforeDataSize != afterDataSize) {
                     mPageAdapter.notifyDataSetChanged();
                 } else {
-                    mPageAdapter.addAll(oldPageData);
+                    appendData(oldPageData);
                     mPageAdapter.notifyDataSetChanged();
                 }
 
                 if (onPullToRefreshProvider != null) {
                     onPullToRefreshProvider.setHaveMoreData(haveNextPage);
-                    onPullToRefreshProvider.onRefreshComplete(true);
+                    onPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
                     // 根据数据和分页大小来屏蔽加载更多的功能
                     // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
                     if (onPullToRefreshProvider.isPullLoadMoreEnable()) {
@@ -191,10 +191,18 @@ public final class PageEngine<T, I> {
                 }
             }
 
+            private void appendData(List<I> data) {
+                if (mPageAdapter.getDataAppendType() == IPageAdapter.DataAppendType.TYPE_AFTER) {
+                    mPageAdapter.appendAfter(data);
+                } else if (mPageAdapter.getDataAppendType() == IPageAdapter.DataAppendType.TYPE_BEFORE) {
+                    mPageAdapter.appendBefore(data);
+                }
+            }
+
             @Override
             public void onException(Context context, PageAction pageAction, Throwable t) {
                 if (onPullToRefreshProvider != null) {
-                    onPullToRefreshProvider.onRefreshComplete(false);
+                    onPullToRefreshProvider.onRefreshComplete(0, false);
                 }
 
                 mOnPageListenerDispatcher.onPageException(t);

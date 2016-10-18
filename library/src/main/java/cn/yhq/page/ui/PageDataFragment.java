@@ -98,7 +98,7 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultOnPullToRefreshProvider(this.getPageView());
+        return PageContext.getDefaultPullToRefreshProvider(this.getPageView());
     }
 
     @Override

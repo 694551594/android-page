@@ -7,41 +7,38 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import cn.yhq.page.core.OnPullToRefreshProvider;
+public class PullToRefreshExpandableListViewContext extends PullToRefreshContext<XExpandableListView> {
 
-public class PullToRefreshExpandableListViewContext implements OnPullToRefreshProvider {
-    private XExpandableListView xListView;
-
-    public PullToRefreshExpandableListViewContext(XExpandableListView xListView) {
-        this.xListView = xListView;
+    public PullToRefreshExpandableListViewContext(XExpandableListView pageView) {
+        super(pageView);
     }
 
     @Override
     public void setHaveMoreData(boolean isHaveMoreData) {
-        xListView.setHasMoreData(isHaveMoreData);
+        mPageView.setHasMoreData(isHaveMoreData);
     }
 
     @Override
     public void setPullRefreshEnable(boolean enable) {
-        xListView.setPullRefreshEnable(enable);
+        mPageView.setPullRefreshEnable(enable);
     }
 
     @Override
     public void setPullLoadMoreEnable(boolean enable) {
-        xListView.setPullLoadEnable(enable);
+        mPageView.setPullLoadEnable(enable);
     }
 
     @Override
-    public void onRefreshComplete(boolean success) {
-        xListView.stopLoadMore();
-        xListView.stopRefresh();
-        xListView
+    public void onRefreshComplete(int newDataSize, boolean success) {
+        mPageView.stopLoadMore();
+        mPageView.stopRefresh();
+        mPageView
                 .setRefreshTime(new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(new Date()));
     }
 
     @Override
     public void setOnRefreshListener(final OnRefreshListener onRefreshListener) {
-        xListView.setXListViewListener(new IXListViewListener() {
+        mPageView.setXListViewListener(new IXListViewListener() {
 
             @Override
             public void onRefresh() {
@@ -58,11 +55,11 @@ public class PullToRefreshExpandableListViewContext implements OnPullToRefreshPr
 
     @Override
     public boolean isPullRefreshEnable() {
-        return xListView.isEnablePullRefresh();
+        return mPageView.isEnablePullRefresh();
     }
 
     @Override
     public boolean isPullLoadMoreEnable() {
-        return xListView.isEnablePullLoad();
+        return mPageView.isEnablePullLoad();
     }
 }

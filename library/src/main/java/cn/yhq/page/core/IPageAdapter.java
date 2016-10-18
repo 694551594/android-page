@@ -13,11 +13,27 @@ import java.util.List;
  */
 public interface IPageAdapter<I> {
 
+    enum DataAppendType {
+        TYPE_AFTER, TYPE_BEFORE
+    }
+
+    DataAppendType getDataAppendType();
+
     int getPageDataCount();
 
     void clear();
 
+    /**
+     * 使用appendAfter()
+     *
+     * @param data
+     */
+    @Deprecated
     void addAll(List<I> data);
+
+    void appendBefore(List<I> data);
+
+    void appendAfter(List<I> data);
 
     List<I> getPageListData();
 

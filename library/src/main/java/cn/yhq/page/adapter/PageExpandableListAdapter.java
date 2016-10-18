@@ -34,12 +34,27 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
 
     @Override
     public void addAll(List<G> data) {
-        this.mListData.addAll(data);
+        this.appendAfter(data);
     }
 
     @Override
     public int getPageDataCount() {
         return this.getGroupCount();
+    }
+
+    @Override
+    public void appendBefore(List<G> data) {
+        this.mListData.addAll(0, data);
+    }
+
+    @Override
+    public void appendAfter(List<G> data) {
+        this.mListData.addAll(data);
+    }
+
+    @Override
+    public DataAppendType getDataAppendType() {
+        return DataAppendType.TYPE_AFTER;
     }
 
 }

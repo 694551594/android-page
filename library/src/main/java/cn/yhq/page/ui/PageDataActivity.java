@@ -91,7 +91,7 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultOnPullToRefreshProvider(this.getPageView());
+        return PageContext.getDefaultPullToRefreshProvider(this.getPageView());
     }
 
     @Override

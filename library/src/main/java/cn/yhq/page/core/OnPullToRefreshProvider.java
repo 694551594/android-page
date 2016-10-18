@@ -46,9 +46,10 @@ public interface OnPullToRefreshProvider {
     /**
      * 刷新完成
      *
+     * @param newDataSize
      * @param success
      */
-    void onRefreshComplete(boolean success);
+    void onRefreshComplete(int newDataSize, boolean success);
 
     /**
      * 设置刷新监听

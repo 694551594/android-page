@@ -5,10 +5,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.markmao.pulltorefresh.widget.XExpandableListView;
 
 public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRefreshExpandableListViewContext {
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    public PullToRefreshSwipeLayoutExpandableListViewContext(SwipeRefreshLayout swipeRefreshLayout, XExpandableListView xListView) {
-        super(xListView);
+    public PullToRefreshSwipeLayoutExpandableListViewContext(SwipeRefreshLayout swipeRefreshLayout, XExpandableListView pageView) {
+        super(pageView);
         this.swipeRefreshLayout = swipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -30,7 +30,7 @@ public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRef
     }
 
     @Override
-    public void onRefreshComplete(boolean success) {
+    public void onRefreshComplete(int newDataSize, boolean success) {
         swipeRefreshLayout.setRefreshing(false);
     }
 

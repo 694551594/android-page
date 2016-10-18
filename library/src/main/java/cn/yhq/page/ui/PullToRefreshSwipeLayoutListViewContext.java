@@ -9,14 +9,15 @@ import com.markmao.pulltorefresh.widget.XListView;
  */
 
 public class PullToRefreshSwipeLayoutListViewContext extends PullToRefreshListViewContext {
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-    public PullToRefreshSwipeLayoutListViewContext(SwipeRefreshLayout swipeRefreshLayout, XListView xListView) {
-        super(xListView);
+    public PullToRefreshSwipeLayoutListViewContext(SwipeRefreshLayout swipeRefreshLayout, XListView pageView) {
+        super(pageView);
         this.swipeRefreshLayout = swipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
     }
+
     @Override
     public void setPullRefreshEnable(boolean enable) {
         super.setPullRefreshEnable(false);
@@ -33,7 +34,7 @@ public class PullToRefreshSwipeLayoutListViewContext extends PullToRefreshListVi
     }
 
     @Override
-    public void onRefreshComplete(boolean success) {
+    public void onRefreshComplete(int newDataSize, boolean success) {
         swipeRefreshLayout.setRefreshing(false);
     }
 
