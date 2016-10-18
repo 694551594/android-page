@@ -41,6 +41,7 @@ public final class PageContext<T, I> {
         }
         mPageEngine = new PageEngine.Builder<T, I>(mContext)
                 .setPageSize(mPageConfig.pageSize)
+                .setDataAppendMode(mPageConfig.dataAppendMode)
                 .setPageAdapter(pageContextProvider.getPageAdapter())
                 .setPageParser(pageContextProvider.getPageDataParser())
                 .setPageRequester(pageContextProvider.getPageRequester())

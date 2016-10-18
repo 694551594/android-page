@@ -13,12 +13,6 @@ import java.util.List;
  */
 public interface IPageAdapter<I> {
 
-    enum DataAppendMode {
-        MODE_AFTER, MODE_BEFORE
-    }
-
-    DataAppendMode getDataAppendMode();
-
     int getPageDataCount();
 
     void clear();

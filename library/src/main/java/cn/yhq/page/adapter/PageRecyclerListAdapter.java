@@ -46,8 +46,4 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
         this.mListData.addAll(data);
     }
 
-    @Override
-    public DataAppendMode getDataAppendMode() {
-        return DataAppendMode.MODE_AFTER;
-    }
 }

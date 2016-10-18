@@ -52,9 +52,4 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
         this.mListData.addAll(data);
     }
 
-    @Override
-    public DataAppendMode getDataAppendMode() {
-        return DataAppendMode.MODE_AFTER;
-    }
-
 }

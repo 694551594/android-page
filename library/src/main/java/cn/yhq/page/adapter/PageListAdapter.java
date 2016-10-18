@@ -42,11 +42,6 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     @Override
-    public DataAppendMode getDataAppendMode() {
-        return DataAppendMode.MODE_AFTER;
-    }
-
-    @Override
     public int getPageDataCount() {
         return this.getCount();
     }
@@ -60,4 +55,5 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     public void appendAfter(List<T> data) {
         this.mListData.addAll(data);
     }
+
 }

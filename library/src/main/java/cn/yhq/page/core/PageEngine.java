@@ -28,6 +28,8 @@ public final class PageEngine<T, I> {
         private int mPageSize;
         // 处理器
         private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
+        // 加载更多数据的时候是加载到最前面还是最后面
+        private DataAppendMode mDataAppendMode;
 
         public Builder(Context context) {
             this.mContext = context;
@@ -75,9 +77,13 @@ public final class PageEngine<T, I> {
             return this;
         }
 
-
         public Builder<T, I> setPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts) {
             this.mPageDataIntercepts = pageDataIntercepts;
+            return this;
+        }
+
+        public Builder<T, I> setDataAppendMode(DataAppendMode dataAppendMode) {
+            this.mDataAppendMode = dataAppendMode;
             return this;
         }
 
@@ -125,6 +131,7 @@ public final class PageEngine<T, I> {
         // 初始化分页管理器
         this.mPageManager = new PageManager<>(mContext, builder.mPageSize);
         final OnPullToRefreshProvider onPullToRefreshProvider = builder.mOnPullToRefreshProvider;
+        final DataAppendMode dataAppendMode = builder.mDataAppendMode;
         // 数据请求器
         this.mPageManager.setPageRequester(builder.mPageRequester);
         // 数据解析器
@@ -192,9 +199,9 @@ public final class PageEngine<T, I> {
             }
 
             private void appendData(List<I> data) {
-                if (mPageAdapter.getDataAppendMode() == IPageAdapter.DataAppendMode.MODE_AFTER) {
+                if (dataAppendMode == DataAppendMode.MODE_AFTER) {
                     mPageAdapter.appendAfter(data);
-                } else if (mPageAdapter.getDataAppendMode() == IPageAdapter.DataAppendMode.MODE_BEFORE) {
+                } else if (dataAppendMode == DataAppendMode.MODE_BEFORE) {
                     mPageAdapter.appendBefore(data);
                 }
             }
