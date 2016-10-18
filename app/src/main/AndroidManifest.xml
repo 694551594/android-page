@@ -20,6 +20,7 @@
         <activity android:name=".NetworkPageActivity"/>
         <activity android:name=".SwipeRefreshLayoutPageActivity"/>
         <activity android:name=".OkHttpPageActivity"/>
+        <activity android:name=".AutoRefreshPageActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

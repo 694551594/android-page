@@ -12,9 +12,15 @@ import cn.yhq.page.sample.entity.Tracks;
  */
 
 public class AlbumPageAdapter extends PageListAdapter<Tracks> {
+    private DataAppendMode dataAppendType;
 
     public AlbumPageAdapter(Context context) {
+        this(context, DataAppendMode.MODE_AFTER);
+    }
+
+    public AlbumPageAdapter(Context context, DataAppendMode dataAppendType) {
         super(context);
+        this.dataAppendType = dataAppendType;
         this.register(new ItemViewProvider2<Tracks>() {
             @Override
             public int getItemViewLayoutId() {
@@ -33,4 +39,8 @@ public class AlbumPageAdapter extends PageListAdapter<Tracks> {
         });
     }
 
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return dataAppendType;
+    }
 }

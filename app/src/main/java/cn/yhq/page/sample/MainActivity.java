@@ -48,6 +48,9 @@ public class MainActivity extends SimplePageDataActivity<String> {
                     case 4:
                         intent = new Intent(MainActivity.this, OkHttpPageActivity.class);
                         break;
+                    case 5:
+                        intent = new Intent(MainActivity.this, AutoRefreshPageActivity.class);
+                        break;
                 }
                 startActivity(intent);
             }
@@ -73,6 +76,7 @@ public class MainActivity extends SimplePageDataActivity<String> {
         data.add("耗时返回网络数据");
         data.add("自定义下拉刷新控件返回网络数据");
         data.add("自定义网络请求框架返回网络数据");
+        data.add("类似微信、QQ拉到头部自动刷新的listview");
         return data;
     }
 

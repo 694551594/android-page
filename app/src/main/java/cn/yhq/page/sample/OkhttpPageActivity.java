@@ -7,8 +7,6 @@ import android.widget.ListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
-import java.util.List;
-
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
@@ -67,17 +65,6 @@ public class OkHttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
 
     @Override
     public IPageDataParser<AlbumInfo, Tracks> getPageDataParser() {
-        return new IPageDataParser<AlbumInfo, Tracks>() {
-
-            @Override
-            public List<Tracks> getPageList(AlbumInfo data, boolean isFromCache) {
-                return data.getTracks();
-            }
-
-            @Override
-            public long getPageTotal(AlbumInfo data, boolean isFromCache) {
-                return data.getTotal_tracks();
-            }
-        };
+        return new PageDataParser();
     }
 }

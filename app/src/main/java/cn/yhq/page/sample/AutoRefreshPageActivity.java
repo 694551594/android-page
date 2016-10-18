@@ -1,29 +1,24 @@
 package cn.yhq.page.sample;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-
-import com.markmao.pulltorefresh.widget.XListView;
 
 import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
-import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.http.RetrofitPageDataActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
-import cn.yhq.page.ui.PullToRefreshSwipeLayoutListViewContext;
+import cn.yhq.widget.AutoRefreshListView;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
-    private XListView mListView;
+public class AutoRefreshPageActivity extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
+    private AutoRefreshListView mListView;
     private AlbumPageAdapter mPageAdapter;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +27,10 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<Alb
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_swipe_refresh);
-        mListView = (XListView) this.findViewById(R.id.list_view);
-        mPageAdapter = new AlbumPageAdapter(this);
+        setContentView(R.layout.activity_auto_refresh);
+        mListView = (AutoRefreshListView) this.findViewById(R.id.list_view);
+        mPageAdapter = new AlbumPageAdapter(this, IPageAdapter.DataAppendMode.MODE_BEFORE);
         mListView.setAdapter(mPageAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.swiperefreshlayout);
-    }
-
-    @Override
-    public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return new PullToRefreshSwipeLayoutListViewContext(mSwipeRefreshLayout, mListView);
     }
 
     @Override
@@ -53,7 +42,7 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<Alb
     public void onPageConfig(PageConfig pageConfig) {
         super.onPageConfig(pageConfig);
         // 设置分页大小
-        pageConfig.setPageSize(5);
+        pageConfig.setPageSize(12);
     }
 
     @Override
