@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import cn.yhq.http.core.ICall;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.http.RetrofitPageDataActivity;
@@ -29,7 +30,7 @@ public class AutoRefreshPageActivity extends RetrofitPageDataActivity<AlbumInfo,
     public void onViewCreated(Bundle savedInstanceState) {
         setContentView(R.layout.activity_auto_refresh);
         mListView = (AutoRefreshListView) this.findViewById(R.id.list_view);
-        mPageAdapter = new AlbumPageAdapter(this, IPageAdapter.DataAppendMode.MODE_BEFORE);
+        mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
     }
 
@@ -43,6 +44,7 @@ public class AutoRefreshPageActivity extends RetrofitPageDataActivity<AlbumInfo,
         super.onPageConfig(pageConfig);
         // 设置分页大小
         pageConfig.setPageSize(12);
+        pageConfig.setDataAppendMode(DataAppendMode.MODE_BEFORE);
     }
 
     @Override
