@@ -1,5 +1,8 @@
 package cn.yhq.page.sample.entity;
-public class Artists {
+
+import java.io.Serializable;
+
+public class Artists implements Serializable {
     private int id;
 
     private String name;

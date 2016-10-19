@@ -1,7 +1,8 @@
 package cn.yhq.page.sample.entity;
+import java.io.Serializable;
 import java.util.List;
 
-public class AlbumInfo {
+public class AlbumInfo implements Serializable {
     private int album_offset;
 
     private String albums;

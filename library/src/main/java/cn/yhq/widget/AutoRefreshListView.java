@@ -2,6 +2,8 @@ package cn.yhq.widget;
 
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,6 +44,7 @@ public class AutoRefreshListView extends ListView {
     private OnAutoRefreshListener mOnAutoRefreshListener;
     private boolean isRefreshing;
     private boolean isEnable = true;
+    private boolean isHaveMoreData;
 
     private OnScrollListener mOnScrollListener;
 
@@ -150,6 +153,7 @@ public class AutoRefreshListView extends ListView {
     }
 
     public void setHaveMoreData(boolean isHaveMoreData) {
+        this.isHaveMoreData = isHaveMoreData;
         if (!isHaveMoreData) {
             mHintTextView.setVisibility(View.VISIBLE);
             mLoadingView.setVisibility(View.GONE);
@@ -180,6 +184,68 @@ public class AutoRefreshListView extends ListView {
                 setSelection(getAdapter().getCount() - 1);
             }
         });
+    }
+
+    static class SavedState extends BaseSavedState {
+
+        public SavedState(Parcelable parcelable) {
+            super(parcelable);
+        }
+
+        public SavedState(Parcel in) {
+            super(in);
+            boolean[] b = new boolean[3];
+            in.readBooleanArray(b);
+            this.isHaveMoreData = b[0];
+            this.isRefreshing = b[1];
+            this.isEnable = b[2];
+        }
+
+        boolean isHaveMoreData;
+        boolean isRefreshing;
+        boolean isEnable;
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeBooleanArray(new boolean[]{isHaveMoreData, isRefreshing, isEnable});
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.isHaveMoreData = this.isHaveMoreData;
+        ss.isRefreshing = this.isRefreshing;
+        ss.isEnable = this.isEnable;
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof SavedState) {
+            SavedState ss = (SavedState) state;
+            super.onRestoreInstanceState(ss.getSuperState());
+            this.setHaveMoreData(ss.isHaveMoreData);
+            this.setAutoRefreshEnable(ss.isEnable);
+            this.isRefreshing = ss.isRefreshing;
+        } else {
+            super.onRestoreInstanceState(state);
+        }
+
     }
 
 }

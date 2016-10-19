@@ -1,5 +1,8 @@
 package cn.yhq.page.sample.entity;
-public class Album {
+
+import java.io.Serializable;
+
+public class Album implements Serializable {
     private String cover;
 
     private int id;

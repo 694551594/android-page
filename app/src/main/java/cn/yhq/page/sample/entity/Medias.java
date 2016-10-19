@@ -1,5 +1,8 @@
 package cn.yhq.page.sample.entity;
-public class Medias {
+
+import java.io.Serializable;
+
+public class Medias implements Serializable {
     private int bitrate;
 
     private String p2purl;

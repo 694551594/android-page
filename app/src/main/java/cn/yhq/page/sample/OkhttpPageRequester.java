@@ -51,6 +51,8 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
 
     @Override
     public void onCancel() {
-        mRequestCall.cancel();
+        if (mRequestCall != null) {
+            mRequestCall.cancel();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.markmao.pulltorefresh.widget;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -534,23 +533,6 @@ public class XListView extends ListView implements OnScrollListener {
                     }
                 };
 
-    }
-
-    public Bundle onSavePullInfoState() {
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isHaveMoreData", this.mHasMoreData);
-        bundle.putBoolean("refreshEnable", this.mEnablePullRefresh);
-        bundle.putBoolean("loadMoreEnable", this.mEnablePullLoad);
-        bundle.putString("refreshTime", mHeaderTime.getText().toString());
-        return bundle;
-    }
-
-    public Bundle onRestorePullInfoState(Bundle bundle) {
-        this.setHasMoreData(bundle.getBoolean("isHaveMoreData"));
-        this.setPullLoadEnable(bundle.getBoolean("loadMoreEnable"));
-        this.setPullRefreshEnable(bundle.getBoolean("refreshEnable"));
-        this.setRefreshTime(bundle.getString("refreshTime"));
-        return bundle;
     }
 
     @Override
