@@ -50,7 +50,9 @@ public abstract class PageDialog<T, I> implements OnPageListener, IPageContextPr
     public final IDialog create() {
         onViewCreated();
         return DialogBuilder.otherDialog(mContext)
-                .setContentView(getDialogContentView(this.getPageView()), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dp2Px(getContext(), 800)))
+                .setContentView(getDialogContentView(this.getPageView())
+                    , new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dp2Px(getContext(), 400))
+                )
                 .setOnCancelListener(this)
                 .setOnDismissListener(this)
                 .setOnShowListener(this)

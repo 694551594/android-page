@@ -28,6 +28,10 @@ public class MainActivity extends SimplePageDataActivity<String> {
         switch (id) {
             case 1:
                 return new AlbumPageDialog3(this).create();
+            case 2:
+                return new AlbumPageDialog1(this).create();
+            case 3:
+                return new AlbumPageDialog2(this).create();
         }
         return null;
     }
@@ -64,6 +68,13 @@ public class MainActivity extends SimplePageDataActivity<String> {
                     case 6:
                         showDialogFragment(1);
                         return;
+                    case 7:
+                        showDialogFragment(2);
+                        return;
+                    case 8:
+                        showDialogFragment(3);
+                        return;
+
                 }
                 startActivity(intent);
             }
@@ -90,7 +101,9 @@ public class MainActivity extends SimplePageDataActivity<String> {
         data.add("自定义下拉刷新控件返回网络数据");
         data.add("自定义网络请求框架返回网络数据");
         data.add("类似微信、QQ拉到头部自动刷新的listview");
-        data.add("对话框");
+        data.add("耗时返回本地数据对话框");
+        data.add("耗时返回网络数据对话框");
+        data.add("自定义网络请求框架返回网络数据对话框");
         return data;
     }
 

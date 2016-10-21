@@ -106,9 +106,9 @@ public class AlbumPageDialog3 extends SimplePageDialog<String> {
 
     private List<String> getNetworkData() {
         List<String> data = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            data.add("请求条目" + i);
-//        }
+        for (int i = 0; i < 10; i++) {
+            data.add("请求条目" + i);
+        }
         return data;
     }
 
