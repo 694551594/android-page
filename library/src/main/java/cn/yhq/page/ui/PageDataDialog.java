@@ -19,12 +19,12 @@ import cn.yhq.page.core.PageAction;
  * Created by Yanghuiqiang on 2016/10/20.
  */
 
-public abstract class PageDialog<T, I> implements OnPageListener, IPageContextProvider<T, I>, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener, DialogInterface.OnShowListener, DialogBuilder.OnStateChangeListener {
+public abstract class PageDataDialog<T, I> implements OnPageListener, IPageContextProvider<T, I>, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener, DialogInterface.OnShowListener, DialogBuilder.OnStateChangeListener {
     private PageContext<T, I> mPageContext;
     private Context mContext;
     private Bundle savedInstanceState;
 
-    public PageDialog(Context context) {
+    public PageDataDialog(Context context) {
         this.mContext = context;
         this.mPageContext = new PageContext<>(mContext);
         this.mPageContext.addOnPageListener(this);

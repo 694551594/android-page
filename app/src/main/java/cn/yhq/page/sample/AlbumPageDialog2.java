@@ -14,13 +14,13 @@ import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
-import cn.yhq.page.ui.PageDialog;
+import cn.yhq.page.ui.PageDataDialog;
 
 /**
  * Created by Yanghuiqiang on 2016/10/21.
  */
 
-public class AlbumPageDialog2 extends PageDialog<AlbumInfo, Tracks> {
+public class AlbumPageDialog2 extends PageDataDialog<AlbumInfo, Tracks> {
     private ListView mListView;
     private AlbumPageAdapter mPageAdapter;
 

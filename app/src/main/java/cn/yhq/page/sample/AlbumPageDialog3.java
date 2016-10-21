@@ -15,13 +15,13 @@ import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.core.Page;
 import cn.yhq.page.core.PageAction;
 import cn.yhq.page.core.PageRequester;
-import cn.yhq.page.simple.SimplePageDialog;
+import cn.yhq.page.simple.SimplePageDataDialog;
 
 /**
  * Created by Yanghuiqiang on 2016/10/21.
  */
 
-public class AlbumPageDialog3 extends SimplePageDialog<String> {
+public class AlbumPageDialog3 extends SimplePageDataDialog<String> {
     private ListView mListView;
     private SimplePageAdapter mPageAdapter;
 
