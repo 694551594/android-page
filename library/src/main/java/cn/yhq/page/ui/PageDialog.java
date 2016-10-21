@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import java.util.List;
 
@@ -41,10 +42,15 @@ public abstract class PageDialog<T, I> implements OnPageListener, IPageContextPr
         }
     }
 
+    private static int dp2Px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
     public final IDialog create() {
         onViewCreated();
         return DialogBuilder.otherDialog(mContext)
-                .setContentView(getDialogContentView(this.getPageView()))
+                .setContentView(getDialogContentView(this.getPageView()), new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dp2Px(getContext(), 800)))
                 .setOnCancelListener(this)
                 .setOnDismissListener(this)
                 .setOnShowListener(this)
