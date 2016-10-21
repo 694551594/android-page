@@ -253,25 +253,33 @@ public final class PageEngine<T, I> {
     }
 
     public final boolean saveState(Bundle state) {
-        mPageManager.saveState(state);
-        if (mPageAdapter.getPageDataCount() != 0) {
-            // 判断是否序列化了。如果序列化就可以直接传值
-            if (mPageAdapter.getPageListData() instanceof Serializable) {
-                state.putSerializable("PageData", (Serializable) mPageAdapter.getPageListData());
-                return true;
+        try {
+            mPageManager.saveState(state);
+            if (mPageAdapter.getPageDataCount() != 0) {
+                // 判断是否序列化了。如果序列化就可以直接传值
+                if (mPageAdapter.getPageListData() instanceof Serializable) {
+                    state.putSerializable("PageData", (Serializable) mPageAdapter.getPageListData());
+                    return true;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     public final boolean restoreState(Bundle state) {
-        mPageManager.restoreState(state);
-        List<I> listData = (List<I>) state.getSerializable("PageData");
-        if (listData != null) {
-            mPageAdapter.clear();
-            mPageAdapter.appendAfter(listData);
-            mPageAdapter.notifyDataSetChanged();
-            return true;
+        try {
+            mPageManager.restoreState(state);
+            List<I> listData = (List<I>) state.getSerializable("PageData");
+            if (listData != null) {
+                mPageAdapter.clear();
+                mPageAdapter.appendAfter(listData);
+                mPageAdapter.notifyDataSetChanged();
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

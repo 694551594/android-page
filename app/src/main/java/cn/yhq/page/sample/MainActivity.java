@@ -9,6 +9,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.yhq.dialog.core.IDialog;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.simple.SimplePageDataActivity;
 
@@ -20,6 +21,15 @@ public class MainActivity extends SimplePageDataActivity<String> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HttpAPIClient.init(this);
+    }
+
+    @Override
+    public IDialog createDialog(int id, Bundle args) {
+        switch (id) {
+            case 1:
+                return new AlbumPageDialog3(this).create();
+        }
+        return null;
     }
 
     @Override
@@ -51,6 +61,9 @@ public class MainActivity extends SimplePageDataActivity<String> {
                     case 5:
                         intent = new Intent(MainActivity.this, AutoRefreshPageActivity.class);
                         break;
+                    case 6:
+                        showDialogFragment(1);
+                        return;
                 }
                 startActivity(intent);
             }
@@ -77,6 +90,7 @@ public class MainActivity extends SimplePageDataActivity<String> {
         data.add("自定义下拉刷新控件返回网络数据");
         data.add("自定义网络请求框架返回网络数据");
         data.add("类似微信、QQ拉到头部自动刷新的listview");
+        data.add("对话框");
         return data;
     }
 

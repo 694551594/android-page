@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
+import cn.yhq.page.R;
 import cn.yhq.page.core.PageAction;
 
 /**
@@ -41,17 +41,18 @@ public class PageViewManager implements IPageViewManager {
         this.mLoadingView.setVisibility(View.GONE);
 
         this.mParentView = (ViewGroup) this.mPageView.getParent();
-        LinearLayout linearLayout = new LinearLayout(mContext);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        linearLayout.setLayoutParams(params);
-        linearLayout.addView(mLoadingView, params);
-        linearLayout.addView(mEmptyView, params);
+        FrameLayout frameLayout = (FrameLayout) mInflater.inflate(R.layout.pagelayout, null);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT);
+        frameLayout.addView(mLoadingView);
+        frameLayout.addView(mEmptyView);
 
         View pageViewLayout = this.mParentView;
         this.mParentView = (ViewGroup) this.mParentView.getParent();
         this.mParentView.removeView(pageViewLayout);
-        linearLayout.addView(pageViewLayout, params);
-        this.mParentView.addView(linearLayout, params);
+        frameLayout.addView(pageViewLayout);
+        this.mParentView.addView(frameLayout, params);
     }
 
     @Override

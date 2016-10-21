@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,29 +18,78 @@ import cn.yhq.page.core.PageAction;
  * Created by Yanghuiqiang on 2016/10/20.
  */
 
-public abstract class PageDialog<T, I> implements OnPageListener, IPageContextProvider<T, I> {
+public abstract class PageDialog<T, I> implements OnPageListener, IPageContextProvider<T, I>, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener, DialogInterface.OnShowListener, DialogBuilder.OnStateChangeListener {
     private PageContext<T, I> mPageContext;
     private Context mContext;
+    private Bundle savedInstanceState;
 
     public PageDialog(Context context) {
         this.mContext = context;
-        mPageContext = new PageContext<>(mContext);
-        mPageContext.addOnPageListener(this);
-        onViewCreated();
-        mPageContext.initPageContext(this);
+        this.mPageContext = new PageContext<>(mContext);
+        this.mPageContext.addOnPageListener(this);
+    }
+
+    public final Context getContext() {
+        return mContext;
+    }
+
+    private View getDialogContentView(View pageView) {
+        if (pageView.getParent() == null) {
+            return pageView;
+        } else {
+            return getDialogContentView((View) pageView.getParent());
+        }
     }
 
     public final IDialog create() {
+        onViewCreated();
         return DialogBuilder.otherDialog(mContext)
-                .setContentView(this.getPageView())
+                .setContentView(getDialogContentView(this.getPageView()))
+                .setOnCancelListener(this)
+                .setOnDismissListener(this)
+                .setOnShowListener(this)
+                .setOnStateChangeListener(this)
                 .create();
     }
 
     public final IDialog show() {
         IDialog dialog = create().show();
-        mPageContext.start(null);
         return dialog;
     }
+
+    @Override
+    public void onShow(DialogInterface dialogInterface) {
+        mPageContext.initPageContext(this);
+        mPageContext.start(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(IDialog dialog, Bundle savedInstanceState) {
+        mPageContext.savePageDataState(savedInstanceState);
+    }
+
+    /**
+     * 此方法是在对话框显示之前回调的，所以这个地方不能直接调用mPageContext.start(savedInstanceState);
+     * 因为 mPageContext.initPageContext(this);必须在视图初始化完成后才可以调用
+     *
+     * @param dialog
+     * @param savedInstanceState
+     */
+    @Override
+    public void onRestoreInstanceState(IDialog dialog, Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialogInterface) {
+        mPageContext.onDestroy();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) {
+        mPageContext.onDestroy();
+    }
+
 
     public final void initPageData() {
         mPageContext.initPageData();
@@ -47,10 +97,6 @@ public abstract class PageDialog<T, I> implements OnPageListener, IPageContextPr
 
     public final void refreshPageData() {
         mPageContext.refreshPageData();
-    }
-
-    public void onSaveInstanceState(Bundle bundle) {
-        mPageContext.savePageDataState(bundle);
     }
 
     /**
@@ -63,10 +109,6 @@ public abstract class PageDialog<T, I> implements OnPageListener, IPageContextPr
     }
 
     public abstract void onViewCreated();
-
-    public void onDestroy() {
-        mPageContext.onDestroy();
-    }
 
     public final PageContext<T, I> getPageContext() {
         return mPageContext;

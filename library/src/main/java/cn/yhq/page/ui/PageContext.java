@@ -52,19 +52,15 @@ public final class PageContext<T, I> {
     }
 
     public final void start(Bundle savedInstanceState) {
-        try {
-            if (savedInstanceState != null) {
-                boolean success = mPageEngine.restoreState(savedInstanceState);
-                if (!success) {
-                    this.initPageData();
-                }
-            } else {
-                if (mPageConfig.autoInitPageData) {
-                    this.initPageData();
-                }
+        if (savedInstanceState != null) {
+            boolean success = restorePageDataState(savedInstanceState);
+            if (!success) {
+                this.initPageData();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            if (mPageConfig.autoInitPageData) {
+                this.initPageData();
+            }
         }
     }
 
@@ -92,13 +88,11 @@ public final class PageContext<T, I> {
     }
 
     public final boolean savePageDataState(Bundle savedInstanceState) {
-        try {
-            // 保存配置信息，配置信息是必须保存的
-            return mPageEngine.saveState(savedInstanceState);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return mPageEngine.saveState(savedInstanceState);
+    }
+
+    public final boolean restorePageDataState(Bundle savedInstanceState) {
+        return mPageEngine.restoreState(savedInstanceState);
     }
 
     public final PageManager<T, I> getPageManager() {
