@@ -1,5 +1,7 @@
 package cn.yhq.page.ui;
 
+import android.view.View;
+
 import java.util.List;
 
 import cn.yhq.page.core.IPageAdapter;
@@ -63,6 +65,13 @@ public interface IPageContextProvider<T, I> {
      * @return
      */
     IPageViewProvider getPageViewProvider();
+
+    /**
+     * 获取分页视图
+     *
+     * @return
+     */
+    View getPageView();
 
     /**
      * 下拉刷新上拉加载的组件

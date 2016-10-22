@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import java.util.List;
 
@@ -50,9 +49,7 @@ public abstract class PageDataDialog<T, I> implements OnPageListener, IPageConte
     public final IDialog create() {
         onViewCreated();
         return DialogBuilder.otherDialog(mContext)
-                .setContentView(getDialogContentView(this.getPageView())
-                    , new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, dp2Px(getContext(), 400))
-                )
+                .setContentView(getDialogContentView(this.getPageView()))
                 .setOnCancelListener(this)
                 .setOnDismissListener(this)
                 .setOnShowListener(this)
@@ -140,17 +137,17 @@ public abstract class PageDataDialog<T, I> implements OnPageListener, IPageConte
 
     @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager(this.getPageViewProvider());
+        return mPageContext.getDefaultPageViewManager();
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider(this.getPageView());
+        return mPageContext.getDefaultPageViewProvider();
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return PageContext.getDefaultPullToRefreshProvider(this.getPageView());
+        return mPageContext.getDefaultPullToRefreshProvider();
     }
 
     @Override

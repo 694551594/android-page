@@ -1,7 +1,6 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
-import android.view.View;
 
 import java.util.List;
 
@@ -79,26 +78,19 @@ public abstract class PageDataFragment<T, I> extends BaseFragment
 
     }
 
-    /**
-     * 获取pageview，比如listview，gridview，recyclerview等等
-     *
-     * @return
-     */
-    public abstract View getPageView();
-
     @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager(this.getPageViewProvider());
+        return mPageContext.getDefaultPageViewManager();
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider(this.getPageView());
+        return mPageContext.getDefaultPageViewProvider();
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return PageContext.getDefaultPullToRefreshProvider(this.getPageView());
+        return mPageContext.getDefaultPullToRefreshProvider();
     }
 
     @Override

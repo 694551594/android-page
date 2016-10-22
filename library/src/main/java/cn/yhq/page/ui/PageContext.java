@@ -26,6 +26,9 @@ public final class PageContext<T, I> {
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
     private List<OnPageListener> mOnPageListeners = new ArrayList<>();
 
+    private View mPageView;
+    private IPageViewProvider mPageViewProvider;
+
     public PageContext(Context context) {
         this.mContext = context;
     }
@@ -33,6 +36,8 @@ public final class PageContext<T, I> {
     public void initPageContext(IPageContextProvider<T, I> pageContextProvider) {
         pageContextProvider.onPageConfig(mPageConfig);
         pageContextProvider.addPageDataIntercepts(mPageDataIntercepts);
+        this.mPageView = pageContextProvider.getPageView();
+        this.mPageViewProvider = pageContextProvider.getPageViewProvider();
         mOnPageListeners.add(new DefaultPageListener(pageContextProvider));
         OnPullToRefreshProvider onPullToRefreshProvider = pageContextProvider.getOnPullToRefreshProvider();
         if (onPullToRefreshProvider != null) {
@@ -64,20 +69,20 @@ public final class PageContext<T, I> {
         }
     }
 
-    public final static OnPullToRefreshProvider getDefaultPullToRefreshProvider(View pageView) {
-        return PullToRefreshContextFactory.getPullToRefreshProvider(pageView);
+    public final OnPullToRefreshProvider getDefaultPullToRefreshProvider() {
+        return PullToRefreshContextFactory.getPullToRefreshProvider(this.mPageView);
     }
 
     public final static void registerPullToRefreshProvider(Class<? extends View> viewClass, Class<? extends PullToRefreshContext> pullToRefreshContextClass) {
         PullToRefreshContextFactory.register(viewClass, pullToRefreshContextClass);
     }
 
-    public final IPageViewProvider getDefaultPageViewProvider(View pageView) {
-        return new PageViewProvider(pageView);
+    public final IPageViewProvider getDefaultPageViewProvider() {
+        return new PageViewProvider(this.mPageView);
     }
 
-    public final IPageViewManager getDefaultPageViewManager(IPageViewProvider pageViewProvider) {
-        IPageViewManager pageViewManager = new PageViewManager(pageViewProvider);
+    public final IPageViewManager getDefaultPageViewManager() {
+        IPageViewManager pageViewManager = new PageViewManager(this.mPageViewProvider);
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {

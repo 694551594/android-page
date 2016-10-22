@@ -81,17 +81,17 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
 
     @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager(this.getPageViewProvider());
+        return mPageContext.getDefaultPageViewManager();
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider(this.getPageView());
+        return mPageContext.getDefaultPageViewProvider();
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return PageContext.getDefaultPullToRefreshProvider(this.getPageView());
+        return mPageContext.getDefaultPullToRefreshProvider();
     }
 
     @Override
