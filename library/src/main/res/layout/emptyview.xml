@@ -24,6 +24,6 @@
         android:textAlignment="center"
         android:text="暂无数据，点击重新加载"
         android:layout_below="@+id/imageView1"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>
