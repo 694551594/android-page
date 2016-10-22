@@ -11,7 +11,6 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -20,9 +19,9 @@
         android:layout_height="wrap_content"
         android:text="正在加载，请稍后..."
         android:textAlignment="center"
+        android:layout_marginTop="10dp"
         android:textColor="@color/summary_color"
-        android:layout_below="@+id/progressBar"
-        android:layout_marginTop="10dp"/>
+        android:layout_below="@+id/progressBar"/>
 
 
 </RelativeLayout>

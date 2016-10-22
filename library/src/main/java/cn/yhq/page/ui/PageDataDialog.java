@@ -128,13 +128,6 @@ public abstract class PageDataDialog<T, I> implements OnPageListener, IPageConte
 
     }
 
-    /**
-     * 获取pageview，比如listview，gridview，recyclerview等等
-     *
-     * @return
-     */
-    public abstract View getPageView();
-
     @Override
     public IPageViewManager getPageViewManager() {
         return mPageContext.getDefaultPageViewManager();

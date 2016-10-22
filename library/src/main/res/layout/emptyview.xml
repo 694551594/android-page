@@ -10,10 +10,9 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
         android:src="@drawable/ic_no_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -23,7 +22,7 @@
         android:textColor="@color/summary_color"
         android:textAlignment="center"
         android:text="暂无数据，点击重新加载"
-        android:layout_below="@+id/imageView1"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/imageView1"/>
 
 </RelativeLayout>

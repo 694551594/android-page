@@ -1,7 +1,6 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
-import android.view.View;
 
 import java.util.List;
 
@@ -71,13 +70,6 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     public void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts) {
 
     }
-
-    /**
-     * 获取pageview，比如listview，gridview，recyclerview等等
-     *
-     * @return
-     */
-    public abstract View getPageView();
 
     @Override
     public IPageViewManager getPageViewManager() {
