@@ -1,10 +1,12 @@
 package cn.yhq.page.sample;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
+import cn.yhq.dialog.core.IDialog;
 import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
@@ -23,6 +25,11 @@ public class AlbumPageDialog1 extends RetrofitPageDataDialog<AlbumInfo, Tracks> 
 
     public AlbumPageDialog1(Context context) {
         super(context);
+    }
+
+    @Override
+    protected IDialog onCreateDialog(Bundle args) {
+        return this.getDefaultDialogBuilder().setTitle("搜索结果").create();
     }
 
     @Override

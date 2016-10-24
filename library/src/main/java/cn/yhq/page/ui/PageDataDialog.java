@@ -18,7 +18,13 @@ import cn.yhq.page.core.PageAction;
  * Created by Yanghuiqiang on 2016/10/20.
  */
 
-public abstract class PageDataDialog<T, I> implements OnPageListener, IPageContextProvider<T, I>, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener, DialogInterface.OnShowListener, DialogBuilder.OnStateChangeListener {
+public abstract class PageDataDialog<T, I> implements
+        OnPageListener,
+        IPageContextProvider<T, I>,
+        DialogInterface.OnCancelListener,
+        DialogInterface.OnDismissListener,
+        DialogInterface.OnShowListener,
+        DialogBuilder.OnStateChangeListener {
     private PageContext<T, I> mPageContext;
     private Context mContext;
     private Bundle savedInstanceState;
@@ -41,20 +47,46 @@ public abstract class PageDataDialog<T, I> implements OnPageListener, IPageConte
         }
     }
 
-    private static int dp2Px(Context context, float dp) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
-    }
-
-    public final IDialog create() {
-        onViewCreated();
+    protected final DialogBuilder getDefaultDialogBuilder() {
         return DialogBuilder.otherDialog(mContext)
                 .setContentView(getDialogContentView(this.getPageView()))
+                .setOnPositiveButtonClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onPositiveButtonClick(dialog, which);
+                    }
+                })
+                .setOnNegativeButtonClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onNegativeButtonClick(dialog, which);
+                    }
+                })
                 .setOnCancelListener(this)
                 .setOnDismissListener(this)
                 .setOnShowListener(this)
-                .setOnStateChangeListener(this)
-                .create();
+                .setOnStateChangeListener(this);
+    }
+
+    protected IDialog onCreateDialog(Bundle args) {
+        return getDefaultDialogBuilder().create();
+    }
+
+    public final IDialog create() {
+        return create(null);
+    }
+
+    public final IDialog create(Bundle args) {
+        onViewCreated();
+        return onCreateDialog(args);
+    }
+
+    public void onPositiveButtonClick(DialogInterface dialog, int which) {
+
+    }
+
+    public void onNegativeButtonClick(DialogInterface dialog, int which) {
+
     }
 
     public final IDialog show() {
