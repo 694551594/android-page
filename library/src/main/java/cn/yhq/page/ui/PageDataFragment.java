@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import cn.yhq.dialog.BaseFragment;
+import cn.yhq.base.BaseFragment;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;

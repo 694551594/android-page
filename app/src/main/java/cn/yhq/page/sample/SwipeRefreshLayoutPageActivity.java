@@ -26,13 +26,12 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageDataActivity<Alb
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_swipe_refresh;
     }
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_swipe_refresh);
         mListView = (XListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);

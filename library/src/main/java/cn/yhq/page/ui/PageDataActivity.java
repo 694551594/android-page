@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import cn.yhq.dialog.BaseActivity;
+import cn.yhq.base.BaseActivity;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
@@ -22,7 +22,6 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
         super.onCreate(savedInstanceState);
         mPageContext = new PageContext<>(this);
         mPageContext.addOnPageListener(this);
-        onViewCreated(savedInstanceState);
         mPageContext.initPageContext(this);
         mPageContext.start(savedInstanceState);
     }
@@ -49,8 +48,6 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     @Override
     public void onPageConfig(PageConfig pageConfig) {
     }
-
-    public abstract void onViewCreated(Bundle savedInstanceState);
 
     @Override
     public void onDestroy() {

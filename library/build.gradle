@@ -22,6 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'cn.yhq:android-base:1.0.0'
     compile 'cn.yhq:android-adapter:1.0.2'
     compile 'cn.yhq:android-recycler-adapter:1.0.2'
     compile 'cn.yhq:android-http:2.3'

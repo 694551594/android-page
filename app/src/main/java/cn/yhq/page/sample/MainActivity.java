@@ -24,6 +24,11 @@ public class MainActivity extends SimplePageDataActivity<String> {
     }
 
     @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     public IDialog createDialog(int id, Bundle args) {
         switch (id) {
             case 1:
@@ -38,7 +43,8 @@ public class MainActivity extends SimplePageDataActivity<String> {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+        this.setSwipeBackEnable(false);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mListView = (ListView) this.findViewById(R.id.list_view);
         mPageAdapter = new SimplePageAdapter(this);
         mListView.setAdapter(mPageAdapter);

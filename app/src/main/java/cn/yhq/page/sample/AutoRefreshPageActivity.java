@@ -27,8 +27,13 @@ public class AutoRefreshPageActivity extends RetrofitPageDataActivity<AlbumInfo,
     }
 
     @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_auto_refresh;
+    }
+
+    @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_auto_refresh);
+        super.onViewCreated(savedInstanceState);
         mListView = (AutoRefreshListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);

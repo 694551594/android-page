@@ -20,8 +20,8 @@ public class SimplePageActivity1 extends SimplePageDataActivity<String> {
     private SimplePageAdapter mPageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override

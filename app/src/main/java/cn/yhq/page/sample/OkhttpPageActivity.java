@@ -24,8 +24,12 @@ public class OkHttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
     private AlbumPageAdapter mPageAdapter;
 
     @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.activity_network_page;
+    }
+
+    @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_network_page);
         mListView = (ListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
