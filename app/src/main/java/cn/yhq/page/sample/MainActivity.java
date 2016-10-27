@@ -19,6 +19,7 @@ public class MainActivity extends SimplePageDataActivity<String> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.setSwipeBackWrapper(false);
         super.onCreate(savedInstanceState);
         HttpAPIClient.init(this);
     }
@@ -43,7 +44,6 @@ public class MainActivity extends SimplePageDataActivity<String> {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        this.setSwipeBackEnable(false);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         mListView = (ListView) this.findViewById(R.id.list_view);
         mPageAdapter = new SimplePageAdapter(this);

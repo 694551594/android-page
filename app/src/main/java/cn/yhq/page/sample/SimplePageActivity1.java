@@ -26,7 +26,6 @@ public class SimplePageActivity1 extends SimplePageDataActivity<String> {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
         mListView = (ListView) this.findViewById(R.id.list_view);
         mPageAdapter = new SimplePageAdapter(this);
         mListView.setAdapter(mPageAdapter);
