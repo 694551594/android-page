@@ -10,7 +10,6 @@ public abstract class PageRequester<T, I> implements IPageRequester<T, I> {
     private Context context;
     private IPageResponse<T> pageResponse;
     private PageAction pageAction;
-    private Page<I> page;
 
     public PageRequester(Context context) {
         this.context = context;
@@ -18,7 +17,6 @@ public abstract class PageRequester<T, I> implements IPageRequester<T, I> {
 
     @Override
     public final void onRequest(PageAction pageAction, Page<I> page, IPageResponse<T> pageResponse) {
-        this.page = page;
         this.pageResponse = pageResponse;
         this.pageAction = pageAction;
         executeRequest(context, pageAction, page);
