@@ -2,9 +2,9 @@ package cn.yhq.page.http;
 
 import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.core.PageAction;
-import cn.yhq.page.ui.PageDataActivity;
+import cn.yhq.page.ui.PageActivity;
 
-public abstract class RetrofitPageActivity<T, I> extends PageDataActivity<T, I>
+public abstract class RetrofitPageActivity<T, I> extends PageActivity<T, I>
         implements
         RetrofitPageRequester.IPageRequestExecutor<T, I> {
 

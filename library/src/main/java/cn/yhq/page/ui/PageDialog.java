@@ -18,7 +18,7 @@ import cn.yhq.page.core.PageAction;
  * Created by Yanghuiqiang on 2016/10/20.
  */
 
-public abstract class PageDataDialog<T, I> implements
+public abstract class PageDialog<T, I> implements
         OnPageListener,
         IPageContextProvider<T, I>,
         DialogInterface.OnCancelListener,
@@ -29,7 +29,7 @@ public abstract class PageDataDialog<T, I> implements
     private Context mContext;
     private Bundle savedInstanceState;
 
-    public PageDataDialog(Context context) {
+    public PageDialog(Context context) {
         this.mContext = context;
         this.mPageContext = new PageContext<>(mContext);
         this.mPageContext.addOnPageListener(this);

@@ -4,13 +4,13 @@ import java.util.List;
 
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.ui.PageDataActivity;
+import cn.yhq.page.ui.PageActivity;
 
 /**
  * @param <I>
  * @author Yanghuiqiang 2015-5-27
  */
-public abstract class SimplePageActivity<I> extends PageDataActivity<List<I>, I> {
+public abstract class SimplePageActivity<I> extends PageActivity<List<I>, I> {
 
     @Override
     public IPageDataParser<List<I>, I> getPageDataParser() {

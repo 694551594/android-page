@@ -4,26 +4,42 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import cn.yhq.base.BaseActivity;
+import cn.yhq.base.BaseFragment;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
 
 
-public abstract class PageDataActivity<T, I> extends BaseActivity
+/**
+ * 分页列表数据显示的BaseFragment
+ *
+ * @param <T>
+ * @param <I>
+ * @author Yanghuiqiang 2015-5-25
+ */
+public abstract class PageFragment<T, I> extends BaseFragment
         implements
         OnPageListener,
         IPageContextProvider<T, I> {
     private PageContext<T, I> mPageContext;
 
+    /**
+     * 此方法是在创建视图后调用的
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPageContext = new PageContext<>(this);
-        mPageContext.addOnPageListener(this);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mPageContext = new PageContext<>(this.getContext());
         mPageContext.initPageContext(this);
+        mPageContext.addOnPageListener(this);
         mPageContext.start(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        mPageContext.savePageDataState(bundle);
     }
 
     public final void initPageData() {
@@ -32,12 +48,6 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
 
     public final void refreshPageData() {
         mPageContext.refreshPageData();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
-        mPageContext.savePageDataState(bundle);
     }
 
     /**
@@ -122,6 +132,4 @@ public abstract class PageDataActivity<T, I> extends BaseActivity
     public void onPageException(Throwable e) {
 
     }
-
 }
-

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.core.PageAction;
-import cn.yhq.page.ui.PageDataDialog;
+import cn.yhq.page.ui.PageDialog;
 
 /**
  * 使用retrofit和okhttp封装的分页列表请求处理框架
@@ -13,7 +13,7 @@ import cn.yhq.page.ui.PageDataDialog;
  * @param <I>
  * @author Yanghuiqiang 2015-10-10
  */
-public abstract class RetrofitPageDialog<T, I> extends PageDataDialog<T, I>
+public abstract class RetrofitPageDialog<T, I> extends PageDialog<T, I>
         implements
         RetrofitPageRequester.IPageRequestExecutor<T, I> {
 

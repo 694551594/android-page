@@ -4,13 +4,13 @@ import java.util.List;
 
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.ui.PageDataFragment;
+import cn.yhq.page.ui.PageFragment;
 
 /**
  * @param <I>
  * @author Yanghuiqiang 2015-5-27
  */
-public abstract class SimplePageFragment<I> extends PageDataFragment<List<I>, I> {
+public abstract class SimplePageFragment<I> extends PageFragment<List<I>, I> {
 
     @Override
     public IPageDataParser<List<I>, I> getPageDataParser() {

@@ -6,13 +6,13 @@ import java.util.List;
 
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.ui.PageDataDialog;
+import cn.yhq.page.ui.PageDialog;
 
 /**
  * Created by Yanghuiqiang on 2016/10/21.
  */
 
-public abstract class SimplePageDialog<I> extends PageDataDialog<List<I>, I> {
+public abstract class SimplePageDialog<I> extends PageDialog<List<I>, I> {
 
     public SimplePageDialog(Context context) {
         super(context);

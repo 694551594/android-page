@@ -9,9 +9,9 @@ import java.util.List;
 
 import cn.yhq.page.R;
 import cn.yhq.page.adapter.PageListAdapter;
-import cn.yhq.page.ui.PageDataFragment;
+import cn.yhq.page.ui.PageFragment;
 
-public abstract class SimpleListViewPageFragment<I> extends PageDataFragment<List<I>, I> implements
+public abstract class SimpleListViewPageFragment<I> extends PageFragment<List<I>, I> implements
         AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener {
     protected ListView mPageView;
