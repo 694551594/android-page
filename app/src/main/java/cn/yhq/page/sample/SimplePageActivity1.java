@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.yhq.page.core.IPageDataIntercept;
-import cn.yhq.page.listview.SimpleListViewPageActivity;
+import cn.yhq.page.simple.SimpleListViewPageActivity;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.

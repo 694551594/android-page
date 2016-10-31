@@ -33,7 +33,7 @@ public class MainActivity extends SimplePageActivity<String> {
     public IDialog createDialog(int id, Bundle args) {
         switch (id) {
             case 1:
-                return new AlbumPageDialog3(this).create();
+                return new AlbumPageDialog4(this).create();
             case 2:
                 return new AlbumPageDialog1(this).create();
             case 3:

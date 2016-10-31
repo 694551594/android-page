@@ -1,27 +1,32 @@
-package cn.yhq.page.listview;
+package cn.yhq.page.simple;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import cn.yhq.page.R;
 import cn.yhq.page.adapter.PageListAdapter;
-import cn.yhq.page.simple.SimplePageActivity;
 
-public abstract class SimpleListViewPageActivity<I> extends SimplePageActivity<I> implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-    private ListView mPageView;
-    private PageListAdapter<I> mPageAdapter;
+/**
+ * Created by Yanghuiqiang on 2016/10/21.
+ */
 
-    @Override
-    protected int getContentViewLayoutId() {
-        return R.layout.page_listview;
+public abstract class SimpleListViewPageDialog<I> extends SimplePageDialog<I> implements
+        AdapterView.OnItemClickListener,
+        AdapterView.OnItemLongClickListener {
+    protected ListView mPageView;
+    protected PageListAdapter<I> mPageAdapter;
+
+    public SimpleListViewPageDialog(Context context) {
+        super(context);
     }
 
     @Override
-    protected void onViewCreated(Bundle savedInstanceState) {
-        super.onViewCreated(savedInstanceState);
-        this.mPageView = this.getView(R.id.listview);
+    public void onViewCreated() {
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.page_listview, null, false);
+        mPageView = (ListView) v.findViewById(R.id.listview);
         setListView(this.mPageView);
     }
 
