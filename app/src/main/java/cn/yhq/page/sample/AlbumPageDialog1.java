@@ -10,7 +10,7 @@ import cn.yhq.dialog.core.IDialog;
 import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
-import cn.yhq.page.http.RetrofitPageDataDialog;
+import cn.yhq.page.http.RetrofitPageDialog;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
@@ -19,7 +19,7 @@ import cn.yhq.page.ui.PageConfig;
  * Created by Yanghuiqiang on 2016/10/21.
  */
 
-public class AlbumPageDialog1 extends RetrofitPageDataDialog<AlbumInfo, Tracks> {
+public class AlbumPageDialog1 extends RetrofitPageDialog<AlbumInfo, Tracks> {
     private ListView mListView;
     private AlbumPageAdapter mPageAdapter;
 

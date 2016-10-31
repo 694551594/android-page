@@ -13,11 +13,11 @@ import cn.yhq.page.ui.PageDataDialog;
  * @param <I>
  * @author Yanghuiqiang 2015-10-10
  */
-public abstract class RetrofitPageDataDialog<T, I> extends PageDataDialog<T, I>
+public abstract class RetrofitPageDialog<T, I> extends PageDataDialog<T, I>
         implements
         RetrofitPageRequester.IPageRequestExecutor<T, I> {
 
-    public RetrofitPageDataDialog(Context context) {
+    public RetrofitPageDialog(Context context) {
         super(context);
     }
 

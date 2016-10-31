@@ -15,13 +15,13 @@ import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.core.Page;
 import cn.yhq.page.core.PageAction;
 import cn.yhq.page.core.PageRequester;
-import cn.yhq.page.simple.SimplePageDataActivity;
+import cn.yhq.page.simple.SimplePageActivity;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class SimplePageActivity2 extends SimplePageDataActivity<String> {
+public class SimplePageActivity2 extends SimplePageActivity<String> {
     private ListView mListView;
     private SimplePageAdapter mPageAdapter;
 

@@ -10,7 +10,7 @@ import cn.yhq.page.ui.PageDataActivity;
  * @param <I>
  * @author Yanghuiqiang 2015-5-27
  */
-public abstract class SimplePageDataActivity<I> extends PageDataActivity<List<I>, I> {
+public abstract class SimplePageActivity<I> extends PageDataActivity<List<I>, I> {
 
     @Override
     public IPageDataParser<List<I>, I> getPageDataParser() {
@@ -20,7 +20,6 @@ public abstract class SimplePageDataActivity<I> extends PageDataActivity<List<I>
     @Override
     public IPageRequester<List<I>, I> getPageRequester() {
         return new SimplePageRequester<I>(this) {
-
             @Override
             public List<I> getSimplePageData() {
                 return getPageData();

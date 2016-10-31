@@ -1,16 +1,22 @@
 package cn.yhq.page.simple;
 
+import android.content.Context;
+
 import java.util.List;
 
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.ui.PageDataFragment;
+import cn.yhq.page.ui.PageDataDialog;
 
 /**
- * @param <I>
- * @author Yanghuiqiang 2015-5-27
+ * Created by Yanghuiqiang on 2016/10/21.
  */
-public abstract class SimplePageDataFragment<I> extends PageDataFragment<List<I>, I> {
+
+public abstract class SimplePageDialog<I> extends PageDataDialog<List<I>, I> {
+
+    public SimplePageDialog(Context context) {
+        super(context);
+    }
 
     @Override
     public IPageDataParser<List<I>, I> getPageDataParser() {
@@ -20,7 +26,6 @@ public abstract class SimplePageDataFragment<I> extends PageDataFragment<List<I>
     @Override
     public IPageRequester<List<I>, I> getPageRequester() {
         return new SimplePageRequester<I>(this.getContext()) {
-
             @Override
             public List<I> getSimplePageData() {
                 return getPageData();
@@ -29,4 +34,5 @@ public abstract class SimplePageDataFragment<I> extends PageDataFragment<List<I>
     }
 
     public abstract List<I> getPageData();
+
 }

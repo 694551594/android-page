@@ -2,16 +2,9 @@ package cn.yhq.page.http;
 
 import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.core.PageAction;
-import cn.yhq.page.ui.PageDataFragment;
+import cn.yhq.page.ui.PageDataActivity;
 
-/**
- * 使用retrofit和okhttp封装的分页列表请求处理框架
- *
- * @param <T>
- * @param <I>
- * @author Yanghuiqiang 2015-10-10
- */
-public abstract class RetrofitPageDataFragment<T, I> extends PageDataFragment<T, I>
+public abstract class RetrofitPageActivity<T, I> extends PageDataActivity<T, I>
         implements
         RetrofitPageRequester.IPageRequestExecutor<T, I> {
 
@@ -25,6 +18,8 @@ public abstract class RetrofitPageDataFragment<T, I> extends PageDataFragment<T,
 
     @Override
     public IPageRequester<T, I> getPageRequester() {
-        return new RetrofitPageRequester<>(this.getContext(), this);
+        return new RetrofitPageRequester<>(this, this);
     }
+
+
 }

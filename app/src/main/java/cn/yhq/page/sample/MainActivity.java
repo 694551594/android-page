@@ -11,9 +11,9 @@ import java.util.List;
 
 import cn.yhq.dialog.core.IDialog;
 import cn.yhq.page.core.IPageAdapter;
-import cn.yhq.page.simple.SimplePageDataActivity;
+import cn.yhq.page.simple.SimplePageActivity;
 
-public class MainActivity extends SimplePageDataActivity<String> {
+public class MainActivity extends SimplePageActivity<String> {
     private ListView mListView;
     private SimplePageAdapter mPageAdapter;
 

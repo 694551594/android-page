@@ -7,7 +7,7 @@ import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
-import cn.yhq.page.http.RetrofitPageDataActivity;
+import cn.yhq.page.http.RetrofitPageActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
@@ -17,7 +17,7 @@ import cn.yhq.widget.AutoRefreshListView;
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class AutoRefreshPageActivity extends RetrofitPageDataActivity<AlbumInfo, Tracks> {
+public class AutoRefreshPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks> {
     private AutoRefreshListView mListView;
     private AlbumPageAdapter mPageAdapter;
 
