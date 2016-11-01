@@ -1,32 +1,39 @@
 package cn.yhq.page.sample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.yhq.dialog.core.IDialog;
-import cn.yhq.page.core.IPageAdapter;
-import cn.yhq.page.simple.SimplePageActivity;
+import cn.yhq.page.simple.SimpleListViewPageActivity;
 
-public class MainActivity extends SimplePageActivity<String> {
-    private ListView mListView;
-    private SimplePageAdapter mPageAdapter;
+public class MainActivity extends SimpleListViewPageActivity<String> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.setSwipeBackWrapper(false);
         super.onCreate(savedInstanceState);
         HttpAPIClient.init(this);
-    }
-
-    @Override
-    protected int getContentViewLayoutId() {
-        return R.layout.activity_main;
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                try {
+                    File file = getExternalFilesDir(null);
+                    FileOutputStream fos = new FileOutputStream(new File(file, "log.txt"));
+                    fos.write(ex.getLocalizedMessage().getBytes());
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -43,58 +50,44 @@ public class MainActivity extends SimplePageActivity<String> {
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+        switch (position) {
+            case 0:
+                startActivity(SimplePageActivity1.class);
+                break;
+            case 1:
+                startActivity(SimplePageActivity2.class);
+                break;
+            case 2:
+                startActivity(NetworkPageActivity.class);
+                break;
+            case 3:
+                startActivity(SwipeRefreshLayoutPageActivity.class);
+                break;
+            case 4:
+                startActivity(OkHttpPageActivity.class);
+                break;
+            case 5:
+                startActivity(AutoRefreshPageActivity.class);
+                break;
+            case 6:
+                showDialogFragment(1);
+                break;
+            case 7:
+                showDialogFragment(2);
+                break;
+            case 8:
+                showDialogFragment(3);
+                break;
+        }
+    }
+
+    @Override
     public void onViewCreated(Bundle savedInstanceState) {
+        super.onViewCreated(savedInstanceState);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        mListView = (ListView) this.findViewById(R.id.list_view);
-        mPageAdapter = new SimplePageAdapter(this);
-        mListView.setAdapter(mPageAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = null;
-                switch (position) {
-                    case 0:
-                        intent = new Intent(MainActivity.this, SimplePageActivity1.class);
-                        break;
-                    case 1:
-                        intent = new Intent(MainActivity.this, SimplePageActivity2.class);
-                        break;
-                    case 2:
-                        intent = new Intent(MainActivity.this, NetworkPageActivity.class);
-                        break;
-                    case 3:
-                        intent = new Intent(MainActivity.this, SwipeRefreshLayoutPageActivity.class);
-                        break;
-                    case 4:
-                        intent = new Intent(MainActivity.this, OkHttpPageActivity.class);
-                        break;
-                    case 5:
-                        intent = new Intent(MainActivity.this, AutoRefreshPageActivity.class);
-                        break;
-                    case 6:
-                        showDialogFragment(1);
-                        return;
-                    case 7:
-                        showDialogFragment(2);
-                        return;
-                    case 8:
-                        showDialogFragment(3);
-                        return;
-
-                }
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public View getPageView() {
-        return mListView;
-    }
-
-    @Override
-    public IPageAdapter<String> getPageAdapter() {
-        return mPageAdapter;
+        this.setListAdapter(new SimplePageAdapter(this));
     }
 
     // 如果是非耗时操作，则可以直接返回要适配的数据

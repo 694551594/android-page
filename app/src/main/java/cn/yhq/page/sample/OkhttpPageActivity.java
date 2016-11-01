@@ -13,13 +13,13 @@ import cn.yhq.page.core.IPageRequester;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
-import cn.yhq.page.ui.PageDataActivity;
+import cn.yhq.page.ui.PageActivity;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-public class OkHttpPageActivity extends PageDataActivity<AlbumInfo, Tracks> {
+public class OkHttpPageActivity extends PageActivity<AlbumInfo, Tracks> {
     private ListView mListView;
     private AlbumPageAdapter mPageAdapter;
 
