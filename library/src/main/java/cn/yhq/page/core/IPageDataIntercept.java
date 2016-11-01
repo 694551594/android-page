@@ -14,6 +14,6 @@ public interface IPageDataIntercept<I> {
     interface Chain<I> {
         List<I> data();
 
-        List<I> handler(List<I> data) throws Exception;
+        List<I> handle(List<I> data) throws Exception;
     }
 }

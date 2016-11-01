@@ -60,7 +60,7 @@ public final class PageManager<T, I> {
 
     private List<I> getDataWithInterceptorChain(List<I> result) throws Exception {
         IPageDataIntercept.Chain<I> chain = new PageDataIntercept(0, result);
-        return chain.handler(result);
+        return chain.handle(result);
     }
 
     class PageDataIntercept implements IPageDataIntercept.Chain<I> {
@@ -78,7 +78,7 @@ public final class PageManager<T, I> {
         }
 
         @Override
-        public List<I> handler(List<I> data) throws Exception {
+        public List<I> handle(List<I> data) throws Exception {
             if (index < mPageDataIntercepts.size()) {
                 IPageDataIntercept.Chain chain = new PageDataIntercept(index + 1, data);
                 IPageDataIntercept<I> intercept = mPageDataIntercepts.get(index);
