@@ -1,6 +1,7 @@
 package cn.yhq.page.sample;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class AlbumPageDialog3 extends SimplePageDialog<String> {
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated(Bundle args) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.activity_main, null, false);
         mListView = (ListView) v.findViewById(R.id.list_view);
         mPageAdapter = new SimplePageAdapter(getContext());

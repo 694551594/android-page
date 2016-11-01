@@ -1,6 +1,7 @@
 package cn.yhq.page.sample;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -40,7 +41,7 @@ public class AlbumPageDialog2 extends PageDialog<AlbumInfo, Tracks> {
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated(Bundle args) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.activity_network_page, null, false);
         mListView = (ListView) v.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(getContext());

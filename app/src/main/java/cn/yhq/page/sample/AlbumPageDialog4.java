@@ -1,6 +1,7 @@
 package cn.yhq.page.sample;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -24,7 +25,7 @@ public class AlbumPageDialog4 extends SimpleListViewPageDialog<String> {
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated(Bundle args) {
         super.onViewCreated();
         this.setListAdapter(new SimplePageAdapter(getContext()));
     }

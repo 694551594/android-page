@@ -77,7 +77,7 @@ public abstract class PageDialog<T, I> implements
     }
 
     public final IDialog create(Bundle args) {
-        onViewCreated();
+        onViewCreated(args);
         return onCreateDialog(args);
     }
 
@@ -145,7 +145,7 @@ public abstract class PageDialog<T, I> implements
     public void onPageConfig(PageConfig pageConfig) {
     }
 
-    public abstract void onViewCreated();
+    public abstract void onViewCreated(Bundle args);
 
     public final PageContext<T, I> getPageContext() {
         return mPageContext;

@@ -44,7 +44,7 @@ public class AlbumPageDialog1 extends RetrofitPageDialog<AlbumInfo, Tracks> {
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated(Bundle args) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.activity_network_page, null, false);
         mListView = (ListView) v.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(getContext());
