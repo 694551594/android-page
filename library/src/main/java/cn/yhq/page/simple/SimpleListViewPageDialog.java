@@ -1,6 +1,7 @@
 package cn.yhq.page.simple;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +25,7 @@ public abstract class SimpleListViewPageDialog<I> extends SimplePageDialog<I> im
     }
 
     @Override
-    public void onViewCreated() {
+    public void onViewCreated(Bundle args) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.page_listview, null, false);
         mPageView = (ListView) v.findViewById(R.id.listview);
         setListView(this.mPageView);

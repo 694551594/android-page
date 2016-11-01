@@ -26,7 +26,7 @@ public class AlbumPageDialog4 extends SimpleListViewPageDialog<String> {
 
     @Override
     public void onViewCreated(Bundle args) {
-        super.onViewCreated();
+        super.onViewCreated(args);
         this.setListAdapter(new SimplePageAdapter(getContext()));
     }
 
