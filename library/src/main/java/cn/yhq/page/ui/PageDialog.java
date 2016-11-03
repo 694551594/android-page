@@ -31,8 +31,6 @@ public abstract class PageDialog<T, I> implements
 
     public PageDialog(Context context) {
         this.mContext = context;
-        this.mPageContext = new PageContext<>(mContext);
-        this.mPageContext.addOnPageListener(this);
     }
 
     public final Context getContext() {
@@ -96,7 +94,10 @@ public abstract class PageDialog<T, I> implements
 
     @Override
     public void onShow(DialogInterface dialogInterface) {
-        mPageContext.initPageContext(this);
+        mPageContext = PageContext.Builder
+                .createBuilder(this.getContext(), this)
+                .addOnPageListeners(this)
+                .build();
         mPageContext.start(savedInstanceState);
     }
 
@@ -161,18 +162,23 @@ public abstract class PageDialog<T, I> implements
     }
 
     @Override
+    public void addOnPageListeners(List<OnPageListener> mOnPageListeners) {
+
+    }
+
+    @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager();
+        return null;
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider();
+        return null;
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultPullToRefreshProvider();
+        return null;
     }
 
     @Override

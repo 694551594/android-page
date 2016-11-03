@@ -8,6 +8,7 @@ import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
+import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 
 /**
@@ -37,6 +38,13 @@ public interface IPageContextProvider<T, I> {
      * @return
      */
     void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts);
+
+    /**
+     * 分页过程监听器
+     *
+     * @param mOnPageListeners
+     */
+    void addOnPageListeners(List<OnPageListener> mOnPageListeners);
 
     /**
      * 获取分页解析器

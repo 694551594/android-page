@@ -22,5 +22,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.zhy:okhttputils:2.6.2'
+    compile 'cat.ereza:customactivityoncrash:1.2.0'
     compile project(':library')
 }

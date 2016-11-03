@@ -30,9 +30,10 @@ public abstract class PageFragment<T, I> extends BaseFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPageContext = new PageContext<>(this.getContext());
-        mPageContext.initPageContext(this);
-        mPageContext.addOnPageListener(this);
+        mPageContext = PageContext.Builder
+                .createBuilder(this.getContext(), this)
+                .addOnPageListeners(this)
+                .build();
         mPageContext.start(savedInstanceState);
     }
 
@@ -79,18 +80,23 @@ public abstract class PageFragment<T, I> extends BaseFragment
     }
 
     @Override
+    public void addOnPageListeners(List<OnPageListener> mOnPageListeners) {
+
+    }
+
+    @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager();
+        return null;
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider();
+        return null;
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultPullToRefreshProvider();
+        return null;
     }
 
     @Override

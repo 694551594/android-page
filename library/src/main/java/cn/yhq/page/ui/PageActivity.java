@@ -20,9 +20,10 @@ public abstract class PageActivity<T, I> extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPageContext = new PageContext<>(this);
-        mPageContext.addOnPageListener(this);
-        mPageContext.initPageContext(this);
+        mPageContext = PageContext.Builder
+                .createBuilder(this, this)
+                .addOnPageListeners(this)
+                .build();
         mPageContext.start(savedInstanceState);
     }
 
@@ -69,18 +70,23 @@ public abstract class PageActivity<T, I> extends BaseActivity
     }
 
     @Override
+    public void addOnPageListeners(List<OnPageListener> mOnPageListeners) {
+
+    }
+
+    @Override
     public IPageViewManager getPageViewManager() {
-        return mPageContext.getDefaultPageViewManager();
+        return null;
     }
 
     @Override
     public IPageViewProvider getPageViewProvider() {
-        return mPageContext.getDefaultPageViewProvider();
+        return null;
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return mPageContext.getDefaultPullToRefreshProvider();
+        return null;
     }
 
     @Override
