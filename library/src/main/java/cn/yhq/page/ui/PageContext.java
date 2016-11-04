@@ -19,7 +19,9 @@ import cn.yhq.page.core.PageEngine;
 import cn.yhq.page.core.PageManager;
 
 /**
- * 是对PageEngine的UI层级的封装了，主要封装一些接口给Activity以及Fragment提供了，此外，PageContext里面提供了一个分页的配置类PageConfig，用于一些分页的基本配置，比如分页大小、是否在初始的时候自动加载数据等等。
+ * 是对PageEngine的UI层级的封装了，主要封装一些接口给Activity以及Fragment提供了。
+ * <p>
+ * 此外，PageContext里面提供了一个分页的配置类PageConfig，用于一些分页的基本配置，比如分页大小、是否在初始的时候自动加载数据等等。
  * <p>
  * Created by Yanghuiqiang on 2016/10/11.
  */

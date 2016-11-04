@@ -21,7 +21,7 @@ class PageViewManager implements IPageViewManager {
     private OnReRequestListener mOnReRequestListener;
     private ViewGroup.LayoutParams mParams;
 
-    PageViewManager(IPageViewProvider pageViewProvider) {
+    public PageViewManager(IPageViewProvider pageViewProvider) {
         this.mPageView = pageViewProvider.getPageView();
         this.mContext = this.mPageView.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
