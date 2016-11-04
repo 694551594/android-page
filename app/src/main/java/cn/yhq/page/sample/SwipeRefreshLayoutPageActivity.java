@@ -57,7 +57,7 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageActivity<AlbumIn
 
     @Override
     public ICall<AlbumInfo> executePageRequest(int pageSize, int currentPage, Tracks mData) {
-        return HttpAPIClient.getAPI().getAlbumInfo("夜曲", pageSize, currentPage);
+        return HttpAPIClient.getAPI().getAlbumInfo("xxsdsadsads", pageSize, currentPage);
     }
 
     @Override
