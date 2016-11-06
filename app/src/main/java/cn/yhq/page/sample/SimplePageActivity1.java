@@ -31,7 +31,7 @@ public class SimplePageActivity1 extends SimpleListViewPageActivity<String> {
     }
 
     @Override
-    public void addPageDataIntercepts(List<IPageDataIntercept<String>> intercepts) {
+    public void addPageDataIntercept(List<IPageDataIntercept<String>> intercepts) {
         intercepts.add(new IPageDataIntercept<String>() {
             @Override
             public List<String> intercept(Chain<String> chain) throws Exception {

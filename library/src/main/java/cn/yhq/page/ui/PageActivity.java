@@ -65,12 +65,12 @@ public abstract class PageActivity<T, I> extends BaseActivity
     }
 
     @Override
-    public void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts) {
+    public void addPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts) {
 
     }
 
     @Override
-    public void addOnPageListeners(List<OnPageListener> mOnPageListeners) {
+    public void addOnPageListener(List<OnPageListener> mOnPageListeners) {
 
     }
 
