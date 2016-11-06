@@ -127,13 +127,13 @@ public final class PageContext<T, I> {
             return this;
         }
 
-        public Builder<T, I> addPageDataIntercepts(IPageDataIntercept<I> pageDataIntercept) {
+        public Builder<T, I> addPageDataIntercept(IPageDataIntercept<I> pageDataIntercept) {
             this.mPageDataIntercepts.add(pageDataIntercept);
             return this;
         }
 
-        public Builder<T, I> addOnPageListeners(OnPageListener onPageListeners) {
-            this.mOnPageListeners.add(onPageListeners);
+        public Builder<T, I> addOnPageListener(OnPageListener onPageListener) {
+            this.mOnPageListeners.add(onPageListener);
             return this;
         }
 
