@@ -2,7 +2,8 @@ package cn.yhq.page.sample;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
+
+import com.markmao.pulltorefresh.widget.XListView;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import cn.yhq.page.ui.PageConfig;
  */
 
 public class NetworkPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks> {
-    private ListView mListView;
+    private XListView mListView;
     private AlbumPageAdapter mPageAdapter;
 
     @Override
@@ -34,7 +35,7 @@ public class NetworkPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks>
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        mListView = (ListView) this.findViewById(R.id.list_view);
+        mListView = (XListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
     }
