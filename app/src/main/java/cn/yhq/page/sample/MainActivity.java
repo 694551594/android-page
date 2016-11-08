@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cn.yhq.dialog.core.IDialog;
 import cn.yhq.page.simple.SimpleListViewPageActivity;
 
@@ -15,9 +14,14 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.setSwipeBackWrapper(false);
         super.onCreate(savedInstanceState);
         HttpAPIClient.init(this);
+    }
+
+    @Override
+    protected void onConfig(Config config) {
+        super.onConfig(config);
+        config.setSwipeBackWrapper(false);
     }
 
     @Override
@@ -69,7 +73,6 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        CustomActivityOnCrash.install(this);
         super.onViewCreated(savedInstanceState);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         this.setListAdapter(new SimplePageAdapter(this));

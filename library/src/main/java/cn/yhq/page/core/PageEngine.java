@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * 分页管理引擎
  * <p>
@@ -209,6 +211,8 @@ public final class PageEngine<T, I> {
 
             @Override
             public void onException(Context context, PageAction pageAction, Throwable t) {
+                Timber.e(t, t.getLocalizedMessage());
+
                 if (onPullToRefreshProvider != null) {
                     onPullToRefreshProvider.onRefreshComplete(0, false);
                 }
