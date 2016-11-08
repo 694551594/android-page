@@ -77,8 +77,8 @@ public final class PageContext<T, I> {
         public static <T, I> Builder<T, I> createBuilder(Context context, IPageContextProvider<T, I> pageContextProvider) {
             Builder<T, I> builder = new Builder<>(context);
             pageContextProvider.onPageConfig(builder.mPageConfig);
-            pageContextProvider.addPageDataIntercepts(builder.mPageDataIntercepts);
-            pageContextProvider.addOnPageListeners(builder.mOnPageListeners);
+            pageContextProvider.addPageDataIntercept(builder.mPageDataIntercepts);
+            pageContextProvider.addOnPageListener(builder.mOnPageListeners);
             return builder
                     .setOnPullToRefreshProvider(pageContextProvider.getOnPullToRefreshProvider())
                     .setPageAdapter(pageContextProvider.getPageAdapter())
@@ -132,8 +132,8 @@ public final class PageContext<T, I> {
             return this;
         }
 
-        public Builder<T, I> addOnPageListener(OnPageListener onPageListeners) {
-            this.mOnPageListeners.add(onPageListeners);
+        public Builder<T, I> addOnPageListener(OnPageListener onPageListener) {
+            this.mOnPageListeners.add(onPageListener);
             return this;
         }
 

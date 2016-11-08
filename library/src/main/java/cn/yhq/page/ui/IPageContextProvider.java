@@ -37,14 +37,14 @@ public interface IPageContextProvider<T, I> {
      *
      * @return
      */
-    void addPageDataIntercepts(List<IPageDataIntercept<I>> pageDataIntercepts);
+    void addPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts);
 
     /**
      * 分页过程监听器
      *
-     * @param mOnPageListeners
+     * @param mOnPageListener
      */
-    void addOnPageListeners(List<OnPageListener> mOnPageListeners);
+    void addOnPageListener(List<OnPageListener> mOnPageListener);
 
     /**
      * 获取分页解析器
