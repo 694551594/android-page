@@ -27,11 +27,6 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     }
 
     @Override
-    public void addAll(List<T> data) {
-        this.mListData.addAll(data);
-    }
-
-    @Override
     public int getPageDataCount() {
         return this.getItemCount();
     }

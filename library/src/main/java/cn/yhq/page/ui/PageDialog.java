@@ -96,7 +96,7 @@ public abstract class PageDialog<T, I> implements
     public void onShow(DialogInterface dialogInterface) {
         mPageContext = PageContext.Builder
                 .createBuilder(this.getContext(), this)
-                .addOnPageListeners(this)
+                .addOnPageListener(this)
                 .build();
         mPageContext.start(savedInstanceState);
     }

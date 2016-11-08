@@ -32,7 +32,7 @@ public abstract class PageFragment<T, I> extends BaseFragment
         super.onActivityCreated(savedInstanceState);
         mPageContext = PageContext.Builder
                 .createBuilder(this.getContext(), this)
-                .addOnPageListeners(this)
+                .addOnPageListener(this)
                 .build();
         mPageContext.start(savedInstanceState);
     }

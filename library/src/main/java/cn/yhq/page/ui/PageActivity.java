@@ -22,7 +22,7 @@ public abstract class PageActivity<T, I> extends BaseActivity
         super.onCreate(savedInstanceState);
         mPageContext = PageContext.Builder
                 .createBuilder(this, this)
-                .addOnPageListeners(this)
+                .addOnPageListener(this)
                 .build();
         mPageContext.start(savedInstanceState);
     }

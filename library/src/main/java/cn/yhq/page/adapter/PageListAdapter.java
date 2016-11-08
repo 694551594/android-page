@@ -37,11 +37,6 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     @Override
-    public void addAll(List<T> data) {
-        this.mListData.addAll(data);
-    }
-
-    @Override
     public int getPageDataCount() {
         return this.getCount();
     }

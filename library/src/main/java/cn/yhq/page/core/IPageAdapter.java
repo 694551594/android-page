@@ -17,14 +17,6 @@ public interface IPageAdapter<I> {
 
     void clear();
 
-    /**
-     * 使用appendAfter()
-     *
-     * @param data
-     */
-    @Deprecated
-    void addAll(List<I> data);
-
     void appendBefore(List<I> data);
 
     void appendAfter(List<I> data);
