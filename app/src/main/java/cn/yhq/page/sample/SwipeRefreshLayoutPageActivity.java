@@ -59,4 +59,5 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageActivity<AlbumIn
     public IPageDataParser<AlbumInfo, Tracks> getPageDataParser() {
         return new PageDataParser();
     }
+
 }

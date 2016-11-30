@@ -5,7 +5,7 @@ import java.util.List;
 public class AlbumInfo implements Serializable {
     private int album_offset;
 
-    private String albums;
+    private List<Albums> albums ;
 
     private int artist_offset;
 
@@ -33,10 +33,10 @@ public class AlbumInfo implements Serializable {
     public int getAlbum_offset(){
         return this.album_offset;
     }
-    public void setAlbums(String albums){
+    public void setAlbums(List<Albums> albums){
         this.albums = albums;
     }
-    public String getAlbums(){
+    public List<Albums> getAlbums(){
         return this.albums;
     }
     public void setArtist_offset(int artist_offset){

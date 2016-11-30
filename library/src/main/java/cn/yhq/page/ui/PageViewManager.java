@@ -43,7 +43,8 @@ class PageViewManager implements IPageViewManager {
     }
 
     private void reset() {
-        this.mParentView.removeView(this.mPageLayout);
+        this.mPageLayout.setVisibility(View.GONE);
+        // this.mParentView.removeView(this.mPageLayout);
         this.mParentView.removeView(this.mEmptyView);
         this.mParentView.removeView(this.mLoadingView);
     }
@@ -52,8 +53,6 @@ class PageViewManager implements IPageViewManager {
     public void startPageRequest(PageAction pageAction) {
         if (pageAction == PageAction.INIT) {
             reset();
-            this.mParentView.removeView(this.mPageLayout);
-            this.mParentView.removeView(this.mEmptyView);
             this.mParentView.addView(this.mLoadingView, mParams);
         }
     }
@@ -69,13 +68,10 @@ class PageViewManager implements IPageViewManager {
     public void cancelPageRequest(int count) {
         reset();
         if (count == 0) {
-            this.mParentView.removeView(this.mPageLayout);
             this.mParentView.addView(this.mEmptyView, mParams);
-            this.mParentView.removeView(this.mLoadingView);
         } else {
-            this.mParentView.addView(this.mPageLayout, mParams);
-            this.mParentView.removeView(this.mEmptyView);
-            this.mParentView.removeView(this.mLoadingView);
+            // this.mParentView.addView(this.mPageLayout, mParams);
+            this.mPageLayout.setVisibility(View.VISIBLE);
         }
     }
 

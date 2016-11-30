@@ -1,5 +1,4 @@
 package cn.yhq.page.sample.entity;
-
 import java.io.Serializable;
 import java.util.List;
 public class Tracks implements Serializable {

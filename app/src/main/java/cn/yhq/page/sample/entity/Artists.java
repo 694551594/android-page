@@ -2,7 +2,7 @@ package cn.yhq.page.sample.entity;
 
 import java.io.Serializable;
 
-public class Artists implements Serializable {
+public class Artists implements Serializable  {
     private int id;
 
     private String name;
