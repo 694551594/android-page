@@ -22,7 +22,7 @@
         <activity android:name=".SwipeRefreshLayoutPageActivity"/>
         <activity android:name=".OkHttpPageActivity"/>
         <activity android:name=".AutoRefreshPageActivity"/>
-        <activity android:name=".SwipeLayoutActivity" />
+        <activity android:name=".TestActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

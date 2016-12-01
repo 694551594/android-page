@@ -29,7 +29,7 @@ public class SwipeRefreshLayoutPageActivity extends RetrofitPageActivity<AlbumIn
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
         mListView = (XListView) this.findViewById(R.id.list_view);
-        mPageAdapter = new AlbumPageAdapter(this);
+        mPageAdapter = new AlbumPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
     }
 

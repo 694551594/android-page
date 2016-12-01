@@ -27,10 +27,13 @@ public final class PullToRefreshContextFactory {
     static PullToRefreshContext getPullToRefreshProvider(View pageView) {
         Class<? extends PullToRefreshContext> pullToRefreshContextClass = pullToRefreshContexts.get(pageView.getClass());
         try {
+            if (pullToRefreshContextClass == null) {
+                return new PullToRefreshDefaultContext(pageView);
+            }
             PullToRefreshContext pullToRefreshContext = (PullToRefreshContext) pullToRefreshContextClass.getConstructors()[0].newInstance(pageView);
             return pullToRefreshContext;
         } catch (Exception e) {
-            return null;
+            return new PullToRefreshDefaultContext(pageView);
         }
     }
 

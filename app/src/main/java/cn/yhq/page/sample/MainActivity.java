@@ -69,7 +69,7 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
                 showDialogFragment(3);
                 break;
             case 9:
-                startActivity(SwipeLayoutActivity.class);
+                startActivity(TestActivity.class);
                 break;
         }
     }

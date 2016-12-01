@@ -13,7 +13,7 @@ public class PullToRefreshListViewContextWrapper extends PullToRefreshContextWra
     @Override
     public PullToRefreshContext<XListView> getPullToRefreshContext(XListView pageView) {
         if (pageView.getParent() instanceof SwipeRefreshLayout) {
-            return new PullToRefreshSwipeLayoutListViewContext((SwipeRefreshLayout) pageView.getParent(), pageView);
+            return new PullToRefreshSwipeLayoutListViewContext(pageView);
         } else {
             return new PullToRefreshListViewContext(pageView);
         }

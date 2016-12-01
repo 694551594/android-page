@@ -1,47 +1,40 @@
 package cn.yhq.page.ui;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import com.markmao.pulltorefresh.widget.XExpandableListView;
 
-public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRefreshExpandableListViewContext {
-    private SwipeRefreshLayout swipeRefreshLayout;
+public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRefreshSwipeLayoutContext<XExpandableListView> {
 
-    public PullToRefreshSwipeLayoutExpandableListViewContext(SwipeRefreshLayout swipeRefreshLayout, XExpandableListView pageView) {
+    public PullToRefreshSwipeLayoutExpandableListViewContext(XExpandableListView pageView) {
         super(pageView);
-        this.swipeRefreshLayout = swipeRefreshLayout;
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
-    }
-
-    @Override
-    public void setPullRefreshEnable(boolean enable) {
-        super.setPullRefreshEnable(false);
-    }
-
-    @Override
-    public boolean isPullRefreshEnable() {
-        return false;
-    }
-
-    @Override
-    public boolean isPullLoadMoreEnable() {
-        return true;
-    }
-
-    @Override
-    public void onRefreshComplete(int newDataSize, boolean success) {
-        swipeRefreshLayout.setRefreshing(false);
+        this.mPageView.setPullRefreshEnable(false);
     }
 
     @Override
     public void setOnRefreshListener(final OnRefreshListener onRefreshListener) {
         super.setOnRefreshListener(onRefreshListener);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mPageView.setXListViewListener(new XExpandableListView.IXListViewListener() {
+
             @Override
             public void onRefresh() {
-                onRefreshListener.onPullToRefresh();
+
             }
+
+            @Override
+            public void onLoadMore() {
+                onRefreshListener.onPullToLoadMore();
+            }
+
         });
+    }
+
+    @Override
+    public void setHaveMoreData(boolean isHaveMoreData) {
+        this.mPageView.setHasMoreData(isHaveMoreData);
+    }
+
+    @Override
+    public void onRefreshComplete(int newDataSize, boolean success) {
+        super.onRefreshComplete(newDataSize, success);
+        mPageView.stopLoadMore();
     }
 }

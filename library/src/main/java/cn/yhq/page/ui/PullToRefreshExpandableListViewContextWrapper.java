@@ -13,7 +13,7 @@ public class PullToRefreshExpandableListViewContextWrapper extends PullToRefresh
     @Override
     public PullToRefreshContext<XExpandableListView> getPullToRefreshContext(XExpandableListView pageView) {
         if (pageView.getParent() instanceof SwipeRefreshLayout) {
-            return new PullToRefreshSwipeLayoutExpandableListViewContext((SwipeRefreshLayout) pageView.getParent(), pageView);
+            return new PullToRefreshSwipeLayoutExpandableListViewContext(pageView);
         } else {
             return new PullToRefreshExpandableListViewContext(pageView);
         }
