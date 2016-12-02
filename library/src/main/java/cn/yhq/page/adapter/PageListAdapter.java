@@ -8,7 +8,7 @@ import cn.yhq.adapter.list.ListAdapter;
 import cn.yhq.page.core.IPageAdapter;
 
 /**
- * 数据集是List<T>的适配器
+ * 数据集是List的适配器
  *
  * @param <T>
  * @author Yanghuiqiang 2015-1-24

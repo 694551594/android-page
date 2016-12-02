@@ -23,7 +23,6 @@ import cn.yhq.page.R;
  * XScrollView, modified from {@link XListView}
  * 
  * @author markmjw
- * @date 2013-10-08
  * @see XListView
  */
 public class XScrollView extends ScrollView implements OnScrollListener {

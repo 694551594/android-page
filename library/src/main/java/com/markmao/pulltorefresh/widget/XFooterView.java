@@ -16,7 +16,7 @@ import cn.yhq.page.R;
  * {@link com.markmao.pulltorefresh.widget.XScrollView}
  * 
  * @author markmjw
- * @date 2013-10-08
+ *
  */
 public class XFooterView extends LinearLayout {
   public final static int STATE_NORMAL = 0;

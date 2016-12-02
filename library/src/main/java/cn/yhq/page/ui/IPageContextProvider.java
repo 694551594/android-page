@@ -35,7 +35,7 @@ public interface IPageContextProvider<T, I> {
     /**
      * 数据处理器
      *
-     * @return
+     * @param pageDataIntercepts
      */
     void addPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts);
 

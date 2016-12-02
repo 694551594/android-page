@@ -26,7 +26,6 @@ import cn.yhq.page.R;
  * href="https://github.com/Maxwin-z/XListView-Android">XListView(Maxwin)</a>
  *
  * @author markmjw
- * @date 2013-10-08
  */
 public class XListView extends ListView implements OnScrollListener {
     // private static final String TAG = "XListView";

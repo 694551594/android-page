@@ -22,5 +22,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.zhy:okhttputils:2.6.2'
-    compile project(':library')
+    compile 'cn.yhq:android-page:2.4'
 }
