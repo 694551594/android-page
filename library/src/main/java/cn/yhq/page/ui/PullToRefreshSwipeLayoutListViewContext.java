@@ -41,4 +41,14 @@ public class PullToRefreshSwipeLayoutListViewContext extends PullToRefreshSwipeL
         super.onRefreshComplete(newDataSize, success);
         this.mPageView.stopLoadMore();
     }
+
+    @Override
+    public void setPullLoadMoreEnable(boolean enable) {
+        this.mPageView.setPullLoadEnable(enable);
+    }
+
+    @Override
+    public boolean isPullLoadMoreEnable() {
+        return this.mPageView.isEnablePullLoad();
+    }
 }
