@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
@@ -32,7 +37,7 @@ publish {
     userOrg = '694551594'
     groupId = 'cn.yhq'
     artifactId = 'android-page'
-    publishVersion = '2.4'
+    publishVersion = '2.5'
     desc = 'android分页列表加载引擎'
     website = 'https://github.com/694551594/android-page'
 }
