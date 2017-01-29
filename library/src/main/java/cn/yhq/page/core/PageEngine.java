@@ -181,13 +181,11 @@ public final class PageEngine<T, I> {
                     onPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
                     // 根据数据和分页大小来屏蔽加载更多的功能
                     // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
-                    if (onPullToRefreshProvider.isPullLoadMoreEnable()) {
-                        if (mPageAdapter.getPageDataCount() != 0
-                                && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
-                            onPullToRefreshProvider.setPullLoadMoreEnable(true);
-                        } else {
-                            onPullToRefreshProvider.setPullLoadMoreEnable(false);
-                        }
+                    if (mPageAdapter.getPageDataCount() != 0
+                            && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
+                        onPullToRefreshProvider.setPullLoadMoreEnable(true);
+                    } else {
+                        onPullToRefreshProvider.setPullLoadMoreEnable(false);
                     }
                 }
 

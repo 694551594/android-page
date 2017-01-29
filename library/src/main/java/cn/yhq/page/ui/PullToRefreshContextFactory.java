@@ -1,6 +1,8 @@
 package cn.yhq.page.ui;
 
 import android.view.View;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 import com.markmao.pulltorefresh.widget.XExpandableListView;
 import com.markmao.pulltorefresh.widget.XListView;
@@ -20,8 +22,10 @@ public final class PullToRefreshContextFactory {
     static {
         // 注册默认的上拉加载下拉刷新组件
         register(AutoRefreshListView.class, PullToRefreshAutoRefreshListViewContext.class);
-        register(XListView.class, PullToRefreshListViewContextWrapper.class);
-        register(XExpandableListView.class, PullToRefreshExpandableListViewContextWrapper.class);
+        register(XListView.class, PullToRefreshXListViewContextWrapper.class);
+        register(XExpandableListView.class, PullToRefreshXExpandableListViewContextWrapper.class);
+        register(ListView.class, PullToRefreshSwipeLayoutListViewContext.class);
+        register(ExpandableListView.class, PullToRefreshSwipeLayoutExpandableListViewContext.class);
     }
 
     static PullToRefreshContext getPullToRefreshProvider(View pageView) {

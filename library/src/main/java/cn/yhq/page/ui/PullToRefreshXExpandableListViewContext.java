@@ -7,9 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class PullToRefreshExpandableListViewContext extends PullToRefreshContext<XExpandableListView> {
+public class PullToRefreshXExpandableListViewContext extends PullToRefreshContext<XExpandableListView> {
 
-    public PullToRefreshExpandableListViewContext(XExpandableListView pageView) {
+    public PullToRefreshXExpandableListViewContext(XExpandableListView pageView) {
         super(pageView);
     }
 

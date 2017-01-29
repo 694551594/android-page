@@ -1,50 +1,15 @@
 package cn.yhq.page.ui;
 
-import com.markmao.pulltorefresh.widget.XExpandableListView;
+import android.widget.ExpandableListView;
 
-public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRefreshSwipeLayoutContext<XExpandableListView> {
+/**
+ * Created by yanghuijuan on 2017/1/29.
+ */
 
-    public PullToRefreshSwipeLayoutExpandableListViewContext(XExpandableListView pageView) {
-        super(pageView);
-        this.mPageView.setPullRefreshEnable(false);
+public class PullToRefreshSwipeLayoutExpandableListViewContext extends PullToRefreshSwipeLayoutContext<ExpandableListView> {
+
+    public PullToRefreshSwipeLayoutExpandableListViewContext(ExpandableListView listView) {
+        super(listView);
     }
 
-    @Override
-    public void setOnRefreshListener(final OnRefreshListener onRefreshListener) {
-        super.setOnRefreshListener(onRefreshListener);
-        mPageView.setXListViewListener(new XExpandableListView.IXListViewListener() {
-
-            @Override
-            public void onRefresh() {
-
-            }
-
-            @Override
-            public void onLoadMore() {
-                onRefreshListener.onPullToLoadMore();
-            }
-
-        });
-    }
-
-    @Override
-    public void setHaveMoreData(boolean isHaveMoreData) {
-        this.mPageView.setHasMoreData(isHaveMoreData);
-    }
-
-    @Override
-    public void onRefreshComplete(int newDataSize, boolean success) {
-        super.onRefreshComplete(newDataSize, success);
-        mPageView.stopLoadMore();
-    }
-
-    @Override
-    public void setPullLoadMoreEnable(boolean enable) {
-        this.mPageView.setPullLoadEnable(enable);
-    }
-
-    @Override
-    public boolean isPullLoadMoreEnable() {
-        return this.mPageView.isEnablePullLoad();
-    }
 }

@@ -7,11 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class PullToRefreshListViewContext extends PullToRefreshContext<XListView> {
+public class PullToRefreshXListViewContext extends PullToRefreshContext<XListView> {
     private final static SimpleDateFormat mSimpleDateFormat =
             new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA);
 
-    public PullToRefreshListViewContext(XListView xListView) {
+    public PullToRefreshXListViewContext(XListView xListView) {
         super(xListView);
     }
 
