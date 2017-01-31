@@ -177,8 +177,6 @@ public final class PageEngine<T, I> {
                 }
 
                 if (onPullToRefreshProvider != null) {
-                    onPullToRefreshProvider.setHaveMoreData(haveNextPage);
-                    onPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
                     // 根据数据和分页大小来屏蔽加载更多的功能
                     // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
                     if (mPageAdapter.getPageDataCount() != 0
@@ -187,6 +185,8 @@ public final class PageEngine<T, I> {
                     } else {
                         onPullToRefreshProvider.setPullLoadMoreEnable(false);
                     }
+                    onPullToRefreshProvider.setHaveMoreData(haveNextPage);
+                    onPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
                 }
 
                 if (isFromCache) {

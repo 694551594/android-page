@@ -1,4 +1,4 @@
-package cn.yhq.page.ui;
+package cn.yhq.page.pulltorefresh;
 
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.yhq.widget.AutoRefreshListView;
+import cn.yhq.widget.RecyclerListView;
+import cn.yhq.widget.XRecyclerListView;
 
 /**
  * Created by Yanghuiqiang on 2016/10/18.
@@ -26,9 +28,11 @@ public final class PullToRefreshContextFactory {
         register(XExpandableListView.class, PullToRefreshXExpandableListViewContextWrapper.class);
         register(ListView.class, PullToRefreshSwipeLayoutListViewContext.class);
         register(ExpandableListView.class, PullToRefreshSwipeLayoutExpandableListViewContext.class);
+        register(XRecyclerListView.class, PullToRefreshXRecyclerListViewContextWrapper.class);
+        register(RecyclerListView.class, PullToRefreshSwipeLayoutRecyclerListViewContext.class);
     }
 
-    static PullToRefreshContext getPullToRefreshProvider(View pageView) {
+    public static PullToRefreshContext getPullToRefreshProvider(View pageView) {
         Class<? extends PullToRefreshContext> pullToRefreshContextClass = pullToRefreshContexts.get(pageView.getClass());
         try {
             if (pullToRefreshContextClass == null) {

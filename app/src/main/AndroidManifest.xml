@@ -22,6 +22,7 @@
         <activity android:name=".SwipeRefreshLayoutPageActivity"/>
         <activity android:name=".OkHttpPageActivity"/>
         <activity android:name=".AutoRefreshPageActivity"/>
+        <activity android:name=".RecyclerPageActivity" />
         <activity android:name=".TestActivity" />
     </application>
 

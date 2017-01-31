@@ -1,14 +1,10 @@
-package cn.yhq.page.ui;
+package cn.yhq.page.pulltorefresh;
 
-import com.markmao.pulltorefresh.widget.XListView;
+import com.markmao.pulltorefresh.widget.XExpandableListView;
 
-/**
- * Created by Yanghuiqiang on 2016/10/12.
- */
+public class PullToRefreshSwipeLayoutXExpandableListViewContext extends PullToRefreshSwipeLayoutContext<XExpandableListView> {
 
-public class PullToRefreshSwipeLayoutXListViewContext extends PullToRefreshSwipeLayoutContext<XListView> {
-
-    public PullToRefreshSwipeLayoutXListViewContext(XListView pageView) {
+    public PullToRefreshSwipeLayoutXExpandableListViewContext(XExpandableListView pageView) {
         super(pageView);
         this.mPageView.setPullRefreshEnable(false);
     }
@@ -16,7 +12,7 @@ public class PullToRefreshSwipeLayoutXListViewContext extends PullToRefreshSwipe
     @Override
     public void setOnRefreshListener(final OnRefreshListener onRefreshListener) {
         super.setOnRefreshListener(onRefreshListener);
-        this.mPageView.setXListViewListener(new XListView.IXListViewListener() {
+        mPageView.setXListViewListener(new XExpandableListView.IXListViewListener() {
 
             @Override
             public void onRefresh() {
@@ -39,7 +35,7 @@ public class PullToRefreshSwipeLayoutXListViewContext extends PullToRefreshSwipe
     @Override
     public void onRefreshComplete(int newDataSize, boolean success) {
         super.onRefreshComplete(newDataSize, success);
-        this.mPageView.stopLoadMore();
+        mPageView.stopLoadMore();
     }
 
     @Override

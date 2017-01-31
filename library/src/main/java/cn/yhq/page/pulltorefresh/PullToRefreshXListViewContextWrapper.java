@@ -1,4 +1,4 @@
-package cn.yhq.page.ui;
+package cn.yhq.page.pulltorefresh;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 

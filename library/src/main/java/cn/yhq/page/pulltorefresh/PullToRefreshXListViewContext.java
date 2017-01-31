@@ -1,4 +1,4 @@
-package cn.yhq.page.ui;
+package cn.yhq.page.pulltorefresh;
 
 import com.markmao.pulltorefresh.widget.XListView;
 import com.markmao.pulltorefresh.widget.XListView.IXListViewListener;
