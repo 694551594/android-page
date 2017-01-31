@@ -1,5 +1,6 @@
 package cn.yhq.page.pulltorefresh;
 
+import cn.yhq.widget.OnLoadMoreListener;
 import cn.yhq.widget.XRecyclerListView;
 
 /**
@@ -10,30 +11,22 @@ public class PullToRefreshSwipeLayoutXRecyclerListViewContext extends PullToRefr
 
     public PullToRefreshSwipeLayoutXRecyclerListViewContext(XRecyclerListView pageView) {
         super(pageView);
-        this.mPageView.setPullRefreshEnable(false);
     }
 
     @Override
     public void setOnRefreshListener(final OnRefreshListener onRefreshListener) {
         super.setOnRefreshListener(onRefreshListener);
-        this.mPageView.setXListViewListener(new XRecyclerListView.IXListViewListener() {
-
-            @Override
-            public void onRefresh() {
-
-            }
-
+        this.mPageView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 onRefreshListener.onPullToLoadMore();
             }
-
         });
     }
 
     @Override
     public void setHaveMoreData(boolean isHaveMoreData) {
-        this.mPageView.setHasMoreData(isHaveMoreData);
+        this.mPageView.setHaveMoreData(isHaveMoreData);
     }
 
     @Override
@@ -44,11 +37,11 @@ public class PullToRefreshSwipeLayoutXRecyclerListViewContext extends PullToRefr
 
     @Override
     public void setPullLoadMoreEnable(boolean enable) {
-        this.mPageView.setPullLoadEnable(enable);
+        this.mPageView.setLoadMoreEnable(enable);
     }
 
     @Override
     public boolean isPullLoadMoreEnable() {
-        return this.mPageView.isEnablePullLoad();
+        return this.mPageView.isLoadMoreEnable();
     }
 }

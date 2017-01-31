@@ -1,9 +1,9 @@
 package cn.yhq.page.sample;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
@@ -31,12 +31,13 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         mListView = (XRecyclerListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumRecyclerPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
-        mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
-            @Override
-            public void onRecyclerViewItemClick(View itemView, int position) {
-                showToast("哈哈" + position);
-            }
-        });
+//        mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onRecyclerViewItemClick(View itemView, int position) {
+//                showToast("哈哈" + position);
+//            }
+//        });
+        mListView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
