@@ -29,9 +29,9 @@ public abstract class BaseRecyclerView extends RecyclerView {
     private WrapAdapter mWrapAdapter;
     private ArrayList<View> mHeaderViews = new ArrayList<>();
     private ArrayList<View> mFooterViews = new ArrayList<>();
-    private static final int TYPE_HEADER = 1;
-    private static final int TYPE_NORMAL = 0;
-    private static final int TYPE_FOOTER = 2;
+    private static final int TYPE_HEADER = 1001;
+    private static final int TYPE_NORMAL = 1000;
+    private static final int TYPE_FOOTER = 1002;
 
     private AdapterDataObserver mEmptyObserver = new AdapterDataObserver() {
         @Override
