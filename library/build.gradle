@@ -37,7 +37,7 @@ publish {
     userOrg = '694551594'
     groupId = 'cn.yhq'
     artifactId = 'android-page'
-    publishVersion = '2.7'
+    publishVersion = '2.8'
     desc = 'android分页列表加载引擎'
     website = 'https://github.com/694551594/android-page'
 }
