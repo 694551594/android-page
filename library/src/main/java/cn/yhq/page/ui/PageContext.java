@@ -227,11 +227,11 @@ public final class PageContext<T, I> {
         return this.mPageConfig;
     }
 
-    public final void search(String keyword, LetterNameGetter<I> listener) {
-        mPageEngine.search(keyword, listener);
+    public final void searchPageData(String keyword, LetterNameGetter<I> listener) {
+        mPageEngine.searchPageData(keyword, listener);
     }
 
-    public final void search(final EditText searchEditText, final LetterNameGetter<I> listener) {
+    public final void searchPageData(final EditText searchEditText, final LetterNameGetter<I> listener) {
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -245,7 +245,7 @@ public final class PageContext<T, I> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                search(searchEditText.getText().toString(), listener);
+                searchPageData(searchEditText.getText().toString(), listener);
             }
         });
     }

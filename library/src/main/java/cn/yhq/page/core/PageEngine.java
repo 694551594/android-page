@@ -290,7 +290,7 @@ public final class PageEngine<T, I> {
 
     private List<I> mAllPageListData;
 
-    public final void search(String keyword, LetterNameGetter<I> listener) {
+    public final void searchPageData(String keyword, LetterNameGetter<I> listener) {
         List<I> result = LetterFilter.filter(mAllPageListData, keyword, listener);
         mPageAdapter.clear();
         mPageAdapter.appendAfter(result);

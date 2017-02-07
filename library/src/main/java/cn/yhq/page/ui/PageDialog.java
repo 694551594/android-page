@@ -139,12 +139,12 @@ public abstract class PageDialog<T, I> implements
         mPageContext.refreshPageData();
     }
 
-    public final void search(String keyword, LetterNameGetter<I> listener) {
-        mPageContext.search(keyword, listener);
+    public final void searchPageData(String keyword, LetterNameGetter<I> listener) {
+        mPageContext.searchPageData(keyword, listener);
     }
 
-    public final void search(EditText editText, LetterNameGetter<I> listener) {
-        mPageContext.search(editText, listener);
+    public final void searchPageData(EditText editText, LetterNameGetter<I> listener) {
+        mPageContext.searchPageData(editText, listener);
     }
 
     /**
