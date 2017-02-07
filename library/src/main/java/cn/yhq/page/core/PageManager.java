@@ -111,7 +111,7 @@ public final class PageManager<T, I> {
     }
 
     void initPageInfo(int pageSize) {
-        mPage = new Page<I>();
+        mPage = new Page<>();
         mPage.pageSize = pageSize;
         mPage.currentPage = 1;
     }

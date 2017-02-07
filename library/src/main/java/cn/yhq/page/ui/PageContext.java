@@ -12,6 +12,7 @@ import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
+import cn.yhq.page.core.LetterNameGetter;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -223,4 +224,7 @@ public final class PageContext<T, I> {
         return this.mPageConfig;
     }
 
+    public final void search(String keyword, LetterNameGetter<I> listener) {
+        mPageEngine.search(keyword, listener);
+    }
 }

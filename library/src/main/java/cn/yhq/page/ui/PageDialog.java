@@ -10,6 +10,7 @@ import java.util.List;
 import cn.yhq.dialog.core.DialogBuilder;
 import cn.yhq.dialog.core.IDialog;
 import cn.yhq.page.core.IPageDataIntercept;
+import cn.yhq.page.core.LetterNameGetter;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -135,6 +136,10 @@ public abstract class PageDialog<T, I> implements
 
     public final void refreshPageData() {
         mPageContext.refreshPageData();
+    }
+
+    public final void search(String keyword, LetterNameGetter<I> listener) {
+        mPageContext.search(keyword, listener);
     }
 
     /**

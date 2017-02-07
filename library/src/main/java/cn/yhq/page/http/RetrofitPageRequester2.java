@@ -21,7 +21,7 @@ import static cn.yhq.http.core.CacheStrategy.ONLY_NETWORK;
  */
 
 final class RetrofitPageRequester2<T, I> extends PageRequester<T, I> {
-    private HttpRequester mHttpRequester;
+    private HttpRequester<T> mHttpRequester;
     private RetrofitPageRequester.IPageRequestExecutor<T, I> pageRequestExecutor;
 
     public RetrofitPageRequester2(Context context, RetrofitPageRequester.IPageRequestExecutor<T, I> pageRequestExecutor) {
@@ -54,8 +54,8 @@ final class RetrofitPageRequester2<T, I> extends PageRequester<T, I> {
                     public void onException(Context context, Throwable t) {
                         callException(t);
                     }
-                })
-                .request();
+                }).build();
+        mHttpRequester.request();
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.yhq.base.BaseActivity;
 import cn.yhq.page.core.IPageDataIntercept;
+import cn.yhq.page.core.LetterNameGetter;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -33,6 +34,10 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     public final void refreshPageData() {
         mPageContext.refreshPageData();
+    }
+
+    public final void search(String keyword, LetterNameGetter<I> listener) {
+        mPageContext.search(keyword, listener);
     }
 
     @Override

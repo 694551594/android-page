@@ -197,6 +197,8 @@ public final class PageEngine<T, I> {
                 } else {
                     mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
                 }
+
+                mAllPageListData = mPageAdapter.getPageListData();
             }
 
             private void appendData(List<I> data) {
@@ -284,5 +286,14 @@ public final class PageEngine<T, I> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private List<I> mAllPageListData;
+
+    public final void search(String keyword, LetterNameGetter<I> listener) {
+        List<I> result = LetterFilter.filter(mAllPageListData, keyword, listener);
+        mPageAdapter.clear();
+        mPageAdapter.appendAfter(result);
+        mPageAdapter.notifyDataSetChanged();
     }
 }
