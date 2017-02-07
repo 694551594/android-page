@@ -32,6 +32,7 @@ public abstract class BaseRecyclerView extends RecyclerView {
     private static final int TYPE_HEADER = 1001;
     private static final int TYPE_NORMAL = 1000;
     private static final int TYPE_FOOTER = 1002;
+    private RecyclerView.ItemDecoration mDividerDecoration;
 
     private AdapterDataObserver mEmptyObserver = new AdapterDataObserver() {
         @Override
@@ -318,6 +319,18 @@ public abstract class BaseRecyclerView extends RecyclerView {
             }
         }
 
+    }
+
+    public RecyclerView.ItemDecoration getDividerDecoration() {
+        return mDividerDecoration;
+    }
+
+    public void setDividerDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        if (mDividerDecoration != null) {
+            this.removeItemDecoration(mDividerDecoration);
+        }
+        this.addItemDecoration(itemDecoration);
+        this.mDividerDecoration = itemDecoration;
     }
 
 }
