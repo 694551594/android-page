@@ -7,6 +7,8 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.Locale;
+
 /**
  * Created by 杨慧强 on 2016/2/26.
  */
@@ -38,7 +40,7 @@ public class PinyinUtils {
                     result += array[0];// 取出该汉字全拼的第一种读音并连接到字符串t4后
                 } else {
                     // 如果不是汉字字符，间接取出字符并连接到字符串t4后
-                    result += Character.toString(srcArray[i]);
+                    result += Character.toString(srcArray[i]).toLowerCase(Locale.getDefault());
                 }
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {

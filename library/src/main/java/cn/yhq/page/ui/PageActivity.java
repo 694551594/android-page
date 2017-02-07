@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -38,6 +39,10 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     public final void search(String keyword, LetterNameGetter<I> listener) {
         mPageContext.search(keyword, listener);
+    }
+
+    public final void search(EditText editText, LetterNameGetter<I> listener) {
+        mPageContext.search(editText, listener);
     }
 
     @Override

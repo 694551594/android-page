@@ -198,7 +198,7 @@ public final class PageEngine<T, I> {
                     mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
                 }
 
-                mAllPageListData = mPageAdapter.getPageListData();
+                mAllPageListData = new ArrayList<>(mPageAdapter.getPageListData());
             }
 
             private void appendData(List<I> data) {

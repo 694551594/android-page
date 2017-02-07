@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -140,6 +141,10 @@ public abstract class PageDialog<T, I> implements
 
     public final void search(String keyword, LetterNameGetter<I> listener) {
         mPageContext.search(keyword, listener);
+    }
+
+    public final void search(EditText editText, LetterNameGetter<I> listener) {
+        mPageContext.search(editText, listener);
     }
 
     /**
