@@ -28,9 +28,12 @@ public class LetterFilter {
             filterDataList = new ArrayList<>(list);
         } else {
             for (int i = 0; i < list.size(); i++) {
-                String username = listener.getShowName(list.get(i));
-                if (username.indexOf(keyword) != -1
-                        || PinyinUtils.getPinYin(username).startsWith(keyword)) {
+                String name = listener.getShowName(list.get(i));
+                if (name == null) {
+                    continue;
+                }
+                if (name.indexOf(keyword) != -1
+                        || PinyinUtils.getPinYin(name).startsWith(keyword)) {
                     T entity = list.get(i);
                     filterDataList.add(entity);
                 }
