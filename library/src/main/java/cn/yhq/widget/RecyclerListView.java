@@ -19,6 +19,7 @@ import cn.yhq.dialog.utils.DisplayUtils;
  * Created by 杨慧强 on 2016/2/22.
  */
 public class RecyclerListView extends BaseRecyclerView {
+    private RecyclerView.ItemDecoration mDividerDecoration;
 
     public RecyclerListView(Context context) {
         super(context);
@@ -49,7 +50,7 @@ public class RecyclerListView extends BaseRecyclerView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(orientation);
         this.setLayoutManager(layoutManager);
-        this.addItemDecoration(new DividerDecoration(getContext()));
+        this.setDividerDecoration(new DividerDecoration(getContext()));
     }
 
     private class DividerDecoration extends RecyclerView.ItemDecoration {
@@ -106,4 +107,15 @@ public class RecyclerListView extends BaseRecyclerView {
         }
     }
 
+    public RecyclerView.ItemDecoration getDividerDecoration() {
+        return mDividerDecoration;
+    }
+
+    public void setDividerDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        if (mDividerDecoration != null) {
+            this.removeItemDecoration(mDividerDecoration);
+        }
+        this.addItemDecoration(itemDecoration);
+        this.mDividerDecoration = itemDecoration;
+    }
 }

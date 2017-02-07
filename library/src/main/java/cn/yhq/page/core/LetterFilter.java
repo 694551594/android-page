@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import cn.yhq.utils.PinyinUtils;
+
 
 /**
  * 按照拼音过滤类

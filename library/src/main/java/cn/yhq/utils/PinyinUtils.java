@@ -1,4 +1,4 @@
-package cn.yhq.page.core;
+package cn.yhq.utils;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
