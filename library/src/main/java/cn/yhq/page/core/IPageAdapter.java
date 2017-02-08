@@ -25,5 +25,7 @@ public interface IPageAdapter<I> {
 
     void notifyDataSetChanged();
 
+    // 数据附加模式
+    DataAppendMode getDataAppendMode();
 
 }

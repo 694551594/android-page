@@ -1,5 +1,6 @@
 package cn.yhq.page.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,14 @@ public class OnPageListenerDispatcher implements OnPageListener {
 
     public OnPageListenerDispatcher(List<OnPageListener> onPageListeners) {
         this.mOnPageListeners = onPageListeners;
+    }
+
+    public OnPageListenerDispatcher() {
+        this(new ArrayList<OnPageListener>());
+    }
+
+    public void addOnPageListener(OnPageListener listener) {
+        this.mOnPageListeners.add(listener);
     }
 
     @Override
