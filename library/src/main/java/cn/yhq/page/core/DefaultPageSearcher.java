@@ -17,7 +17,7 @@ public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
 
     @Override
     public boolean filter(String keyword, I entity) {
-        String name = getShowName(entity);
+        String name = getFilterName(entity);
         if (name == null) {
             return false;
         }
@@ -36,5 +36,5 @@ public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
         return mKeyword;
     }
 
-    public abstract String getShowName(I entity);
+    public abstract String getFilterName(I entity);
 }

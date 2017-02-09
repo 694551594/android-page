@@ -47,7 +47,7 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         this.attachSearchEditText(mEditText);
         this.setPageSearcher(new DefaultPageSearcher<Tracks>(this) {
             @Override
-            public String getShowName(Tracks entity) {
+            public String getFilterName(Tracks entity) {
                 return entity.getTitle();
             }
         });
