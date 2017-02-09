@@ -48,7 +48,7 @@ public final class PageEngine<T, I> {
             List<I> oldPageData = mPageAdapter.getPageListData();
 
             // 初始化和刷新不会附加数据
-            if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+            if (pageAction == PageAction.SEARCH || pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
                 if (mPageAdapter.getPageDataCount() != 0) {
                     mPageAdapter.clear();
                 }
@@ -62,6 +62,12 @@ public final class PageEngine<T, I> {
             }
 
             int afterDataSize = mPageAdapter.getPageDataCount();
+
+            if (pageAction == PageAction.SEARCH) {
+                mPageAdapter.setKeyword(mPageSearcher.getKeyword());
+            } else {
+                mPageAdapter.setKeyword(null);
+            }
 
             if (beforeDataSize != afterDataSize) {
                 mPageAdapter.notifyDataSetChanged();
@@ -83,6 +89,7 @@ public final class PageEngine<T, I> {
 
             if (pageAction != PageAction.SEARCH) {
                 mPageData = new ArrayList<>(mPageAdapter.getPageListData());
+                mPageManager.saveState(mPageStateSavedBundle);
             }
 
         }
@@ -208,10 +215,9 @@ public final class PageEngine<T, I> {
             return;
         }
         if (TextUtils.isEmpty(keyword)) {
-            this.restoreState(mPageStateSavedBundle);
-            handleOnPullToRefresh(0, this.mPageManager.getPage().haveNextPage());
+            this.mPageManager.restoreState(mPageStateSavedBundle);
+            this.mPageDataCallback.onPageDataCallback(PageAction.INIT, mPageData, mPageManager.getPage().haveNextPage(), false);
         } else {
-            this.saveState(mPageStateSavedBundle);
             mOnPageListenerDispatcher.onPageRequestStart(PageAction.SEARCH);
             mOnPageListenerDispatcher.onPageSearch(keyword);
             this.mPageSearcher.onSearch(PageAction.SEARCH, mPageData, keyword, mPageDataCallback);

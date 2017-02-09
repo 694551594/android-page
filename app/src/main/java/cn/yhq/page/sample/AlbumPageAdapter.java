@@ -24,7 +24,7 @@ public class AlbumPageAdapter extends PageListAdapter<Tracks> {
 
             @Override
             public void setupView(ViewHolder viewHolder, int position, Tracks entity) {
-                viewHolder.setText(android.R.id.text1, entity.getTitle());
+                viewHolder.setText(android.R.id.text1, highlight(entity.getTitle()));
             }
 
             @Override

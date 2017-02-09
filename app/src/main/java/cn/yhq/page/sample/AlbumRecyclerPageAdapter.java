@@ -25,7 +25,7 @@ public class AlbumRecyclerPageAdapter extends PageRecyclerListAdapter<Tracks> {
             @Override
             public void onBindViewHolder(ViewHolder viewHolder, int position, Tracks entity) {
                 super.onBindViewHolder(viewHolder, position, entity);
-                viewHolder.setText(android.R.id.text1, entity.getTitle());
+                viewHolder.setText(android.R.id.text1, highlight(entity.getTitle()));
             }
 
             @Override

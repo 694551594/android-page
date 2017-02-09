@@ -9,6 +9,7 @@ import cn.yhq.utils.PinyinUtils;
  */
 
 public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
+    private String mKeyword;
 
     public DefaultPageSearcher(Context context) {
         super(context);
@@ -20,11 +21,19 @@ public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
         if (name == null) {
             return false;
         }
-        if (name.indexOf(keyword) != -1
-                || PinyinUtils.getPinYin(name).indexOf(keyword) != -1) {
+        if (name.indexOf(keyword) != -1) {
+            mKeyword = keyword;
+            return true;
+        } else if (PinyinUtils.getPinYin(name).startsWith(keyword)) {
+            mKeyword = name.substring(0, 1);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String getKeyword() {
+        return mKeyword;
     }
 
     public abstract String getShowName(I entity);

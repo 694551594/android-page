@@ -59,7 +59,7 @@ class PageViewManager<T, I> implements IPageViewManager {
 
     @Override
     public void startPageRequest(PageAction pageAction) {
-        if (pageAction == PageAction.INIT) {
+        if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
             reset();
             if (this.mLoadingView != null) {
                 this.mParentView.addView(this.mLoadingView, mParams);
@@ -69,7 +69,7 @@ class PageViewManager<T, I> implements IPageViewManager {
 
     @Override
     public void completePageRequest(PageAction pageAction, int count) {
-        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH || pageAction == PageAction.SEARCH) {
             cancelPageRequest(count);
         }
     }

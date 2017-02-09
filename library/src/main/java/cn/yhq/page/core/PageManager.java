@@ -133,16 +133,19 @@ public final class PageManager<T, I> {
 
     void doAction(PageAction action) {
         switch (action) {
+            case SEARCH:
+                break;
             case INIT:
                 mPage.reset();
+                this.mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
             case REFRESH:
                 mPage.reset();
+                this.mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
             case LOADMORE:
                 mPage.next();
-                break;
-            case SEARCH:
+                this.mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
         }
     }

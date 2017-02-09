@@ -7,6 +7,7 @@ import java.util.List;
 import cn.yhq.adapter.list.ListAdapter;
 import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
+import cn.yhq.page.core.SearchHelper;
 
 /**
  * 数据集是List的适配器
@@ -15,6 +16,7 @@ import cn.yhq.page.core.IPageAdapter;
  * @author Yanghuiqiang 2015-1-24
  */
 public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T> {
+    private String mKeyword;
 
     public PageListAdapter(Context context, List<T> listData) {
         super(context, listData);
@@ -57,4 +59,12 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
         this.mListData.addAll(data);
     }
 
+    @Override
+    public void setKeyword(String keyword) {
+        this.mKeyword = keyword;
+    }
+
+    public CharSequence highlight(String text) {
+        return SearchHelper.match(text, mKeyword);
+    }
 }

@@ -10,4 +10,6 @@ public interface IPageSearcher<I> {
     void onSearch(PageAction pageAction, List<I> pageData, String keyword, PageManager.IPageDataCallback<I> callback);
 
     void onCancel();
+
+    String getKeyword();
 }

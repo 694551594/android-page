@@ -28,4 +28,5 @@ public interface IPageAdapter<I> {
     // 数据附加模式
     DataAppendMode getDataAppendMode();
 
+    void setKeyword(String keyword);
 }

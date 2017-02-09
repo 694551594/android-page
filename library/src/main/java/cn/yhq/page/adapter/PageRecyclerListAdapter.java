@@ -7,8 +7,10 @@ import java.util.List;
 import cn.yhq.adapter.recycler.RecyclerListAdapter;
 import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
+import cn.yhq.page.core.SearchHelper;
 
 public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implements IPageAdapter<T> {
+    private String mKeyword;
 
     public PageRecyclerListAdapter(Context context) {
         super(context);
@@ -45,5 +47,14 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     @Override
     public DataAppendMode getDataAppendMode() {
         return DataAppendMode.MODE_AFTER;
+    }
+
+    @Override
+    public void setKeyword(String keyword) {
+        this.mKeyword = keyword;
+    }
+
+    public CharSequence highlight(String text) {
+        return SearchHelper.match(text, mKeyword);
     }
 }

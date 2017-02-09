@@ -6,9 +6,11 @@ import java.util.List;
 
 import cn.yhq.adapter.core.ViewHolder;
 import cn.yhq.adapter.list.ItemViewProvider2;
+import cn.yhq.page.core.SearchHelper;
 
 
 public class SimplePageStringListAdapter extends PageListAdapter<String> {
+    private String mKeyword;
 
     public SimplePageStringListAdapter(Context context, List<String> listData) {
         super(context, listData);
@@ -37,6 +39,15 @@ public class SimplePageStringListAdapter extends PageListAdapter<String> {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void setKeyword(String keyword) {
+        this.mKeyword = keyword;
+    }
+
+    public CharSequence highlight(String text) {
+        return SearchHelper.match(text, mKeyword);
     }
 
 }
