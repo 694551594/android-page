@@ -2,21 +2,30 @@ package cn.yhq.page.core;
 
 import android.content.Context;
 
-import java.util.List;
+import cn.yhq.utils.PinyinUtils;
 
 /**
  * Created by Yanghuiqiang on 2017/2/9.
  */
 
-public abstract class DefaultPageSearcher<T, I> extends PageSearcher<T, I> implements LetterNameGetter<I> {
+public abstract class DefaultPageSearcher<T, I> extends PageSearcher<T, I> {
 
     public DefaultPageSearcher(Context context) {
         super(context);
     }
 
     @Override
-    public void executeSearch(Context context, PageAction pageAction, List<I> pageData, String keyword, Page<I> page) {
-        List<I> filterResult = LetterFilter.filter(pageData, keyword, this);
-        this.callSearchResponse(filterResult);
+    public boolean filter(String keyword, I entity) {
+        String name = getShowName(entity);
+        if (name == null) {
+            return false;
+        }
+        if (name.indexOf(keyword) != -1
+                || PinyinUtils.getPinYin(name).indexOf(keyword) != -1) {
+            return true;
+        }
+        return false;
     }
+
+    public abstract String getShowName(I entity);
 }

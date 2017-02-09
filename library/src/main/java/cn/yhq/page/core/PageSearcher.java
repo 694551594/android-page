@@ -1,14 +1,17 @@
 package cn.yhq.page.core;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Yanghuiqiang on 2017/2/9.
  */
 
-public abstract class PageSearcher<T, I> implements IPageSearcher<T, I> {
+public abstract class PageSearcher<T, I> implements IPageSearcher<T, I>, IFilter<I> {
     private Context context;
     private PageManager.IPageDataCallback<I> callback;
     private PageAction pageAction;
@@ -28,7 +31,20 @@ public abstract class PageSearcher<T, I> implements IPageSearcher<T, I> {
         this.keyword = keyword;
     }
 
-    public abstract void executeSearch(Context context, PageAction pageAction, List<I> pageData, String keyword, Page<I> page);
+    public void executeSearch(Context context, PageAction pageAction, List<I> pageData, String keyword, Page<I> page) {
+        keyword = keyword.toLowerCase(Locale.getDefault());
+        List<I> filterDataList = new ArrayList<>();
+        if (TextUtils.isEmpty(keyword)) {
+            filterDataList = new ArrayList<>(pageData);
+        } else {
+            for (int i = 0; i < pageData.size(); i++) {
+                if (this.filter(keyword, pageData.get(i))) {
+                    filterDataList.add(pageData.get(i));
+                }
+            }
+        }
+        this.callSearchResponse(filterDataList);
+    }
 
     protected void callSearchResponse(List<I> response) {
         this.callback.onPageDataCallback(pageAction, response, page.haveNextPage(), false, true);

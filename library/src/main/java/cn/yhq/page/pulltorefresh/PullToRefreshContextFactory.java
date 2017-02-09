@@ -11,8 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.yhq.widget.AutoRefreshListView;
-import cn.yhq.widget.RecyclerListView;
-import cn.yhq.widget.XRecyclerListView;
+import cn.yhq.widget.xrecyclerview.RecyclerListView;
+import cn.yhq.widget.xrecyclerview.XRecyclerListView;
+
 
 /**
  * Created by Yanghuiqiang on 2016/10/18.

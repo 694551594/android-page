@@ -79,4 +79,14 @@ public final class Page<T> implements Serializable {
     public T getData() {
         return mData;
     }
+
+    public Page clone() {
+        Page page = new Page();
+        page.currentPage = currentPage;
+        page.dataSize = dataSize;
+        page.mData = mData;
+        page.pageCount = pageCount;
+        page.pageSize = pageSize;
+        return page;
+    }
 }

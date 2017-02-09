@@ -206,12 +206,16 @@ public final class PageEngine<T, I> {
         }
         if (TextUtils.isEmpty(keyword)) {
             this.isSearch = false;
+            this.mPageManager.restorePageInfo();
+            this.mPageDataCallback.onPageDataCallback(PageAction.REFRESH,
+                    mPageData, mPageManager.getPage().haveNextPage(), false, false);
         } else {
             this.isSearch = true;
             this.mPageSearcher.setPageData(mPageData);
             this.mPageSearcher.setKeyword(keyword);
+            this.mPageManager.savePageInfo();
+            refreshPageData();
         }
-        refreshPageData();
     }
 
     public final boolean saveState(Bundle state) {

@@ -1,7 +1,7 @@
 package cn.yhq.page.pulltorefresh;
 
-import cn.yhq.widget.OnLoadMoreListener;
-import cn.yhq.widget.XRecyclerListView;
+import cn.yhq.widget.xrecyclerview.OnLoadMoreListener;
+import cn.yhq.widget.xrecyclerview.XRecyclerListView;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.

@@ -2,7 +2,8 @@ package cn.yhq.page.pulltorefresh;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import cn.yhq.widget.XRecyclerListView;
+import cn.yhq.widget.xrecyclerview.XRecyclerListView;
+
 
 public class PullToRefreshXRecyclerListViewContextWrapper extends PullToRefreshContextWrapper<XRecyclerListView> {
 

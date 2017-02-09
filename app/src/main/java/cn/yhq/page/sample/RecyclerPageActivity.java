@@ -15,7 +15,7 @@ import cn.yhq.page.http.RetrofitPageActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
-import cn.yhq.widget.XRecyclerListView;
+import cn.yhq.widget.xrecyclerview.XRecyclerListView;
 
 /**
  * Created by yanghuijuan on 2017/1/31.

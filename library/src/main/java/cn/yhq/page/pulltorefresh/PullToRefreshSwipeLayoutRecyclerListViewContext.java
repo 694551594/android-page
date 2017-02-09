@@ -1,6 +1,7 @@
 package cn.yhq.page.pulltorefresh;
 
-import cn.yhq.widget.RecyclerListView;
+
+import cn.yhq.widget.xrecyclerview.RecyclerListView;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.

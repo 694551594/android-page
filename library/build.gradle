@@ -32,6 +32,7 @@ dependencies {
     compile 'cn.yhq:android-recycler-adapter:1.3.0'
     compile 'cn.yhq:android-http:2.5'
     compile 'com.belerweb:pinyin4j:2.5.1'
+    compile 'cn.yhq:XRecyclerView:1.0'
 }
 
 publish {

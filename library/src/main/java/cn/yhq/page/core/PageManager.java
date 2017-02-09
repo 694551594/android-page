@@ -20,9 +20,9 @@ public final class PageManager<T, I> {
     private IPageDataParser<T, I> mPageDataParser;
     private IPageSearcher<T, I> mPageSearcher;
     private T mPageResponseData;
-    private List<I> mPageData;
     private IPageDataCallback<I> mPageDataCallback;
     private Page<I> mPage;
+    private Page<I> mSavePage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
 
     interface IPageDataCallback<I> {
@@ -133,6 +133,14 @@ public final class PageManager<T, I> {
         mPage.currentPage = 1;
     }
 
+    void restorePageInfo() {
+        mPage = mSavePage;
+    }
+
+    void savePageInfo() {
+        mSavePage = mPage.clone();
+    }
+
     public Page<I> getPage() {
         return mPage;
     }
@@ -162,6 +170,7 @@ public final class PageManager<T, I> {
 
     void cancel() {
         mPageRequester.onCancel();
+        mPageSearcher.onCancel();
     }
 
     final void saveState(Bundle state) {
