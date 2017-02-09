@@ -11,27 +11,16 @@ import java.util.Locale;
  * Created by Yanghuiqiang on 2017/2/9.
  */
 
-public abstract class PageSearcher<T, I> implements IPageSearcher<T, I>, IFilter<I> {
+public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     private Context context;
     private PageManager.IPageDataCallback<I> callback;
     private PageAction pageAction;
-    private Page<I> page;
-    private String keyword;
-    private List<I> pageData;
 
     public PageSearcher(Context context) {
         this.context = context;
     }
 
-    void setPageData(List<I> pageData) {
-        this.pageData = pageData;
-    }
-
-    void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public void executeSearch(Context context, PageAction pageAction, List<I> pageData, String keyword, Page<I> page) {
+    public void executeSearch(List<I> pageData, String keyword) {
         keyword = keyword.toLowerCase(Locale.getDefault());
         List<I> filterDataList = new ArrayList<>();
         if (TextUtils.isEmpty(keyword)) {
@@ -47,7 +36,7 @@ public abstract class PageSearcher<T, I> implements IPageSearcher<T, I>, IFilter
     }
 
     protected void callSearchResponse(List<I> response) {
-        this.callback.onPageDataCallback(pageAction, response, page.haveNextPage(), false, true);
+        this.callback.onPageDataCallback(pageAction, response, false, false);
     }
 
     protected void callException(Throwable throwable) {
@@ -55,11 +44,10 @@ public abstract class PageSearcher<T, I> implements IPageSearcher<T, I>, IFilter
     }
 
     @Override
-    public final void onSearch(PageAction pageAction, Page<I> page, PageManager.IPageDataCallback<I> callback) {
+    public final void onSearch(PageAction pageAction, List<I> pageData, String keyword, PageManager.IPageDataCallback<I> callback) {
         this.callback = callback;
         this.pageAction = pageAction;
-        this.page = page;
-        executeSearch(context, pageAction, pageData, keyword, page);
+        executeSearch(pageData, keyword);
     }
 
     @Override

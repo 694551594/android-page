@@ -37,6 +37,11 @@ public class DefaultOnPageListener implements OnPageListener {
     }
 
     @Override
+    public void onPageSearch(String keyword) {
+        
+    }
+
+    @Override
     public void onPageInit() {
 
     }

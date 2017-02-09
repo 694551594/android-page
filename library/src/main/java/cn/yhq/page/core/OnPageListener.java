@@ -25,6 +25,8 @@ public interface OnPageListener {
     // 上拉加载
     void onPageLoadMore();
 
+    void onPageSearch(String keyword);
+
     // 初始化
     void onPageInit();
 

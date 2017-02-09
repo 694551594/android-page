@@ -11,10 +11,10 @@ import android.widget.EditText;
 import cn.yhq.dialog.core.DialogBuilder;
 import cn.yhq.dialog.core.IDialog;
 import cn.yhq.page.core.IPageDataIntercept;
+import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
-import cn.yhq.page.core.PageSearcher;
 
 /**
  * Created by Yanghuiqiang on 2016/10/20.
@@ -179,23 +179,20 @@ public abstract class PageDialog<T, I> implements
         return mPageContext.getPageConfig();
     }
 
-    @Override
-    public IPageViewProvider getPageViewProvider() {
-        return null;
-    }
-
-    @Override
-    public OnPullToRefreshProvider getOnPullToRefreshProvider() {
-        return null;
-    }
-
     public final void addPageDataIntercept(IPageDataIntercept<I> intercept) {
         this.mPageContext.addPageDataIntercept(intercept);
     }
 
-    @Override
-    public PageSearcher<T, I> getPageSearcher() {
-        return null;
+    public final void setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {
+        this.mPageContext.setOnPullToRefreshProvider(onPullToRefreshProvider);
+    }
+
+    public final void setPageSearcher(IPageSearcher<I> pageSearcher) {
+        this.mPageContext.setPageSearcher(pageSearcher);
+    }
+
+    public final void setPageViewProvider(IPageViewProvider pageViewProvider) {
+        this.mPageContext.setPageViewProvider(pageViewProvider);
     }
 
     @Override
@@ -238,4 +235,8 @@ public abstract class PageDialog<T, I> implements
 
     }
 
+    @Override
+    public void onPageSearch(String keyword) {
+
+    }
 }

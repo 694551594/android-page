@@ -10,7 +10,6 @@ import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.DefaultPageSearcher;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
-import cn.yhq.page.core.PageSearcher;
 import cn.yhq.page.http.RetrofitPageActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
@@ -46,6 +45,12 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         mListView.setLayoutManager(new LinearLayoutManager(this));
         mEditText = this.getView(R.id.editText);
         this.attachSearchEditText(mEditText);
+        this.setPageSearcher(new DefaultPageSearcher<Tracks>(this) {
+            @Override
+            public String getShowName(Tracks entity) {
+                return entity.getTitle();
+            }
+        });
     }
 
     @Override
@@ -75,13 +80,4 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         return new PageDataParser();
     }
 
-    @Override
-    public PageSearcher<AlbumInfo, Tracks> getPageSearcher() {
-        return new DefaultPageSearcher<AlbumInfo, Tracks>(this) {
-            @Override
-            public String getShowName(Tracks entity) {
-                return entity.getTitle();
-            }
-        };
-    }
 }

@@ -11,7 +11,7 @@ import cn.yhq.page.core.PageAction;
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
-class PageViewManager implements IPageViewManager {
+class PageViewManager<T, I> implements IPageViewManager {
     private Context mContext;
     private View mPageView;
     private View mLoadingView;

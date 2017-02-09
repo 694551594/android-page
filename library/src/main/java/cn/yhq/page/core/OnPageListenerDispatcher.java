@@ -64,6 +64,13 @@ public class OnPageListenerDispatcher implements OnPageListener {
     }
 
     @Override
+    public void onPageSearch(String keyword) {
+        for (OnPageListener l : mOnPageListeners) {
+            l.onPageSearch(keyword);
+        }
+    }
+
+    @Override
     public void onPageInit() {
         for (OnPageListener l : mOnPageListeners) {
             l.onPageInit();

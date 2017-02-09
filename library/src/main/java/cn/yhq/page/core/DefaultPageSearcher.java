@@ -8,7 +8,7 @@ import cn.yhq.utils.PinyinUtils;
  * Created by Yanghuiqiang on 2017/2/9.
  */
 
-public abstract class DefaultPageSearcher<T, I> extends PageSearcher<T, I> {
+public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
 
     public DefaultPageSearcher(Context context) {
         super(context);

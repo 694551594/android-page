@@ -18,16 +18,14 @@ public final class PageManager<T, I> {
     private IPageRequester<T, I> mPageRequester;
     private IPageResponse<T> mPageResponse;
     private IPageDataParser<T, I> mPageDataParser;
-    private IPageSearcher<T, I> mPageSearcher;
     private T mPageResponseData;
     private IPageDataCallback<I> mPageDataCallback;
     private Page<I> mPage;
-    private Page<I> mSavePage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
 
     interface IPageDataCallback<I> {
         void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                boolean isFromCache, boolean isSearch);
+                                boolean isFromCache);
 
         void onException(Context context, PageAction pageAction, Throwable t);
     }
@@ -53,7 +51,7 @@ public final class PageManager<T, I> {
 
                 try {
                     List<I> data = getDataWithInterceptorChain(result);
-                    mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache, false);
+                    mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache);
                     // 最终要适配的数据
                 } catch (Exception e) {
                     onException(context, pageAction, e);
@@ -123,22 +121,10 @@ public final class PageManager<T, I> {
         this.mPageDataParser = pageParser;
     }
 
-    void setPageSearcher(IPageSearcher<T, I> pageSearcher) {
-        this.mPageSearcher = pageSearcher;
-    }
-
     void initPageInfo(int pageSize) {
         mPage = new Page<>();
         mPage.pageSize = pageSize;
         mPage.currentPage = 1;
-    }
-
-    void restorePageInfo() {
-        mPage = mSavePage;
-    }
-
-    void savePageInfo() {
-        mSavePage = mPage.clone();
     }
 
     public Page<I> getPage() {
@@ -146,10 +132,6 @@ public final class PageManager<T, I> {
     }
 
     void doAction(PageAction action) {
-        doAction(action, false);
-    }
-
-    void doAction(PageAction action, boolean isSearch) {
         switch (action) {
             case INIT:
                 mPage.reset();
@@ -160,17 +142,13 @@ public final class PageManager<T, I> {
             case LOADMORE:
                 mPage.next();
                 break;
-        }
-        if (isSearch) {
-            mPageSearcher.onSearch(action, mPage, mPageDataCallback);
-        } else {
-            mPageRequester.onRequest(action, mPage, mPageResponse);
+            case SEARCH:
+                break;
         }
     }
 
     void cancel() {
         mPageRequester.onCancel();
-        mPageSearcher.onCancel();
     }
 
     final void saveState(Bundle state) {

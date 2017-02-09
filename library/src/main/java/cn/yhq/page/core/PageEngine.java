@@ -21,7 +21,7 @@ public final class PageEngine<T, I> {
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
     private IPageAdapter<I> mPageAdapter;
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
-    private PageSearcher<T, I> mPageSearcher;
+    private IPageSearcher<I> mPageSearcher;
     private List<I> mPageData;
 
     public PageEngine(Context context, int pageSize) {
@@ -38,7 +38,7 @@ public final class PageEngine<T, I> {
 
         @Override
         public void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                       boolean isFromCache, boolean isSearch) {
+                                       boolean isFromCache) {
 
             // 如果加载缓存数据的时候listview已经适配了数据就不再加载缓存数据了
             if (isFromCache && mPageAdapter.getPageDataCount() != 0) {
@@ -70,18 +70,7 @@ public final class PageEngine<T, I> {
                 mPageAdapter.notifyDataSetChanged();
             }
 
-            if (mOnPullToRefreshProvider != null) {
-                // 根据数据和分页大小来屏蔽加载更多的功能
-                // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
-                if (mPageAdapter.getPageDataCount() != 0
-                        && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
-                    mOnPullToRefreshProvider.setPullLoadMoreEnable(true);
-                } else {
-                    mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
-                }
-                mOnPullToRefreshProvider.setHaveMoreData(haveNextPage);
-                mOnPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
-            }
+            handleOnPullToRefresh(afterDataSize - beforeDataSize, haveNextPage);
 
             if (isFromCache) {
                 boolean isHaveCache =
@@ -92,7 +81,7 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             }
 
-            if (!isSearch) {
+            if (pageAction != PageAction.SEARCH) {
                 mPageData = new ArrayList<>(mPageAdapter.getPageListData());
             }
 
@@ -118,6 +107,21 @@ public final class PageEngine<T, I> {
             mOnPageListenerDispatcher.onPageLoadComplete(pageAction, false, false);
         }
     };
+
+    private void handleOnPullToRefresh(int newDataSize, boolean haveNextPage) {
+        if (mOnPullToRefreshProvider != null) {
+            // 根据数据和分页大小来屏蔽加载更多的功能
+            // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
+            if (mPageAdapter.getPageDataCount() != 0
+                    && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
+                mOnPullToRefreshProvider.setPullLoadMoreEnable(true);
+            } else {
+                mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
+            }
+            mOnPullToRefreshProvider.setHaveMoreData(haveNextPage);
+            mOnPullToRefreshProvider.onRefreshComplete(newDataSize, true);
+        }
+    }
 
     public final void addOnPageListener(OnPageListener listener) {
         this.mOnPageListenerDispatcher.addOnPageListener(listener);
@@ -156,9 +160,8 @@ public final class PageEngine<T, I> {
         this.mPageManager.setPageRequester(pageRequester);
     }
 
-    public final void setPageSearcher(PageSearcher<T, I> pageSearcher) {
+    public final void setPageSearcher(IPageSearcher<I> pageSearcher) {
         this.mPageSearcher = pageSearcher;
-        this.mPageManager.setPageSearcher(mPageSearcher);
     }
 
     public final void setPageDataParser(IPageDataParser<T, I> pageDataParser) {
@@ -180,24 +183,24 @@ public final class PageEngine<T, I> {
         this.mPageManager.cancel();
     }
 
-    private boolean isSearch;
+    private Bundle mPageStateSavedBundle = new Bundle();
 
     public final void initPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.INIT);
         mOnPageListenerDispatcher.onPageInit();
-        this.mPageManager.doAction(PageAction.INIT, isSearch);
+        this.mPageManager.doAction(PageAction.INIT);
     }
 
     public final void refreshPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.REFRESH);
         mOnPageListenerDispatcher.onPageRefresh();
-        this.mPageManager.doAction(PageAction.REFRESH, isSearch);
+        this.mPageManager.doAction(PageAction.REFRESH);
     }
 
     public final void loadMorePageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.LOADMORE);
         mOnPageListenerDispatcher.onPageLoadMore();
-        this.mPageManager.doAction(PageAction.LOADMORE, isSearch);
+        this.mPageManager.doAction(PageAction.LOADMORE);
     }
 
     public final void searchPageData(String keyword) {
@@ -205,16 +208,13 @@ public final class PageEngine<T, I> {
             return;
         }
         if (TextUtils.isEmpty(keyword)) {
-            this.isSearch = false;
-            this.mPageManager.restorePageInfo();
-            this.mPageDataCallback.onPageDataCallback(PageAction.REFRESH,
-                    mPageData, mPageManager.getPage().haveNextPage(), false, false);
+            this.restoreState(mPageStateSavedBundle);
+            handleOnPullToRefresh(0, this.mPageManager.getPage().haveNextPage());
         } else {
-            this.isSearch = true;
-            this.mPageSearcher.setPageData(mPageData);
-            this.mPageSearcher.setKeyword(keyword);
-            this.mPageManager.savePageInfo();
-            refreshPageData();
+            this.saveState(mPageStateSavedBundle);
+            mOnPageListenerDispatcher.onPageRequestStart(PageAction.SEARCH);
+            mOnPageListenerDispatcher.onPageSearch(keyword);
+            this.mPageSearcher.onSearch(PageAction.SEARCH, mPageData, keyword, mPageDataCallback);
         }
     }
 
