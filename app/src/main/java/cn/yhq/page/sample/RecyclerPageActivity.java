@@ -3,6 +3,7 @@ package cn.yhq.page.sample;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.EditText;
 
 import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
@@ -23,6 +24,7 @@ import cn.yhq.widget.XRecyclerListView;
 public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks> {
     private XRecyclerListView mListView;
     private AlbumRecyclerPageAdapter mPageAdapter;
+    private EditText mEditText;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -31,28 +33,19 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
 
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
-        mListView = (XRecyclerListView) this.findViewById(R.id.list_view);
+        mListView = this.getView(R.id.list_view);
         mPageAdapter = new AlbumRecyclerPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
         mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
             public void onRecyclerViewItemClick(View itemView, int position) {
-                switch (position) {
-                    case 0:
-                        searchPageData("yequ");
-                        break;
-                    case 1:
-                        searchPageData("dadasdsax");
-                        break;
-                    case 2:
-                        searchPageData(null);
-                        break;
-                }
                 showToast("哈哈" + position);
 
             }
         });
         mListView.setLayoutManager(new LinearLayoutManager(this));
+        mEditText = this.getView(R.id.editText);
+        this.attachSearchEditText(mEditText);
     }
 
     @Override
