@@ -7,9 +7,6 @@ import android.view.View;
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
-import cn.yhq.page.core.IPageDataParser;
-import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -29,26 +26,29 @@ public final class PageContext<T, I> {
     private Context mContext;
     private PageEngine<T, I> mPageEngine;
     private PageConfig mPageConfig = new PageConfig();
+    private IPageContextProvider<T, I> mPageContextProvider;
 
-    public PageContext(Builder<T, I> builder) {
-        this.mContext = builder.mContext;
-        this.mPageConfig = builder.mPageConfig;
-        final IPageViewManager pageViewManager = builder.mPageViewManager;
-        final IPageAdapter<I> pageAdapter = builder.mPageAdapter;
+    public PageContext(Context context, IPageContextProvider<T, I> provider) {
+        this.mContext = context;
+        this.mPageContextProvider = provider;
+        provider.onPageConfig(mPageConfig);
+        mPageEngine = new PageEngine(this.mContext, mPageConfig.pageSize);
+    }
+
+    private final void prepare() {
+        View pageView = mPageContextProvider.getPageView();
+        IPageViewProvider pageViewProvider = mPageContextProvider.getPageViewProvider();
+        if (pageViewProvider == null) {
+            pageViewProvider = new PageViewProvider(pageView);
+        }
+        final IPageAdapter<I> pageAdapter = mPageContextProvider.getPageAdapter();
+        final PageViewManager pageViewManager = new PageViewManager(pageViewProvider);
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
                 initPageData();
             }
         });
-        mPageEngine = new PageEngine(this.mContext,
-                mPageConfig.pageSize,
-                builder.mPageRequest,
-                builder.mPageDataParser,
-                builder.mOnPullToRefreshProvider,
-                builder.mPageAdapter,
-                builder.mPageSearcher
-        );
         mPageEngine.addOnPageListener(new DefaultOnPageListener() {
             @Override
             public void onPageCancelRequests() {
@@ -65,102 +65,15 @@ public final class PageContext<T, I> {
                 pageViewManager.completePageRequest(pageAction, pageAdapter.getPageDataCount());
             }
         });
-    }
-
-    public static class Builder<T, I> {
-        private Context mContext;
-        private PageConfig mPageConfig = new PageConfig();
-        private IPageAdapter<I> mPageAdapter;
-        private IPageRequester<T, I> mPageRequest;
-        private IPageDataParser<T, I> mPageDataParser;
-        private OnPullToRefreshProvider mOnPullToRefreshProvider;
-        private IPageViewManager mPageViewManager;
-        private IPageViewProvider mPageViewProvider;
-        private View mPageView;
-        private IPageSearcher<T, I> mPageSearcher;
-
-        public Builder(Context context) {
-            this.mContext = context;
+        OnPullToRefreshProvider onPullToRefreshProvider = mPageContextProvider.getOnPullToRefreshProvider();
+        if (onPullToRefreshProvider == null) {
+            onPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(pageView);
         }
-
-        public static <T, I> Builder<T, I> createBuilder(Context context) {
-            return new Builder(context);
-        }
-
-        public static <T, I> Builder<T, I> createBuilder(Context context, IPageContextProvider<T, I> pageContextProvider) {
-            Builder<T, I> builder = new Builder<>(context);
-            pageContextProvider.onPageConfig(builder.mPageConfig);
-            return builder
-                    .setOnPullToRefreshProvider(pageContextProvider.getOnPullToRefreshProvider())
-                    .setPageAdapter(pageContextProvider.getPageAdapter())
-                    .setPageDataParser(pageContextProvider.getPageDataParser())
-                    .setPageRequest(pageContextProvider.getPageRequester())
-                    .setPageView(pageContextProvider.getPageView())
-                    .setPageViewProvider(pageContextProvider.getPageViewProvider())
-                    .setPageViewManager(pageContextProvider.getPageViewManager())
-                    .setPageSearcher(pageContextProvider.getPageSearcher());
-        }
-
-        public PageContext<T, I> build() {
-            if (this.mPageViewProvider == null) {
-                this.mPageViewProvider = new PageViewProvider(mPageView);
-            }
-            if (this.mPageViewManager == null) {
-                this.mPageViewManager = new PageViewManager(this.mPageViewProvider);
-            }
-            if (this.mOnPullToRefreshProvider == null) {
-                this.mOnPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(this.mPageView);
-            }
-            if (this.mPageSearcher == null) {
-                this.mPageSearcher = new DefaultPageSearcher<>(mContext);
-            }
-            return new PageContext<>(this);
-        }
-
-        public Builder<T, I> setPageConfig(PageConfig pageConfig) {
-            this.mPageConfig = pageConfig;
-            return this;
-        }
-
-        public Builder<T, I> setPageAdapter(IPageAdapter<I> pageAdapter) {
-            this.mPageAdapter = pageAdapter;
-            return this;
-        }
-
-        public Builder<T, I> setPageRequest(IPageRequester<T, I> pageRequest) {
-            this.mPageRequest = pageRequest;
-            return this;
-        }
-
-        public Builder<T, I> setPageDataParser(IPageDataParser<T, I> pageDataParser) {
-            this.mPageDataParser = pageDataParser;
-            return this;
-        }
-
-        public Builder<T, I> setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {
-            this.mOnPullToRefreshProvider = onPullToRefreshProvider;
-            return this;
-        }
-
-        public Builder<T, I> setPageViewManager(IPageViewManager pageViewManager) {
-            this.mPageViewManager = pageViewManager;
-            return this;
-        }
-
-        public Builder<T, I> setPageViewProvider(IPageViewProvider pageViewProvider) {
-            this.mPageViewProvider = pageViewProvider;
-            return this;
-        }
-
-        public Builder<T, I> setPageView(View pageView) {
-            this.mPageView = pageView;
-            return this;
-        }
-
-        public Builder<T, I> setPageSearcher(IPageSearcher<T, I> mPageSearcher) {
-            this.mPageSearcher = mPageSearcher;
-            return this;
-        }
+        mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
+        mPageEngine.setPageRequester(mPageContextProvider.getPageRequester());
+        mPageEngine.setOnPullToRefreshProvider(onPullToRefreshProvider);
+        mPageEngine.setPageAdapter(pageAdapter);
+        mPageEngine.setPageSearcher(mPageContextProvider.getPageSearcher());
     }
 
     public final void start(Bundle savedInstanceState) {
@@ -193,6 +106,8 @@ public final class PageContext<T, I> {
     }
 
     public final void initPageData() {
+        prepare();
+
         if (mPageConfig.clearPageDataBeforeRequest) {
             clearPageData();
         }

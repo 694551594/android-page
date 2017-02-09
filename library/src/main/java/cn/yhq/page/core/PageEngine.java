@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -20,18 +21,10 @@ public final class PageEngine<T, I> {
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
     private IPageAdapter<I> mPageAdapter;
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
-    private IPageRequester<T, I> mPageRequester;
-    private IPageDataParser<T, I> mPageDataParser;
-    private PageSearchHandler<T, I> mPageSearchHandler;
+    private PageSearcher<T, I> mPageSearcher;
+    private List<I> mPageData;
 
-    public PageEngine(Context context,
-                      int pageSize,
-                      IPageRequester<T, I> pageRequester,
-                      IPageDataParser<T, I> pageDataParser,
-                      OnPullToRefreshProvider onPullToRefreshProvider,
-                      IPageAdapter<I> pageAdapter,
-                      IPageSearcher<T, I> pageSearcher
-    ) {
+    public PageEngine(Context context, int pageSize) {
         this.mContext = context;
         this.mOnPageListenerDispatcher = new OnPageListenerDispatcher();
 
@@ -39,41 +32,13 @@ public final class PageEngine<T, I> {
         this.mPageManager = new PageManager<>(mContext, pageSize);
         // 回调处理
         this.mPageManager.setPageDataCallback(mPageDataCallback);
-        // 数据请求器
-        this.mPageManager.setPageRequester(pageRequester);
-        // 数据解析器
-        this.mPageManager.setPageDataParser(pageDataParser);
-
-        this.mOnPullToRefreshProvider = onPullToRefreshProvider;
-        if (this.mOnPullToRefreshProvider != null) {
-            // 设置滑动监听
-            this.mOnPullToRefreshProvider.setOnRefreshListener(new OnPullToRefreshProvider.OnRefreshListener() {
-
-                @Override
-                public void onPullToRefresh() {
-                    refreshPageData();
-                }
-
-                @Override
-                public void onPullToLoadMore() {
-                    loadMorePageData();
-                }
-
-            });
-        }
-
-        this.mPageAdapter = pageAdapter;
-        this.mPageRequester = pageRequester;
-        this.mPageSearchHandler = new PageSearchHandler<>(pageSearcher);
-
-        this.mPageDataParser = pageDataParser;
     }
 
     private PageManager.IPageDataCallback<I> mPageDataCallback = new PageManager.IPageDataCallback<I>() {
 
         @Override
         public void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                       boolean isFromCache) {
+                                       boolean isFromCache, boolean isSearch) {
 
             // 如果加载缓存数据的时候listview已经适配了数据就不再加载缓存数据了
             if (isFromCache && mPageAdapter.getPageDataCount() != 0) {
@@ -127,6 +92,10 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             }
 
+            if (!isSearch) {
+                mPageData = new ArrayList<>(mPageAdapter.getPageListData());
+            }
+
         }
 
         private void appendPageData(List<I> data) {
@@ -158,6 +127,45 @@ public final class PageEngine<T, I> {
         this.mPageManager.addPageDataIntercept(intercept);
     }
 
+    public final void setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {
+        this.mOnPullToRefreshProvider = onPullToRefreshProvider;
+        if (this.mOnPullToRefreshProvider != null) {
+            // 设置滑动监听
+            this.mOnPullToRefreshProvider.setOnRefreshListener(new OnPullToRefreshProvider.OnRefreshListener() {
+
+                @Override
+                public void onPullToRefresh() {
+                    refreshPageData();
+                }
+
+                @Override
+                public void onPullToLoadMore() {
+                    loadMorePageData();
+                }
+
+            });
+        }
+    }
+
+    public final void setPageAdapter(IPageAdapter<I> pageAdapter) {
+        this.mPageAdapter = pageAdapter;
+    }
+
+    public final void setPageRequester(IPageRequester<T, I> pageRequester) {
+        // 数据请求器
+        this.mPageManager.setPageRequester(pageRequester);
+    }
+
+    public final void setPageSearcher(PageSearcher<T, I> pageSearcher) {
+        this.mPageSearcher = pageSearcher;
+        this.mPageManager.setPageSearcher(mPageSearcher);
+    }
+
+    public final void setPageDataParser(IPageDataParser<T, I> pageDataParser) {
+        // 数据解析器
+        this.mPageManager.setPageDataParser(pageDataParser);
+    }
+
     public final PageManager<T, I> getPageManager() {
         return mPageManager;
     }
@@ -172,37 +180,38 @@ public final class PageEngine<T, I> {
         this.mPageManager.cancel();
     }
 
+    private boolean isSearch;
+
     public final void initPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.INIT);
         mOnPageListenerDispatcher.onPageInit();
-        this.mPageManager.setPageRequester(mPageRequester);
-        this.mPageManager.doAction(PageAction.INIT);
+        this.mPageManager.doAction(PageAction.INIT, isSearch);
     }
 
     public final void refreshPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.REFRESH);
         mOnPageListenerDispatcher.onPageRefresh();
-        this.mPageManager.setPageRequester(mPageRequester);
-        this.mPageManager.doAction(PageAction.REFRESH);
+        this.mPageManager.doAction(PageAction.REFRESH, isSearch);
     }
 
     public final void loadMorePageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.LOADMORE);
         mOnPageListenerDispatcher.onPageLoadMore();
-        this.mPageManager.setPageRequester(mPageRequester);
-        this.mPageManager.doAction(PageAction.LOADMORE);
+        this.mPageManager.doAction(PageAction.LOADMORE, isSearch);
     }
 
     public final void searchPageData(String keyword) {
-        if (TextUtils.isEmpty(keyword)) {
-            initPageData();
-        } else {
-            this.mPageSearchHandler.setKeyword(keyword);
-            this.mPageSearchHandler.setPageData(this.mPageManager.getPageResponseData());
-            this.mPageSearchHandler.setPageDataParser(this.mPageDataParser);
-            this.mPageManager.setPageRequester(mPageSearchHandler);
-            this.mPageManager.doAction(PageAction.SEARCH);
+        if (this.mPageSearcher == null) {
+            return;
         }
+        if (TextUtils.isEmpty(keyword)) {
+            this.isSearch = false;
+        } else {
+            this.isSearch = true;
+            this.mPageSearcher.setPageData(mPageData);
+            this.mPageSearcher.setKeyword(keyword);
+        }
+        refreshPageData();
     }
 
     public final boolean saveState(Bundle state) {

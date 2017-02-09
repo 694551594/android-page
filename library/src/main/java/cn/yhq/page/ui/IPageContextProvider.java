@@ -5,8 +5,8 @@ import android.view.View;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPullToRefreshProvider;
+import cn.yhq.page.core.PageSearcher;
 
 /**
  * 分页组件提供接口
@@ -44,13 +44,6 @@ public interface IPageContextProvider<T, I> {
     void onPageConfig(PageConfig pageConfig);
 
     /**
-     * 分页视图管理器，负责分页视图的显示
-     *
-     * @return
-     */
-    IPageViewManager getPageViewManager();
-
-    /**
      * 分页视图提供器
      *
      * @return
@@ -71,6 +64,6 @@ public interface IPageContextProvider<T, I> {
      */
     OnPullToRefreshProvider getOnPullToRefreshProvider();
 
-    IPageSearcher<T, I> getPageSearcher();
+    PageSearcher<T, I> getPageSearcher();
 
 }

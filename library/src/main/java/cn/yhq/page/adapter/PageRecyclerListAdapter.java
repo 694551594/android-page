@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cn.yhq.adapter.recycler.RecyclerListAdapter;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 
 public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implements IPageAdapter<T> {
@@ -41,4 +42,8 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
         this.mListData.addAll(data);
     }
 
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
+    }
 }

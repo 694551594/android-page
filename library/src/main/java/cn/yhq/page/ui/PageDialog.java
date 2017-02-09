@@ -10,9 +10,11 @@ import android.widget.EditText;
 
 import cn.yhq.dialog.core.DialogBuilder;
 import cn.yhq.dialog.core.IDialog;
+import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
+import cn.yhq.page.core.PageSearcher;
 
 /**
  * Created by Yanghuiqiang on 2016/10/20.
@@ -31,6 +33,8 @@ public abstract class PageDialog<T, I> implements
 
     public PageDialog(Context context) {
         this.mContext = context;
+        mPageContext = new PageContext(this.getContext(), this);
+        mPageContext.addOnPageListener(this);
     }
 
     public final Context getContext() {
@@ -94,10 +98,6 @@ public abstract class PageDialog<T, I> implements
 
     @Override
     public void onShow(DialogInterface dialogInterface) {
-        mPageContext = PageContext.Builder
-                .createBuilder(this.getContext(), this)
-                .build();
-        mPageContext.addOnPageListener(this);
         mPageContext.start(savedInstanceState);
     }
 
@@ -180,17 +180,21 @@ public abstract class PageDialog<T, I> implements
     }
 
     @Override
-    public IPageViewManager getPageViewManager() {
-        return null;
-    }
-
-    @Override
     public IPageViewProvider getPageViewProvider() {
         return null;
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
+        return null;
+    }
+
+    public final void addPageDataIntercept(IPageDataIntercept<I> intercept) {
+        this.mPageContext.addPageDataIntercept(intercept);
+    }
+
+    @Override
+    public PageSearcher<T, I> getPageSearcher() {
         return null;
     }
 

@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
+import cn.yhq.page.core.DefaultPageSearcher;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
+import cn.yhq.page.core.PageSearcher;
 import cn.yhq.page.http.RetrofitPageActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
@@ -17,7 +20,7 @@ import cn.yhq.widget.XRecyclerListView;
  * Created by yanghuijuan on 2017/1/31.
  */
 
-public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks>  {
+public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks> {
     private XRecyclerListView mListView;
     private AlbumRecyclerPageAdapter mPageAdapter;
 
@@ -31,12 +34,24 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         mListView = (XRecyclerListView) this.findViewById(R.id.list_view);
         mPageAdapter = new AlbumRecyclerPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
-//        mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onRecyclerViewItemClick(View itemView, int position) {
-//                showToast("哈哈" + position);
-//            }
-//        });
+        mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
+            @Override
+            public void onRecyclerViewItemClick(View itemView, int position) {
+                switch (position) {
+                    case 0:
+                        searchPageData("yequ");
+                        break;
+                    case 1:
+                        searchPageData("dadasdsax");
+                        break;
+                    case 2:
+                        searchPageData(null);
+                        break;
+                }
+                showToast("哈哈" + position);
+
+            }
+        });
         mListView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -65,5 +80,15 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
     @Override
     public IPageDataParser<AlbumInfo, Tracks> getPageDataParser() {
         return new PageDataParser();
+    }
+
+    @Override
+    public PageSearcher<AlbumInfo, Tracks> getPageSearcher() {
+        return new DefaultPageSearcher<AlbumInfo, Tracks>(this) {
+            @Override
+            public String getShowName(Tracks entity) {
+                return entity.getTitle();
+            }
+        };
     }
 }

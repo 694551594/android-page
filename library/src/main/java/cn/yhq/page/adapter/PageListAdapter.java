@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cn.yhq.adapter.list.ListAdapter;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 
 /**
@@ -26,6 +27,11 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     @Override
     public List<T> getPageListData() {
         return this.getListData();
+    }
+
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
     }
 
     /**

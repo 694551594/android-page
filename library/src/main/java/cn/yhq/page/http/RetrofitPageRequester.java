@@ -30,7 +30,7 @@ final class RetrofitPageRequester<T, I> extends PageRequester<T, I> {
 
     @Override
     public void executeRequest(Context context, final PageAction pageAction, final Page<I> page) {
-        mCall = pageRequestExecutor.executePageRequest(page.pageSize, page.currentPage, page.mData);
+        mCall = pageRequestExecutor.executePageRequest(page.getPageSize(), page.getCurrentPage(), page.getData());
         if (pageAction == PageAction.REFRESH || pageAction == PageAction.LOADMORE) {
             mCall.cacheStrategy(CacheStrategy.ONLY_NETWORK);
         } else {

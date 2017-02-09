@@ -76,7 +76,7 @@ public final class Page<T> implements Serializable {
         return currentPage;
     }
 
-    public T getmData() {
+    public T getData() {
         return mData;
     }
 }

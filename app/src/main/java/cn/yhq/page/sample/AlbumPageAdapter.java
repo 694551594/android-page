@@ -5,6 +5,7 @@ import android.content.Context;
 import cn.yhq.adapter.core.ViewHolder;
 import cn.yhq.adapter.list.ItemViewProvider2;
 import cn.yhq.page.adapter.PageListAdapter;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.sample.entity.Tracks;
 
 /**
@@ -33,4 +34,8 @@ public class AlbumPageAdapter extends PageListAdapter<Tracks> {
         });
     }
 
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_BEFORE;
+    }
 }

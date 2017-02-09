@@ -5,7 +5,7 @@ package cn.yhq.page.core;
  */
 
 public interface IPageSearcher<T, I> {
-    void onSearch(T pageData, String keyword, Page<I> page, IPageResponse<T> pageResponse);
+    void onSearch(PageAction pageAction, Page<I> page, PageManager.IPageDataCallback<I> callback);
 
     void onCancel();
 }

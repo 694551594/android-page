@@ -6,9 +6,11 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseActivity;
+import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
+import cn.yhq.page.core.PageSearcher;
 
 
 public abstract class PageActivity<T, I> extends BaseActivity
@@ -19,11 +21,9 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPageContext = PageContext.Builder
-                .createBuilder(this, this)
-                .build();
+        mPageContext = new PageContext(this, this);
         mPageContext.addOnPageListener(this);
+        super.onCreate(savedInstanceState);
         mPageContext.start(savedInstanceState);
     }
 
@@ -88,17 +88,21 @@ public abstract class PageActivity<T, I> extends BaseActivity
     }
 
     @Override
-    public IPageViewManager getPageViewManager() {
-        return null;
-    }
-
-    @Override
     public IPageViewProvider getPageViewProvider() {
         return null;
     }
 
     @Override
     public OnPullToRefreshProvider getOnPullToRefreshProvider() {
+        return null;
+    }
+
+    public final void addPageDataIntercept(IPageDataIntercept<I> intercept) {
+        this.mPageContext.addPageDataIntercept(intercept);
+    }
+
+    @Override
+    public PageSearcher<T, I> getPageSearcher() {
         return null;
     }
 

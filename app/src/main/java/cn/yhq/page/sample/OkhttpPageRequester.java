@@ -30,7 +30,7 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
 
     @Override
     public void executeRequest(final Context context, PageAction pageAction, Page<I> page) {
-        mRequestCall = getRequestCall(page.pageSize, page.currentPage, page.mData);
+        mRequestCall = getRequestCall(page.getPageSize(), page.getCurrentPage(), page.getData());
         mRequestCall
                 .execute(new StringCallback() {
 

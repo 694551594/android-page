@@ -29,6 +29,22 @@ public class SimplePageActivity3 extends SimplePageActivity<String> {
         mListView = (ListView) this.findViewById(R.id.list_view);
         mPageAdapter = new SimplePageAdapter(this);
         mListView.setAdapter(mPageAdapter);
+        this.addPageDataIntercept(new IPageDataIntercept<String>() {
+            @Override
+            public List<String> intercept(Chain<String> chain) throws Exception {
+                List<String> data = chain.data();
+                data.add(0, "拦截器增加的条目1");
+                return chain.handle(data);
+            }
+        });
+        this.addPageDataIntercept(new IPageDataIntercept<String>() {
+            @Override
+            public List<String> intercept(Chain<String> chain) throws Exception {
+                List<String> data = chain.data();
+                data.add(0, "拦截器增加的条目2");
+                return chain.handle(data);
+            }
+        });
     }
 
     @Override
@@ -51,23 +67,5 @@ public class SimplePageActivity3 extends SimplePageActivity<String> {
         return data;
     }
 
-    @Override
-    public void addPageDataIntercept(List<IPageDataIntercept<String>> intercepts) {
-        intercepts.add(new IPageDataIntercept<String>() {
-            @Override
-            public List<String> intercept(Chain<String> chain) throws Exception {
-                List<String> data = chain.data();
-                data.add(0, "拦截器增加的条目1");
-                return chain.handle(data);
-            }
-        });
-        intercepts.add(new IPageDataIntercept<String>() {
-            @Override
-            public List<String> intercept(Chain<String> chain) throws Exception {
-                List<String> data = chain.data();
-                data.add(0, "拦截器增加的条目2");
-                return chain.handle(data);
-            }
-        });
-    }
+
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import cn.yhq.http.core.ICall;
-import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.http.RetrofitPageActivity;
@@ -49,7 +48,6 @@ public class AutoRefreshPageActivity extends RetrofitPageActivity<AlbumInfo, Tra
         super.onPageConfig(pageConfig);
         // 设置分页大小
         pageConfig.setPageSize(12);
-        pageConfig.setDataAppendMode(DataAppendMode.MODE_BEFORE);
     }
 
     @Override

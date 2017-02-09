@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import cn.yhq.adapter.expand.BaseExpandableListAdapter;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.core.IPageAdapter;
 
 public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableListAdapter<G, C>
@@ -47,4 +48,8 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
         this.mListData.addAll(data);
     }
 
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_AFTER;
+    }
 }

@@ -18,14 +18,16 @@ public final class PageManager<T, I> {
     private IPageRequester<T, I> mPageRequester;
     private IPageResponse<T> mPageResponse;
     private IPageDataParser<T, I> mPageDataParser;
+    private IPageSearcher<T, I> mPageSearcher;
     private T mPageResponseData;
+    private List<I> mPageData;
     private IPageDataCallback<I> mPageDataCallback;
     private Page<I> mPage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
 
     interface IPageDataCallback<I> {
         void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                boolean isFromCache);
+                                boolean isFromCache, boolean isSearch);
 
         void onException(Context context, PageAction pageAction, Throwable t);
     }
@@ -36,11 +38,11 @@ public final class PageManager<T, I> {
 
             @Override
             public void onResponse(PageAction pageAction, T response, boolean isFromCache) {
-                if (pageAction != PageAction.SEARCH) {
+                if (pageAction == PageAction.INIT) {
                     mPageResponseData = response;
                 }
 
-                if (pageAction == PageAction.SEARCH || pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
                     mPage.dataSize = mPageDataParser.getPageTotal(response, isFromCache);
                     mPage.init();
                 }
@@ -51,7 +53,7 @@ public final class PageManager<T, I> {
 
                 try {
                     List<I> data = getDataWithInterceptorChain(result);
-                    mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache);
+                    mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache, false);
                     // 最终要适配的数据
                 } catch (Exception e) {
                     onException(context, pageAction, e);
@@ -121,6 +123,10 @@ public final class PageManager<T, I> {
         this.mPageDataParser = pageParser;
     }
 
+    void setPageSearcher(IPageSearcher<T, I> pageSearcher) {
+        this.mPageSearcher = pageSearcher;
+    }
+
     void initPageInfo(int pageSize) {
         mPage = new Page<>();
         mPage.pageSize = pageSize;
@@ -132,20 +138,25 @@ public final class PageManager<T, I> {
     }
 
     void doAction(PageAction action) {
+        doAction(action, false);
+    }
+
+    void doAction(PageAction action, boolean isSearch) {
         switch (action) {
             case INIT:
-            case SEARCH:
                 mPage.reset();
-                mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
             case REFRESH:
                 mPage.reset();
-                mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
             case LOADMORE:
                 mPage.next();
-                mPageRequester.onRequest(action, mPage, mPageResponse);
                 break;
+        }
+        if (isSearch) {
+            mPageSearcher.onSearch(action, mPage, mPageDataCallback);
+        } else {
+            mPageRequester.onRequest(action, mPage, mPageResponse);
         }
     }
 
