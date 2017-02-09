@@ -10,17 +10,17 @@ import java.io.Serializable;
  */
 public final class Page<T> implements Serializable {
     // 数据大小
-    public long dataSize;
+    long dataSize;
     // 一页的大小
-    public int pageSize = 20;
+    int pageSize = 20;
     // 页数
-    public int pageCount;
+    int pageCount;
     // 当前页号
-    public int currentPage = 1;
+    int currentPage = 1;
     // 附带数据
-    public T mData;
+    T mData;
 
-    public void init() {
+    void init() {
         int count = (int) (this.dataSize / this.pageSize);
         if (this.dataSize % this.pageSize == 0) {
             pageCount = count;
@@ -30,18 +30,18 @@ public final class Page<T> implements Serializable {
         mData = null;
     }
 
-    public void reset() {
+    void reset() {
         currentPage = 1;
     }
 
-    public void next() {
+    void next() {
         currentPage++;
         if (currentPage >= pageCount) {
             currentPage = pageCount;
         }
     }
 
-    public void previous() {
+    void previous() {
         currentPage--;
         if (currentPage <= 0) {
             currentPage = 0;
@@ -60,4 +60,23 @@ public final class Page<T> implements Serializable {
         return true;
     }
 
+    public long getDataSize() {
+        return dataSize;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public T getmData() {
+        return mData;
+    }
 }

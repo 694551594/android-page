@@ -4,15 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.LetterNameGetter;
+import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -36,30 +33,43 @@ public final class PageContext<T, I> {
     public PageContext(Builder<T, I> builder) {
         this.mContext = builder.mContext;
         this.mPageConfig = builder.mPageConfig;
-        IPageViewManager pageViewManager = builder.mPageViewManager;
+        final IPageViewManager pageViewManager = builder.mPageViewManager;
+        final IPageAdapter<I> pageAdapter = builder.mPageAdapter;
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
                 initPageData();
             }
         });
-        mPageEngine = new PageEngine.Builder<T, I>(mContext)
-                .setPageSize(mPageConfig.pageSize)
-                .setDataAppendMode(mPageConfig.dataAppendMode)
-                .setPageAdapter(builder.mPageAdapter)
-                .setPageParser(builder.mPageDataParser)
-                .setPageRequester(builder.mPageRequest)
-                .setOnPullToRefreshProvider(builder.mOnPullToRefreshProvider)
-                .setPageDataIntercept(builder.mPageDataIntercepts)
-                .setOnPageListeners(builder.mOnPageListeners)
-                .build();
+        mPageEngine = new PageEngine(this.mContext,
+                mPageConfig.pageSize,
+                builder.mPageRequest,
+                builder.mPageDataParser,
+                builder.mOnPullToRefreshProvider,
+                builder.mPageAdapter,
+                builder.mPageSearcher
+        );
+        mPageEngine.addOnPageListener(new DefaultOnPageListener() {
+            @Override
+            public void onPageCancelRequests() {
+                pageViewManager.cancelPageRequest(pageAdapter.getPageDataCount());
+            }
+
+            @Override
+            public void onPageRequestStart(PageAction pageAction) {
+                pageViewManager.startPageRequest(pageAction);
+            }
+
+            @Override
+            public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+                pageViewManager.completePageRequest(pageAction, pageAdapter.getPageDataCount());
+            }
+        });
     }
 
     public static class Builder<T, I> {
         private Context mContext;
         private PageConfig mPageConfig = new PageConfig();
-        private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
-        private List<OnPageListener> mOnPageListeners = new ArrayList<>();
         private IPageAdapter<I> mPageAdapter;
         private IPageRequester<T, I> mPageRequest;
         private IPageDataParser<T, I> mPageDataParser;
@@ -67,6 +77,7 @@ public final class PageContext<T, I> {
         private IPageViewManager mPageViewManager;
         private IPageViewProvider mPageViewProvider;
         private View mPageView;
+        private IPageSearcher<T, I> mPageSearcher;
 
         public Builder(Context context) {
             this.mContext = context;
@@ -79,8 +90,6 @@ public final class PageContext<T, I> {
         public static <T, I> Builder<T, I> createBuilder(Context context, IPageContextProvider<T, I> pageContextProvider) {
             Builder<T, I> builder = new Builder<>(context);
             pageContextProvider.onPageConfig(builder.mPageConfig);
-            pageContextProvider.addPageDataIntercept(builder.mPageDataIntercepts);
-            pageContextProvider.addOnPageListener(builder.mOnPageListeners);
             return builder
                     .setOnPullToRefreshProvider(pageContextProvider.getOnPullToRefreshProvider())
                     .setPageAdapter(pageContextProvider.getPageAdapter())
@@ -88,7 +97,8 @@ public final class PageContext<T, I> {
                     .setPageRequest(pageContextProvider.getPageRequester())
                     .setPageView(pageContextProvider.getPageView())
                     .setPageViewProvider(pageContextProvider.getPageViewProvider())
-                    .setPageViewManager(pageContextProvider.getPageViewManager());
+                    .setPageViewManager(pageContextProvider.getPageViewManager())
+                    .setPageSearcher(pageContextProvider.getPageSearcher());
         }
 
         public PageContext<T, I> build() {
@@ -98,44 +108,17 @@ public final class PageContext<T, I> {
             if (this.mPageViewManager == null) {
                 this.mPageViewManager = new PageViewManager(this.mPageViewProvider);
             }
-            this.mOnPageListeners.add(new DefaultOnPageListener() {
-                @Override
-                public void onPageCancelRequests() {
-                    mPageViewManager.cancelPageRequest(mPageAdapter.getPageDataCount());
-                }
-
-                @Override
-                public void onPageRequestStart(PageAction pageAction) {
-                    mPageViewManager.startPageRequest(pageAction);
-                }
-
-                @Override
-                public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                    mPageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
-                }
-            });
-            if (mOnPullToRefreshProvider == null) {
-                mOnPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(this.mPageView);
+            if (this.mOnPullToRefreshProvider == null) {
+                this.mOnPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(this.mPageView);
             }
-            if (mOnPullToRefreshProvider != null) {
-                mOnPullToRefreshProvider.setPullLoadMoreEnable(mPageConfig.pullLoadMoreEnable);
-                mOnPullToRefreshProvider.setPullRefreshEnable(mPageConfig.pullRefreshEnable);
+            if (this.mPageSearcher == null) {
+                this.mPageSearcher = new DefaultPageSearcher<>(mContext);
             }
             return new PageContext<>(this);
         }
 
         public Builder<T, I> setPageConfig(PageConfig pageConfig) {
             this.mPageConfig = pageConfig;
-            return this;
-        }
-
-        public Builder<T, I> addPageDataIntercept(IPageDataIntercept<I> pageDataIntercept) {
-            this.mPageDataIntercepts.add(pageDataIntercept);
-            return this;
-        }
-
-        public Builder<T, I> addOnPageListener(OnPageListener onPageListener) {
-            this.mOnPageListeners.add(onPageListener);
             return this;
         }
 
@@ -171,6 +154,11 @@ public final class PageContext<T, I> {
 
         public Builder<T, I> setPageView(View pageView) {
             this.mPageView = pageView;
+            return this;
+        }
+
+        public Builder<T, I> setPageSearcher(IPageSearcher<T, I> mPageSearcher) {
+            this.mPageSearcher = mPageSearcher;
             return this;
         }
     }
@@ -224,8 +212,16 @@ public final class PageContext<T, I> {
         return this.mPageConfig;
     }
 
-    public final void searchPageData(String keyword, LetterNameGetter<I> listener) {
-        mPageEngine.searchPageData(keyword, listener);
+    public final void searchPageData(String keyword) {
+        mPageEngine.searchPageData(keyword);
+    }
+
+    public final void addOnPageListener(OnPageListener listener) {
+        this.mPageEngine.addOnPageListener(listener);
+    }
+
+    public final void addPageDataIntercept(IPageDataIntercept<I> intercept) {
+        this.mPageEngine.addPageDataIntercept(intercept);
     }
 
 }

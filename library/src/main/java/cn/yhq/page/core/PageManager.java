@@ -18,6 +18,7 @@ public final class PageManager<T, I> {
     private IPageRequester<T, I> mPageRequester;
     private IPageResponse<T> mPageResponse;
     private IPageDataParser<T, I> mPageDataParser;
+    private T mPageResponseData;
     private IPageDataCallback<I> mPageDataCallback;
     private Page<I> mPage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
@@ -35,7 +36,11 @@ public final class PageManager<T, I> {
 
             @Override
             public void onResponse(PageAction pageAction, T response, boolean isFromCache) {
-                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                if (pageAction != PageAction.SEARCH) {
+                    mPageResponseData = response;
+                }
+
+                if (pageAction == PageAction.SEARCH || pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
                     mPage.dataSize = mPageDataParser.getPageTotal(response, isFromCache);
                     mPage.init();
                 }
@@ -126,19 +131,22 @@ public final class PageManager<T, I> {
         return mPage;
     }
 
-    void init() {
-        mPage.reset();
-        mPageRequester.onRequest(PageAction.INIT, mPage, mPageResponse);
-    }
-
-    void refresh() {
-        mPage.reset();
-        mPageRequester.onRequest(PageAction.REFRESH, mPage, mPageResponse);
-    }
-
-    void loadMore() {
-        mPage.next();
-        mPageRequester.onRequest(PageAction.LOADMORE, mPage, mPageResponse);
+    void doAction(PageAction action) {
+        switch (action) {
+            case INIT:
+            case SEARCH:
+                mPage.reset();
+                mPageRequester.onRequest(action, mPage, mPageResponse);
+                break;
+            case REFRESH:
+                mPage.reset();
+                mPageRequester.onRequest(action, mPage, mPageResponse);
+                break;
+            case LOADMORE:
+                mPage.next();
+                mPageRequester.onRequest(action, mPage, mPageResponse);
+                break;
+        }
     }
 
     void cancel() {
@@ -151,5 +159,9 @@ public final class PageManager<T, I> {
 
     final void restoreState(Bundle state) {
         this.mPage = (Page<I>) state.getSerializable("Page");
+    }
+
+    public T getPageResponseData() {
+        return mPageResponseData;
     }
 }

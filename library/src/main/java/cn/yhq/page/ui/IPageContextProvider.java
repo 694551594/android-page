@@ -2,13 +2,10 @@ package cn.yhq.page.ui;
 
 import android.view.View;
 
-import java.util.List;
-
 import cn.yhq.page.core.IPageAdapter;
-import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.OnPageListener;
+import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 
 /**
@@ -31,20 +28,6 @@ public interface IPageContextProvider<T, I> {
      * @return
      */
     IPageRequester<T, I> getPageRequester();
-
-    /**
-     * 数据处理器
-     *
-     * @param pageDataIntercepts
-     */
-    void addPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts);
-
-    /**
-     * 分页过程监听器
-     *
-     * @param mOnPageListener
-     */
-    void addOnPageListener(List<OnPageListener> mOnPageListener);
 
     /**
      * 获取分页解析器
@@ -87,5 +70,7 @@ public interface IPageContextProvider<T, I> {
      * @return
      */
     OnPullToRefreshProvider getOnPullToRefreshProvider();
+
+    IPageSearcher<T, I> getPageSearcher();
 
 }

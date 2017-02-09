@@ -5,11 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.util.List;
-
 import cn.yhq.base.BaseFragment;
-import cn.yhq.page.core.IPageDataIntercept;
-import cn.yhq.page.core.LetterNameGetter;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -36,8 +32,8 @@ public abstract class PageFragment<T, I> extends BaseFragment
         super.onActivityCreated(savedInstanceState);
         mPageContext = PageContext.Builder
                 .createBuilder(this.getContext(), this)
-                .addOnPageListener(this)
                 .build();
+        mPageContext.addOnPageListener(this);
         mPageContext.start(savedInstanceState);
     }
 
@@ -55,11 +51,11 @@ public abstract class PageFragment<T, I> extends BaseFragment
         mPageContext.refreshPageData();
     }
 
-    public final void searchPageData(String keyword, LetterNameGetter<I> listener) {
-        mPageContext.searchPageData(keyword, listener);
+    public final void searchPageData(String keyword) {
+        mPageContext.searchPageData(keyword);
     }
 
-    public final void attachSearchEditText(final EditText searchEditText, final LetterNameGetter<I> listener) {
+    public final void attachSearchEditText(final EditText searchEditText) {
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,7 +69,7 @@ public abstract class PageFragment<T, I> extends BaseFragment
 
             @Override
             public void afterTextChanged(Editable s) {
-                searchPageData(searchEditText.getText().toString(), listener);
+                searchPageData(searchEditText.getText().toString());
             }
         });
     }
@@ -99,16 +95,6 @@ public abstract class PageFragment<T, I> extends BaseFragment
 
     public final PageConfig getPageConfig() {
         return mPageContext.getPageConfig();
-    }
-
-    @Override
-    public void addPageDataIntercept(List<IPageDataIntercept<I>> pageDataIntercepts) {
-
-    }
-
-    @Override
-    public void addOnPageListener(List<OnPageListener> mOnPageListeners) {
-
     }
 
     @Override
