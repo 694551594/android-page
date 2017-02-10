@@ -42,7 +42,7 @@ public class SimplePageStringListAdapter extends PageListAdapter<String> {
     }
 
     @Override
-    public void setKeywords(List<String> keywords) {
+    public void setHighlightKeywords(List<String> keywords) {
         this.mKeywords = keywords;
     }
 

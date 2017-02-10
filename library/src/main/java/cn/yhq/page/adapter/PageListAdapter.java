@@ -60,7 +60,7 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     @Override
-    public void setKeywords(List<String> keywords) {
+    public void setHighlightKeywords(List<String> keywords) {
         this.mKeywords = keywords;
     }
 

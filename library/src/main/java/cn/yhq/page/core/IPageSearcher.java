@@ -7,9 +7,11 @@ import java.util.List;
  */
 
 public interface IPageSearcher<I> {
-    void onSearch(PageAction pageAction, List<I> pageData, String keyword, PageManager.IPageDataCallback<I> callback);
+    void onSearch(PageAction pageAction, String keyword, PageManager.IPageDataCallback<I> callback);
 
     void onCancel();
 
-    List<String> getKeywords();
+    void setPageData(List<I> pageData, boolean haveNextPage);
+
+    List<String> getHighlightKeywords();
 }

@@ -26,12 +26,12 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
             return handleNullFilterName(keyword, entity);
         }
         if (name.indexOf(keyword) != -1) {
-            addKeyword(keyword);
+            addHighlightKeyword(keyword);
             return true;
         } else {
             String pinyin = PinyinUtils.getPinYin(name).toLowerCase(Locale.getDefault());
             if (pinyin.startsWith(keyword)) {
-                addKeyword(name.substring(0, 1));
+                addHighlightKeyword(name.substring(0, 1));
                 return true;
             }
         }

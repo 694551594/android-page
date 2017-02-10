@@ -15,7 +15,9 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     protected Context context;
     private PageManager.IPageDataCallback<I> callback;
     private PageAction pageAction;
-    private List<String> mKeywords = new ArrayList<>();
+    private List<String> mHighlightKeywords = new ArrayList<>();
+    private List<I> pageData;
+    private boolean haveNextPage;
 
     public PageSearcher(Context context) {
         this.context = context;
@@ -44,23 +46,33 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
         this.callback.onException(context, pageAction, throwable);
     }
 
-    protected void addKeyword(String keyword) {
+    protected void addHighlightKeyword(String keyword) {
         String uk = keyword.toUpperCase(Locale.getDefault());
         String lk = keyword.toLowerCase(Locale.getDefault());
-        if (!mKeywords.contains(uk)) {
-            mKeywords.add(uk);
+        if (!mHighlightKeywords.contains(uk)) {
+            mHighlightKeywords.add(uk);
         }
-        if (!mKeywords.contains(lk)) {
-            mKeywords.add(lk);
+        if (!mHighlightKeywords.contains(lk)) {
+            mHighlightKeywords.add(lk);
         }
     }
 
     @Override
-    public final void onSearch(PageAction pageAction, List<I> pageData, String keyword, PageManager.IPageDataCallback<I> callback) {
+    public void setPageData(List<I> pageData, boolean haveNextPage) {
+        this.pageData = pageData;
+        this.haveNextPage = haveNextPage;
+    }
+
+    @Override
+    public final void onSearch(PageAction pageAction, String keyword, PageManager.IPageDataCallback<I> callback) {
         this.callback = callback;
         this.pageAction = pageAction;
-        this.mKeywords.clear();
-        executeSearch(pageData, keyword);
+        this.mHighlightKeywords.clear();
+        if (TextUtils.isEmpty(keyword)) {
+            this.callback.onPageDataCallback(PageAction.REFRESH, pageData, haveNextPage, false);
+        } else {
+            executeSearch(pageData, keyword);
+        }
     }
 
     @Override
@@ -69,8 +81,8 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     @Override
-    public List<String> getKeywords() {
-        return mKeywords;
+    public List<String> getHighlightKeywords() {
+        return mHighlightKeywords;
     }
 
 }

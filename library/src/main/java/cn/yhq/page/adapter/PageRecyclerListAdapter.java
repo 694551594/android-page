@@ -50,7 +50,7 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     }
 
     @Override
-    public void setKeywords(List<String> keywords) {
+    public void setHighlightKeywords(List<String> keywords) {
         this.mKeywords = keywords;
     }
 

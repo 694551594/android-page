@@ -2,7 +2,6 @@ package cn.yhq.page.core;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public final class PageEngine<T, I> {
     private IPageAdapter<I> mPageAdapter;
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
     private IPageSearcher<I> mPageSearcher;
-    private List<I> mPageData;
 
     public PageEngine(Context context, int pageSize) {
         this.mContext = context;
@@ -64,9 +62,9 @@ public final class PageEngine<T, I> {
             int afterDataSize = mPageAdapter.getPageDataCount();
 
             if (pageAction == PageAction.SEARCH) {
-                mPageAdapter.setKeywords(mPageSearcher.getKeywords());
+                mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
             } else {
-                mPageAdapter.setKeywords(null);
+                mPageAdapter.setHighlightKeywords(null);
             }
 
             if (beforeDataSize != afterDataSize) {
@@ -104,8 +102,7 @@ public final class PageEngine<T, I> {
             }
 
             if (pageAction != PageAction.SEARCH) {
-                mPageData = new ArrayList<>(mPageAdapter.getPageListData());
-                mPageManager.saveState(mPageStateSavedBundle);
+                mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()), mPageManager.getPage().haveNextPage());
             }
 
         }
@@ -191,8 +188,6 @@ public final class PageEngine<T, I> {
         this.mPageManager.cancel();
     }
 
-    private Bundle mPageStateSavedBundle = new Bundle();
-
     public final void initPageData() {
         mOnPageListenerDispatcher.onPageRequestStart(PageAction.INIT);
         mOnPageListenerDispatcher.onPageInit();
@@ -215,14 +210,9 @@ public final class PageEngine<T, I> {
         if (this.mPageSearcher == null) {
             return;
         }
-        if (TextUtils.isEmpty(keyword)) {
-            this.mPageManager.restoreState(mPageStateSavedBundle);
-            this.mPageDataCallback.onPageDataCallback(PageAction.REFRESH, mPageData, mPageManager.getPage().haveNextPage(), false);
-        } else {
-            mOnPageListenerDispatcher.onPageRequestStart(PageAction.SEARCH);
-            mOnPageListenerDispatcher.onPageSearch(keyword);
-            this.mPageSearcher.onSearch(PageAction.SEARCH, mPageData, keyword, mPageDataCallback);
-        }
+        mOnPageListenerDispatcher.onPageRequestStart(PageAction.SEARCH);
+        mOnPageListenerDispatcher.onPageSearch(keyword);
+        this.mPageSearcher.onSearch(PageAction.SEARCH, keyword, mPageDataCallback);
     }
 
     public final boolean saveState(Bundle state) {
