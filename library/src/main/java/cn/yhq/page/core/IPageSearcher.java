@@ -11,7 +11,7 @@ public interface IPageSearcher<I> {
 
     void onCancel();
 
-    void setPageData(List<I> pageData, boolean haveNextPage);
+    void setPageData(List<I> pageData);
 
     List<String> getHighlightKeywords();
 }

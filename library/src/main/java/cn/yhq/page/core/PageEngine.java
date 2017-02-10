@@ -35,8 +35,7 @@ public final class PageEngine<T, I> {
     private PageManager.IPageDataCallback<I> mPageDataCallback = new PageManager.IPageDataCallback<I>() {
 
         @Override
-        public void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                       boolean isFromCache) {
+        public void onPageDataCallback(PageAction pageAction, List<I> data, boolean isFromCache) {
 
             // 如果加载缓存数据的时候listview已经适配了数据就不再加载缓存数据了
             if (isFromCache && mPageAdapter.getPageDataCount() != 0) {
@@ -87,7 +86,7 @@ public final class PageEngine<T, I> {
                     } else {
                         mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
                     }
-                    mOnPullToRefreshProvider.setHaveMoreData(haveNextPage);
+                    mOnPullToRefreshProvider.setHaveMoreData(mPageManager.getPage().haveNextPage());
                     mOnPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
                 }
             }
@@ -102,7 +101,7 @@ public final class PageEngine<T, I> {
             }
 
             if (pageAction != PageAction.SEARCH) {
-                mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()), mPageManager.getPage().haveNextPage());
+                mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
             }
 
         }

@@ -17,7 +17,6 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     private PageAction pageAction;
     private List<String> mHighlightKeywords = new ArrayList<>();
     private List<I> pageData;
-    private boolean haveNextPage;
 
     public PageSearcher(Context context) {
         this.context = context;
@@ -39,7 +38,7 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     protected void callSearchResponse(List<I> response) {
-        this.callback.onPageDataCallback(pageAction, response, false, false);
+        this.callback.onPageDataCallback(pageAction, response, false);
     }
 
     protected void callException(Throwable throwable) {
@@ -58,9 +57,8 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     @Override
-    public void setPageData(List<I> pageData, boolean haveNextPage) {
+    public void setPageData(List<I> pageData) {
         this.pageData = pageData;
-        this.haveNextPage = haveNextPage;
     }
 
     @Override
@@ -69,7 +67,7 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
         this.pageAction = pageAction;
         this.mHighlightKeywords.clear();
         if (TextUtils.isEmpty(keyword)) {
-            this.callback.onPageDataCallback(PageAction.REFRESH, pageData, haveNextPage, false);
+            this.callback.onPageDataCallback(PageAction.REFRESH, pageData, false);
         } else {
             executeSearch(pageData, keyword);
         }

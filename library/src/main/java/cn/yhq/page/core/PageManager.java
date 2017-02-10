@@ -24,8 +24,7 @@ public final class PageManager<T, I> {
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
 
     interface IPageDataCallback<I> {
-        void onPageDataCallback(PageAction pageAction, List<I> data, boolean haveNextPage,
-                                boolean isFromCache);
+        void onPageDataCallback(PageAction pageAction, List<I> data, boolean isFromCache);
 
         void onException(Context context, PageAction pageAction, Throwable t);
     }
@@ -51,7 +50,7 @@ public final class PageManager<T, I> {
 
                 try {
                     List<I> data = getDataWithInterceptorChain(result);
-                    mPageDataCallback.onPageDataCallback(pageAction, data, mPage.haveNextPage(), isFromCache);
+                    mPageDataCallback.onPageDataCallback(pageAction, data, isFromCache);
                     // 最终要适配的数据
                 } catch (Exception e) {
                     onException(context, pageAction, e);
