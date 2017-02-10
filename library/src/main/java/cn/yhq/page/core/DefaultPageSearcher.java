@@ -20,17 +20,16 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
     @Override
     public boolean filter(String keyword, I entity) {
         String name = filterName.getFilterName(entity);
-        if (handleNullFilterName()) {
+        if (handleNullFilterName(keyword, entity)) {
             return false;
         }
         if (name.indexOf(keyword) != -1) {
             mKeyword = keyword;
             return true;
         } else {
-            String pinyin = PinyinUtils.getPinYinHeadLetter(name);
-            int index = pinyin.indexOf(keyword);
-            if (index != -1) {
-                mKeyword = name.substring(index, index + 1);
+            String pinyin = PinyinUtils.getPinYin(name);
+            if (pinyin.startsWith(keyword)) {
+                mKeyword = name.substring(0, 1);
                 return true;
             }
         }
@@ -42,7 +41,7 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
         return mKeyword;
     }
 
-    public boolean handleNullFilterName() {
+    public boolean handleNullFilterName(String keyword, I entity) {
         return false;
     }
 }
