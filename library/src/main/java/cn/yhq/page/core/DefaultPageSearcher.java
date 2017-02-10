@@ -1,6 +1,7 @@
 package cn.yhq.page.core;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import cn.yhq.utils.PinyinUtils;
 
@@ -20,8 +21,8 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
     @Override
     public boolean filter(String keyword, I entity) {
         String name = filterName.getFilterName(entity);
-        if (handleNullFilterName(keyword, entity)) {
-            return false;
+        if (TextUtils.isEmpty(name)) {
+            return handleNullFilterName(keyword, entity);
         }
         if (name.indexOf(keyword) != -1) {
             mKeyword = keyword;
