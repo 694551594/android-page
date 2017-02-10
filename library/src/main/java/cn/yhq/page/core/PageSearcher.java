@@ -6,11 +6,6 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
-
-import cn.yhq.utils.ToastUtils;
-
-import static cn.yhq.page.core.SearchHelper.EscapeKeywords;
 
 /**
  * Created by Yanghuiqiang on 2017/2/9.
@@ -38,26 +33,7 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
                 }
             }
         }
-        buildPattern(getKeywords());
         this.callSearchResponse(list);
-    }
-
-    private Pattern buildPattern(List<String> keywords) {
-        String pattern = "";
-
-        for (String keyword : keywords) {
-            if (EscapeKeywords.contains(keyword)) {
-                keyword = "\\" + keyword;
-            }
-            pattern += "(" + keyword + "+)|";
-        }
-
-        if (pattern.isEmpty()) {
-            return Pattern.compile(pattern);
-        }
-
-        ToastUtils.showToast(context, pattern.substring(0, pattern.length() - 1));
-        return Pattern.compile(pattern.substring(0, pattern.length() - 1));
     }
 
     protected void callSearchResponse(List<I> response) {
