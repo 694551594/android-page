@@ -13,7 +13,7 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
         implements
         IPageAdapter<G> {
 
-    private String mKeyword;
+    private List<String> mKeywords;
 
     public PageExpandableListAdapter(Context context, List<G> listData) {
         super(context, listData);
@@ -57,11 +57,11 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
     }
 
     @Override
-    public void setKeyword(String keyword) {
-        this.mKeyword = keyword;
+    public void setKeywords(List<String> keywords) {
+        this.mKeywords = keywords;
     }
 
     public CharSequence highlight(String text) {
-        return SearchHelper.match(text, mKeyword);
+        return SearchHelper.match(text, mKeywords);
     }
 }

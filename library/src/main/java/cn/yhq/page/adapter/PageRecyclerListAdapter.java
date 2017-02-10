@@ -10,7 +10,7 @@ import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.SearchHelper;
 
 public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implements IPageAdapter<T> {
-    private String mKeyword;
+    private List<String> mKeywords;
 
     public PageRecyclerListAdapter(Context context) {
         super(context);
@@ -50,11 +50,12 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     }
 
     @Override
-    public void setKeyword(String keyword) {
-        this.mKeyword = keyword;
+    public void setKeywords(List<String> keywords) {
+        this.mKeywords = keywords;
     }
 
     public CharSequence highlight(String text) {
-        return SearchHelper.match(text, mKeyword);
+        return SearchHelper.match(text, mKeywords);
     }
+
 }

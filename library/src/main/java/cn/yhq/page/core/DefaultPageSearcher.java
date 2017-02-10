@@ -3,6 +3,8 @@ package cn.yhq.page.core;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.Locale;
+
 import cn.yhq.utils.PinyinUtils;
 
 /**
@@ -10,7 +12,6 @@ import cn.yhq.utils.PinyinUtils;
  */
 
 public class DefaultPageSearcher<I> extends PageSearcher<I> {
-    private String mKeyword;
     private IFilterName<I> filterName;
 
     public DefaultPageSearcher(Context context, IFilterName<I> filterName) {
@@ -25,21 +26,16 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
             return handleNullFilterName(keyword, entity);
         }
         if (name.indexOf(keyword) != -1) {
-            mKeyword = keyword;
+            addKeyword(keyword);
             return true;
         } else {
-            String pinyin = PinyinUtils.getPinYin(name);
+            String pinyin = PinyinUtils.getPinYin(name).toLowerCase(Locale.getDefault());
             if (pinyin.startsWith(keyword)) {
-                mKeyword = name.substring(0, 1);
+                addKeyword(name.substring(0, 1));
                 return true;
             }
         }
         return false;
-    }
-
-    @Override
-    public String getKeyword() {
-        return mKeyword;
     }
 
     public boolean handleNullFilterName(String keyword, I entity) {

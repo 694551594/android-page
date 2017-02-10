@@ -4,7 +4,7 @@
     <option name="defaultSettings" value="true" />
     <option name="id" value="1457026605806" />
     <option name="name" value="default" />
-    <option name="pathToConfigFileJava" value="G:/插件/eclipse-java-google-style.xml" />
+    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../../插件/eclipse-java-google-style.xml" />
     <option name="selectedJavaProfile" value="GoogleStyle" />
   </component>
   <component name="EntryPointsManager">

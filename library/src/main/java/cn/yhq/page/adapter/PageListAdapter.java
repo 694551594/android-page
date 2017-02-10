@@ -16,7 +16,7 @@ import cn.yhq.page.core.SearchHelper;
  * @author Yanghuiqiang 2015-1-24
  */
 public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T> {
-    private String mKeyword;
+    private List<String> mKeywords;
 
     public PageListAdapter(Context context, List<T> listData) {
         super(context, listData);
@@ -60,11 +60,11 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     @Override
-    public void setKeyword(String keyword) {
-        this.mKeyword = keyword;
+    public void setKeywords(List<String> keywords) {
+        this.mKeywords = keywords;
     }
 
     public CharSequence highlight(String text) {
-        return SearchHelper.match(text, mKeyword);
+        return SearchHelper.match(text, mKeywords);
     }
 }

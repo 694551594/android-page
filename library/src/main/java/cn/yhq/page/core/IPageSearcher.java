@@ -11,5 +11,5 @@ public interface IPageSearcher<I> {
 
     void onCancel();
 
-    String getKeyword();
+    List<String> getKeywords();
 }

@@ -64,9 +64,9 @@ public final class PageEngine<T, I> {
             int afterDataSize = mPageAdapter.getPageDataCount();
 
             if (pageAction == PageAction.SEARCH) {
-                mPageAdapter.setKeyword(mPageSearcher.getKeyword());
+                mPageAdapter.setKeywords(mPageSearcher.getKeywords());
             } else {
-                mPageAdapter.setKeyword(null);
+                mPageAdapter.setKeywords(null);
             }
 
             if (beforeDataSize != afterDataSize) {

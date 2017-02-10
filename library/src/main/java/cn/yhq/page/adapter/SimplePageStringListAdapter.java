@@ -10,7 +10,7 @@ import cn.yhq.page.core.SearchHelper;
 
 
 public class SimplePageStringListAdapter extends PageListAdapter<String> {
-    private String mKeyword;
+    private List<String> mKeywords;
 
     public SimplePageStringListAdapter(Context context, List<String> listData) {
         super(context, listData);
@@ -42,12 +42,12 @@ public class SimplePageStringListAdapter extends PageListAdapter<String> {
     }
 
     @Override
-    public void setKeyword(String keyword) {
-        this.mKeyword = keyword;
+    public void setKeywords(List<String> keywords) {
+        this.mKeywords = keywords;
     }
 
     public CharSequence highlight(String text) {
-        return SearchHelper.match(text, mKeyword);
+        return SearchHelper.match(text, mKeywords);
     }
 
 }

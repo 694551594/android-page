@@ -17,40 +17,54 @@ import java.util.regex.Pattern;
 
 public class SearchHelper {
 
-    private final static List<String> keywords = new ArrayList<>();
+    public final static List<String> EscapeKeywords = new ArrayList<>();
 
     static {
-        keywords.add(".");
-        keywords.add("$");
-        keywords.add("(");
-        keywords.add(")");
-        keywords.add("*");
-        keywords.add("+");
-        keywords.add("[");
-        keywords.add("?");
-        keywords.add("\\");
-        keywords.add("^");
-        keywords.add("{");
-        keywords.add("|");
+        EscapeKeywords.add(".");
+        EscapeKeywords.add("$");
+        EscapeKeywords.add("(");
+        EscapeKeywords.add(")");
+        EscapeKeywords.add("*");
+        EscapeKeywords.add("+");
+        EscapeKeywords.add("[");
+        EscapeKeywords.add("?");
+        EscapeKeywords.add("\\");
+        EscapeKeywords.add("^");
+        EscapeKeywords.add("{");
+        EscapeKeywords.add("|");
     }
 
-    private static Pattern buildPattern(String keyword) {
-        if (keywords.contains(keyword)) {
-            keyword = "\\" + keyword;
+    private static Pattern buildPattern(List<String> keywords) {
+        String pattern = "";
+        for (String keyword : keywords) {
+            if (EscapeKeywords.contains(keyword)) {
+                keyword = "\\" + keyword;
+            }
+            pattern += "(" + keyword + "+)|";
         }
-        return Pattern.compile(keyword + "+");
+
+        return Pattern.compile(pattern.substring(0, pattern.length() - 1));
+    }
+
+    public static CharSequence match(CharSequence text, List<String> keywords) {
+        if (keywords == null || keywords.isEmpty()) {
+            return text;
+        }
+        Matcher matcher = buildPattern(keywords).matcher(text);
+        SpannableString spannable = new SpannableString(text);// 用于可变字符串
+        while (matcher.find()) {
+            highlight(spannable, matcher.start(), matcher.end());
+        }
+        return spannable;
     }
 
     public static CharSequence match(CharSequence text, String keyword) {
         if (TextUtils.isEmpty(keyword)) {
             return text;
         }
-        Matcher matcher = buildPattern(keyword).matcher(text);
-        SpannableString spannable = new SpannableString(text);// 用于可变字符串
-        while (matcher.find()) {
-            highlight(spannable, matcher.start(), matcher.end());
-        }
-        return spannable;
+        List<String> keywords = new ArrayList<>();
+        keywords.add(keyword);
+        return match(text, keywords);
     }
 
     private static SpannableString highlight(SpannableString text, int start, int end) {
