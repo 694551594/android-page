@@ -2,9 +2,14 @@ package cn.yhq.page.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import cn.yhq.page.core.DefaultOnPageListener;
+import cn.yhq.page.core.DefaultPageSearcher;
+import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
@@ -62,7 +67,7 @@ public final class PageContext<T, I> {
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
-                initPageData();
+                refreshPageData();
             }
         });
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
@@ -81,6 +86,30 @@ public final class PageContext<T, I> {
                 this.initPageData();
             }
         }
+    }
+
+    public final void attachSearchEditText(final EditText searchEditText, IFilterName<I> filterName) {
+        this.attachSearchEditText(searchEditText, new DefaultPageSearcher<>(searchEditText.getContext(), filterName));
+    }
+
+    public final void attachSearchEditText(final EditText searchEditText, IPageSearcher<I> pageSearcher) {
+        this.setPageSearcher(pageSearcher);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                searchPageData(searchEditText.getText().toString());
+            }
+        });
     }
 
     public final void setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {

@@ -3,13 +3,12 @@ package cn.yhq.page.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
 import cn.yhq.dialog.core.DialogBuilder;
 import cn.yhq.dialog.core.IDialog;
+import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
@@ -141,23 +140,12 @@ public abstract class PageDialog<T, I> implements
         mPageContext.searchPageData(keyword);
     }
 
-    public final void attachSearchEditText(final EditText searchEditText) {
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public final void attachSearchEditText(EditText searchEditText, IFilterName<I> filterName) {
+        mPageContext.attachSearchEditText(searchEditText, filterName);
+    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                searchPageData(searchEditText.getText().toString());
-            }
-        });
+    public final void attachSearchEditText(EditText searchEditText, IPageSearcher<I> pageSearcher) {
+        mPageContext.attachSearchEditText(searchEditText, pageSearcher);
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 
 public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
-    private Context context;
+    protected Context context;
     private PageManager.IPageDataCallback<I> callback;
     private PageAction pageAction;
 
@@ -22,17 +22,17 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
 
     public void executeSearch(List<I> pageData, String keyword) {
         keyword = keyword.toLowerCase(Locale.getDefault());
-        List<I> filterDataList = new ArrayList<>();
+        List<I> list = new ArrayList<>();
         if (TextUtils.isEmpty(keyword)) {
-            filterDataList = new ArrayList<>(pageData);
+            list = new ArrayList<>(pageData);
         } else {
             for (int i = 0; i < pageData.size(); i++) {
                 if (this.filter(keyword, pageData.get(i))) {
-                    filterDataList.add(pageData.get(i));
+                    list.add(pageData.get(i));
                 }
             }
         }
-        this.callSearchResponse(filterDataList);
+        this.callSearchResponse(list);
     }
 
     protected void callSearchResponse(List<I> response) {

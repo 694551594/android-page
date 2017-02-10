@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
-import cn.yhq.page.core.DefaultPageSearcher;
+import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.http.RetrofitPageActivity;
@@ -44,8 +44,7 @@ public class RecyclerPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks
         });
         mListView.setLayoutManager(new LinearLayoutManager(this));
         mEditText = this.getView(R.id.editText);
-        this.attachSearchEditText(mEditText);
-        this.setPageSearcher(new DefaultPageSearcher<Tracks>(this) {
+        this.attachSearchEditText(mEditText, new IFilterName<Tracks>() {
             @Override
             public String getFilterName(Tracks entity) {
                 return entity.getTitle();

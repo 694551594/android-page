@@ -1,11 +1,10 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseFragment;
+import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
@@ -55,23 +54,12 @@ public abstract class PageFragment<T, I> extends BaseFragment
         mPageContext.searchPageData(keyword);
     }
 
-    public final void attachSearchEditText(final EditText searchEditText) {
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public final void attachSearchEditText(EditText searchEditText, IFilterName<I> filterName) {
+        mPageContext.attachSearchEditText(searchEditText, filterName);
+    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                searchPageData(searchEditText.getText().toString());
-            }
-        });
+    public final void attachSearchEditText(EditText searchEditText, IPageSearcher<I> pageSearcher) {
+        mPageContext.attachSearchEditText(searchEditText, pageSearcher);
     }
 
     /**

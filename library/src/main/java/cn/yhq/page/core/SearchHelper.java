@@ -6,6 +6,8 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +17,27 @@ import java.util.regex.Pattern;
 
 public class SearchHelper {
 
+    private final static List<String> keywords = new ArrayList<>();
+
+    static {
+        keywords.add(".");
+        keywords.add("$");
+        keywords.add("(");
+        keywords.add(")");
+        keywords.add("*");
+        keywords.add("+");
+        keywords.add("[");
+        keywords.add("?");
+        keywords.add("\\");
+        keywords.add("^");
+        keywords.add("{");
+        keywords.add("|");
+    }
+
     private static Pattern buildPattern(String keyword) {
+        if (keywords.contains(keyword)) {
+            keyword = "\\" + keyword;
+        }
         return Pattern.compile(keyword + "+");
     }
 

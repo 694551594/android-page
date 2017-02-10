@@ -76,7 +76,23 @@ public final class PageEngine<T, I> {
                 mPageAdapter.notifyDataSetChanged();
             }
 
-            handleOnPullToRefresh(afterDataSize - beforeDataSize, haveNextPage);
+            if (mOnPullToRefreshProvider != null) {
+                if (pageAction == PageAction.SEARCH) {
+                    mOnPullToRefreshProvider.setHaveMoreData(false);
+                    mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
+                } else {
+                    // 根据数据和分页大小来屏蔽加载更多的功能
+                    // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
+                    if (mPageAdapter.getPageDataCount() != 0
+                            && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
+                        mOnPullToRefreshProvider.setPullLoadMoreEnable(true);
+                    } else {
+                        mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
+                    }
+                    mOnPullToRefreshProvider.setHaveMoreData(haveNextPage);
+                    mOnPullToRefreshProvider.onRefreshComplete(afterDataSize - beforeDataSize, true);
+                }
+            }
 
             if (isFromCache) {
                 boolean isHaveCache =
@@ -114,21 +130,6 @@ public final class PageEngine<T, I> {
             mOnPageListenerDispatcher.onPageLoadComplete(pageAction, false, false);
         }
     };
-
-    private void handleOnPullToRefresh(int newDataSize, boolean haveNextPage) {
-        if (mOnPullToRefreshProvider != null) {
-            // 根据数据和分页大小来屏蔽加载更多的功能
-            // 如果初始化的时候就把加载更多禁掉了，就说明不会使用加载更多的功能了，所以不加此监听
-            if (mPageAdapter.getPageDataCount() != 0
-                    && mPageAdapter.getPageDataCount() >= mPageManager.getPage().pageSize) {
-                mOnPullToRefreshProvider.setPullLoadMoreEnable(true);
-            } else {
-                mOnPullToRefreshProvider.setPullLoadMoreEnable(false);
-            }
-            mOnPullToRefreshProvider.setHaveMoreData(haveNextPage);
-            mOnPullToRefreshProvider.onRefreshComplete(newDataSize, true);
-        }
-    }
 
     public final void addOnPageListener(OnPageListener listener) {
         this.mOnPageListenerDispatcher.addOnPageListener(listener);
@@ -216,7 +217,7 @@ public final class PageEngine<T, I> {
         }
         if (TextUtils.isEmpty(keyword)) {
             this.mPageManager.restoreState(mPageStateSavedBundle);
-            this.mPageDataCallback.onPageDataCallback(PageAction.INIT, mPageData, mPageManager.getPage().haveNextPage(), false);
+            this.mPageDataCallback.onPageDataCallback(PageAction.REFRESH, mPageData, mPageManager.getPage().haveNextPage(), false);
         } else {
             mOnPageListenerDispatcher.onPageRequestStart(PageAction.SEARCH);
             mOnPageListenerDispatcher.onPageSearch(keyword);

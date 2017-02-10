@@ -8,25 +8,31 @@ import cn.yhq.utils.PinyinUtils;
  * Created by Yanghuiqiang on 2017/2/9.
  */
 
-public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
+public class DefaultPageSearcher<I> extends PageSearcher<I> {
     private String mKeyword;
+    private IFilterName<I> filterName;
 
-    public DefaultPageSearcher(Context context) {
+    public DefaultPageSearcher(Context context, IFilterName<I> filterName) {
         super(context);
+        this.filterName = filterName;
     }
 
     @Override
     public boolean filter(String keyword, I entity) {
-        String name = getFilterName(entity);
-        if (name == null) {
+        String name = filterName.getFilterName(entity);
+        if (handleNullFilterName()) {
             return false;
         }
         if (name.indexOf(keyword) != -1) {
             mKeyword = keyword;
             return true;
-        } else if (PinyinUtils.getPinYin(name).startsWith(keyword)) {
-            mKeyword = name.substring(0, 1);
-            return true;
+        } else {
+            String pinyin = PinyinUtils.getPinYinHeadLetter(name);
+            int index = pinyin.indexOf(keyword);
+            if (index != -1) {
+                mKeyword = name.substring(index, index + 1);
+                return true;
+            }
         }
         return false;
     }
@@ -36,5 +42,7 @@ public abstract class DefaultPageSearcher<I> extends PageSearcher<I> {
         return mKeyword;
     }
 
-    public abstract String getFilterName(I entity);
+    public boolean handleNullFilterName() {
+        return false;
+    }
 }
