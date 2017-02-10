@@ -1,6 +1,7 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseFragment;
@@ -25,14 +26,19 @@ public abstract class PageFragment<T, I> extends BaseFragment
         IPageContextProvider<T, I> {
     private PageContext<T, I> mPageContext;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPageContext = new PageContext(this.getContext(), this);
+        mPageContext.addOnPageListener(this);
+    }
+
     /**
      * 此方法是在创建视图后调用的
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPageContext = new PageContext(this.getContext(), this);
-        mPageContext.addOnPageListener(this);
         mPageContext.start(savedInstanceState);
     }
 
