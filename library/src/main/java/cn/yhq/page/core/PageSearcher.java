@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Yanghuiqiang on 2017/2/9.
@@ -23,13 +22,8 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     protected final void addHighlightKeyword(String keyword) {
-        String uk = keyword.toUpperCase(Locale.getDefault());
-        String lk = keyword.toLowerCase(Locale.getDefault());
-        if (!mHighlightKeywords.contains(uk)) {
-            mHighlightKeywords.add(uk);
-        }
-        if (!mHighlightKeywords.contains(lk)) {
-            mHighlightKeywords.add(lk);
+        if (!mHighlightKeywords.contains(keyword)) {
+            mHighlightKeywords.add(keyword);
         }
     }
 
@@ -39,7 +33,6 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     protected void executeSearch(List<I> pageData, String keyword) {
-        keyword = keyword.toLowerCase(Locale.getDefault());
         List<I> list;
         if (TextUtils.isEmpty(keyword)) {
             list = handleNullKeyword(pageData);

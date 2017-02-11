@@ -17,32 +17,42 @@ import java.util.regex.Pattern;
 
 public class SearchHelper {
 
-    public final static List<String> EscapeKeywords = new ArrayList<>();
+    public final static List<Character> EscapeKeywords = new ArrayList<>();
 
     static {
-        EscapeKeywords.add(".");
-        EscapeKeywords.add("$");
-        EscapeKeywords.add("(");
-        EscapeKeywords.add(")");
-        EscapeKeywords.add("*");
-        EscapeKeywords.add("+");
-        EscapeKeywords.add("[");
-        EscapeKeywords.add("?");
-        EscapeKeywords.add("\\");
-        EscapeKeywords.add("^");
-        EscapeKeywords.add("{");
-        EscapeKeywords.add("|");
+        EscapeKeywords.add('.');
+        EscapeKeywords.add('$');
+        EscapeKeywords.add('(');
+        EscapeKeywords.add(')');
+        EscapeKeywords.add('*');
+        EscapeKeywords.add('+');
+        EscapeKeywords.add('[');
+        EscapeKeywords.add('?');
+        EscapeKeywords.add('\\');
+        EscapeKeywords.add('^');
+        EscapeKeywords.add('{');
+        EscapeKeywords.add('|');
     }
 
-    private static Pattern buildPattern(List<String> keywords) {
+    public static Pattern buildPattern(String keyword) {
+        List<String> keywords = new ArrayList<>();
+        keywords.add(keyword);
+        return buildPattern(keywords);
+    }
+
+    public static Pattern buildPattern(List<String> keywords) {
         String pattern = "";
         for (String keyword : keywords) {
-            if (EscapeKeywords.contains(keyword)) {
-                keyword = "\\" + keyword;
+            StringBuffer buffer = new StringBuffer();
+            for (char c : keyword.toCharArray()) {
+                if (EscapeKeywords.contains(c)) {
+                    buffer.append("\\" + c);
+                } else {
+                    buffer.append(c);
+                }
             }
-            pattern += "(" + keyword + "+)|";
+            pattern += "((" + buffer.toString() + ")+)|";
         }
-
         return Pattern.compile(pattern.substring(0, pattern.length() - 1));
     }
 

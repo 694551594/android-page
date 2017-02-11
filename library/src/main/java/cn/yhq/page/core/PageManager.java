@@ -23,7 +23,7 @@ public final class PageManager<T, I> {
     private Page<I> mPage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
 
-    interface IPageDataCallback<I> {
+    public interface IPageDataCallback<I> {
         void onPageDataCallback(PageAction pageAction, List<I> data, boolean isFromCache);
 
         void onException(Context context, PageAction pageAction, Throwable t);

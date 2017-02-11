@@ -100,7 +100,7 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             }
 
-            if (pageAction != PageAction.SEARCH) {
+            if (pageAction != PageAction.SEARCH && mPageSearcher != null) {
                 mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
             }
 
