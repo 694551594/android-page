@@ -15,37 +15,14 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     protected Context context;
     private PageManager.IPageDataCallback<I> callback;
     private PageAction pageAction;
-    private List<String> mHighlightKeywords = new ArrayList<>();
     private List<I> pageData;
+    private List<String> mHighlightKeywords = new ArrayList<>();
 
     public PageSearcher(Context context) {
         this.context = context;
     }
 
-    public void executeSearch(List<I> pageData, String keyword) {
-        keyword = keyword.toLowerCase(Locale.getDefault());
-        List<I> list = new ArrayList<>();
-        if (TextUtils.isEmpty(keyword)) {
-            list = new ArrayList<>(pageData);
-        } else {
-            for (int i = 0; i < pageData.size(); i++) {
-                if (this.filter(keyword, pageData.get(i))) {
-                    list.add(pageData.get(i));
-                }
-            }
-        }
-        this.callSearchResponse(list);
-    }
-
-    protected void callSearchResponse(List<I> response) {
-        this.callback.onPageDataCallback(pageAction, response, false);
-    }
-
-    protected void callException(Throwable throwable) {
-        this.callback.onException(context, pageAction, throwable);
-    }
-
-    protected void addHighlightKeyword(String keyword) {
+    protected final void addHighlightKeyword(String keyword) {
         String uk = keyword.toUpperCase(Locale.getDefault());
         String lk = keyword.toLowerCase(Locale.getDefault());
         if (!mHighlightKeywords.contains(uk)) {
@@ -57,15 +34,39 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     @Override
-    public void setPageData(List<I> pageData) {
+    public final List<String> getHighlightKeywords() {
+        return mHighlightKeywords;
+    }
+
+    protected void executeSearch(List<I> pageData, String keyword) {
+        keyword = keyword.toLowerCase(Locale.getDefault());
+        List<I> list;
+        if (TextUtils.isEmpty(keyword)) {
+            list = handleNullKeyword(pageData);
+        } else {
+            list = handleNotNullKeyword(pageData, keyword);
+        }
+        this.callSearchResponse(list);
+    }
+
+    protected final void callSearchResponse(List<I> response) {
+        this.callback.onPageDataCallback(pageAction, response, false);
+    }
+
+    protected final void callException(Throwable throwable) {
+        this.callback.onException(context, pageAction, throwable);
+    }
+
+    @Override
+    public final void setPageData(List<I> pageData) {
         this.pageData = pageData;
     }
 
     @Override
     public final void onSearch(PageAction pageAction, String keyword, PageManager.IPageDataCallback<I> callback) {
+        this.mHighlightKeywords.clear();
         this.callback = callback;
         this.pageAction = pageAction;
-        this.mHighlightKeywords.clear();
         if (TextUtils.isEmpty(keyword)) {
             this.callback.onPageDataCallback(PageAction.REFRESH, pageData, false);
         } else {
@@ -78,9 +79,18 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
 
     }
 
-    @Override
-    public List<String> getHighlightKeywords() {
-        return mHighlightKeywords;
+    protected List<I> handleNotNullKeyword(List<I> pageData, String keyword) {
+        List<I> list = new ArrayList<>();
+        for (int i = 0; i < pageData.size(); i++) {
+            if (this.filter(keyword, pageData.get(i))) {
+                list.add(pageData.get(i));
+            }
+        }
+        return list;
+    }
+
+    protected List<I> handleNullKeyword(List<I> pageData) {
+        return new ArrayList<>(pageData);
     }
 
 }

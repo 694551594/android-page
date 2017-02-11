@@ -24,15 +24,15 @@ public abstract class PageRequester<T, I> implements IPageRequester<T, I> {
 
     public abstract void executeRequest(Context context, PageAction pageAction, Page<I> page);
 
-    protected void callNetworkResponse(T response) {
+    protected final void callNetworkResponse(T response) {
         this.pageResponse.onResponse(pageAction, response, false);
     }
 
-    protected void callCacheResponse(T response) {
+    protected final void callCacheResponse(T response) {
         this.pageResponse.onResponse(pageAction, response, true);
     }
 
-    protected void callException(Throwable throwable) {
+    protected final void callException(Throwable throwable) {
         this.pageResponse.onException(context, pageAction, throwable);
     }
 

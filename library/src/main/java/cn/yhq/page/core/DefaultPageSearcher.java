@@ -22,9 +22,17 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
     @Override
     public boolean filter(String keyword, I entity) {
         String name = filterName.getFilterName(entity);
+        return filterByName(keyword, entity, name);
+    }
+
+    protected boolean filterByName(String keyword, I entity, String name) {
         if (TextUtils.isEmpty(name)) {
-            return handleNullFilterName(keyword, entity);
+            return false;
         }
+        return filterByPinyin(keyword, name);
+    }
+
+    protected final boolean filterByPinyin(String keyword, String name) {
         if (name.indexOf(keyword) != -1) {
             addHighlightKeyword(keyword);
             return true;
@@ -38,7 +46,4 @@ public class DefaultPageSearcher<I> extends PageSearcher<I> {
         return false;
     }
 
-    public boolean handleNullFilterName(String keyword, I entity) {
-        return false;
-    }
 }
