@@ -12,8 +12,8 @@ import cn.yhq.page.core.SearchHelper;
 public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableListAdapter<G, C>
         implements
         IPageAdapter<G> {
-
     private List<String> mKeywords;
+    private List<G> mCheckedList;
 
     public PageExpandableListAdapter(Context context, List<G> listData) {
         super(context, listData);
@@ -63,5 +63,14 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
 
     public CharSequence highlight(String text) {
         return SearchHelper.match(text, mKeywords);
+    }
+
+    @Override
+    public void setCheckedListData(List<G> data) {
+        this.mCheckedList = data;
+    }
+
+    public boolean isChecked(int position) {
+        return mCheckedList.contains(this.getGroup(position));
     }
 }

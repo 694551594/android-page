@@ -29,4 +29,6 @@ public interface IPageAdapter<I> {
     DataAppendMode getDataAppendMode();
 
     void setHighlightKeywords(List<String> keywords);
+
+    void setCheckedListData(List<I> data);
 }

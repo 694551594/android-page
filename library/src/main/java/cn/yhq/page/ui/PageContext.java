@@ -9,13 +9,16 @@ import android.widget.EditText;
 
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.DefaultPageSearcher;
+import cn.yhq.page.core.IEquals;
 import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageAdapter;
+import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
+import cn.yhq.page.core.PageChecker;
 import cn.yhq.page.core.PageEngine;
 import cn.yhq.page.core.PageManager;
 import cn.yhq.page.pulltorefresh.PullToRefreshContextFactory;
@@ -114,6 +117,19 @@ public final class PageContext<T, I> {
 
     public final void setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {
         this.mPageEngine.setOnPullToRefreshProvider(onPullToRefreshProvider);
+    }
+
+    public final IPageChecker<I> getPageChecker() {
+        return mPageEngine.getPageChecker();
+    }
+
+    public final void setPageChecker(IPageChecker<I> pageChecker) {
+        this.mPageEngine.setPageChecker(pageChecker);
+    }
+
+    public final IPageChecker<I> getPageChecker(int type, IEquals<I> equals) {
+        this.mPageEngine.setPageChecker(new PageChecker<>(type, equals));
+        return this.getPageChecker();
     }
 
     public final void setPageSearcher(IPageSearcher<I> pageSearcher) {

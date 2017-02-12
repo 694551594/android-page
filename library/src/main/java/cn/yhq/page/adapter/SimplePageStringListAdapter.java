@@ -11,6 +11,7 @@ import cn.yhq.page.core.SearchHelper;
 
 public class SimplePageStringListAdapter extends PageListAdapter<String> {
     private List<String> mKeywords;
+    private List<String> mCheckedList;
 
     public SimplePageStringListAdapter(Context context, List<String> listData) {
         super(context, listData);
@@ -50,4 +51,12 @@ public class SimplePageStringListAdapter extends PageListAdapter<String> {
         return SearchHelper.match(text, mKeywords);
     }
 
+    @Override
+    public void setCheckedListData(List<String> data) {
+        this.mCheckedList = data;
+    }
+
+    public boolean isChecked(int position) {
+        return mCheckedList.contains(this.getItem(position));
+    }
 }

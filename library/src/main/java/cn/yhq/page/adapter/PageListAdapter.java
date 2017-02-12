@@ -17,6 +17,7 @@ import cn.yhq.page.core.SearchHelper;
  */
 public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T> {
     private List<String> mKeywords;
+    private List<T> mCheckedList;
 
     public PageListAdapter(Context context, List<T> listData) {
         super(context, listData);
@@ -66,5 +67,14 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
 
     public CharSequence highlight(String text) {
         return SearchHelper.match(text, mKeywords);
+    }
+
+    @Override
+    public void setCheckedListData(List<T> data) {
+        this.mCheckedList = data;
+    }
+
+    public boolean isChecked(int position) {
+        return mCheckedList.contains(this.getItem(position));
     }
 }

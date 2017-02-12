@@ -21,6 +21,7 @@ public final class PageEngine<T, I> {
     private IPageAdapter<I> mPageAdapter;
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
     private IPageSearcher<I> mPageSearcher;
+    private IPageChecker<I> mPageChecker;
 
     public PageEngine(Context context, int pageSize) {
         this.mContext = context;
@@ -59,6 +60,8 @@ public final class PageEngine<T, I> {
             }
 
             int afterDataSize = mPageAdapter.getPageDataCount();
+
+            mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
 
             if (pageAction == PageAction.SEARCH) {
                 mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
@@ -100,10 +103,14 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             }
 
-            if (pageAction != PageAction.SEARCH && mPageSearcher != null) {
-                mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+            if (pageAction != PageAction.SEARCH) {
+                if (mPageSearcher != null) {
+                    mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                }
+                if (mPageChecker != null) {
+                    mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                }
             }
-
         }
 
         private void appendPageData(List<I> data) {
@@ -166,6 +173,14 @@ public final class PageEngine<T, I> {
 
     public final void setPageSearcher(IPageSearcher<I> pageSearcher) {
         this.mPageSearcher = pageSearcher;
+    }
+
+    public final void setPageChecker(IPageChecker<I> pageChecker) {
+        this.mPageChecker = pageChecker;
+    }
+
+    public final IPageChecker<I> getPageChecker() {
+        return mPageChecker;
     }
 
     public final void setPageDataParser(IPageDataParser<T, I> pageDataParser) {
