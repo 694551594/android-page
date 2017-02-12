@@ -62,9 +62,28 @@ public final class PageEngine<T, I> {
             int afterDataSize = mPageAdapter.getPageDataCount();
 
             if (mPageChecker != null) {
+                mPageAdapter.setCheckedListData(new ArrayList<I>());
+                mPageAdapter.setDisabledListData(new ArrayList<I>());
+            }
+
+            if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                if (mPageChecker != null) {
+                    mPageChecker.clearAllChecked();
+                }
+            }
+
+            if (pageAction != PageAction.SEARCH) {
+                if (mPageSearcher != null) {
+                    mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                }
+                if (mPageChecker != null) {
+                    mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                }
+            }
+
+            if (mPageChecker != null) {
                 mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
                 mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
-
             }
 
             if (pageAction == PageAction.SEARCH) {
@@ -107,14 +126,6 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             }
 
-            if (pageAction != PageAction.SEARCH) {
-                if (mPageSearcher != null) {
-                    mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                }
-                if (mPageChecker != null) {
-                    mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                }
-            }
         }
 
         private void appendPageData(List<I> data) {

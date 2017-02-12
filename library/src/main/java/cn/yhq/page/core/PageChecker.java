@@ -12,6 +12,7 @@ public class PageChecker<T> implements IPageChecker<T> {
     private List<T> mDisabledList;
     private List<T> mAllPageDataList;
     private List<T> mOriginalCheckedList;
+    private OnPageCheckedChangeListener<T> mOnPageCheckedChangeListener;
 
     public final static int CHECK_MODEL_SINGLE = 1;
     public final static int CHECK_MODEL_MUTIPLE = 2;
@@ -34,19 +35,33 @@ public class PageChecker<T> implements IPageChecker<T> {
         this.mEquals = equals;
         mCheckedList = new ArrayList<>();
         mDisabledList = new ArrayList<>();
+        mAllPageDataList = new ArrayList<>();
+    }
+
+    public void setOnCheckedChangeListener(OnPageCheckedChangeListener<T> mOnPageCheckedChangeListener) {
+        this.mOnPageCheckedChangeListener = mOnPageCheckedChangeListener;
     }
 
     public void setAllPageDataList(List<T> allPageDataList) {
         this.mAllPageDataList = allPageDataList;
+        this.listener();
+    }
+
+    private void listener() {
+        if (mOnPageCheckedChangeListener != null) {
+            mOnPageCheckedChangeListener.onPageCheckedChanged(getCheckedEntityList(false), getCheckEntityCount(false));
+        }
     }
 
     @Override
     public void clearAllChecked() {
         mCheckedList.clear();
+        mDisabledList.clear();
+        this.listener();
     }
 
     private T getItem(int index) {
-        return mCheckedList.get(index);
+        return mAllPageDataList.get(index);
     }
 
     @Override
@@ -88,6 +103,7 @@ public class PageChecker<T> implements IPageChecker<T> {
         } else {
             mCheckedList.remove(this.getItem(position));
         }
+        this.listener();
     }
 
     @Override
@@ -142,6 +158,7 @@ public class PageChecker<T> implements IPageChecker<T> {
                 mCheckedList.add(this.getItem(i));
             }
         }
+        this.listener();
     }
 
     @Override
@@ -153,6 +170,7 @@ public class PageChecker<T> implements IPageChecker<T> {
                 mDisabledList.add(this.getItem(i));
             }
         }
+        this.listener();
     }
 
     public List<T> getCheckedEntityList() {

@@ -24,6 +24,7 @@
         <activity android:name=".AutoRefreshPageActivity"/>
         <activity android:name=".RecyclerPageActivity" />
         <activity android:name=".TestActivity" />
+        <activity android:name=".CheckedPageActivity" />
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

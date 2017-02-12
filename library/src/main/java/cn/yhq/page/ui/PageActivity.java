@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseActivity;
+import cn.yhq.page.core.IEquals;
 import cn.yhq.page.core.IFilterName;
+import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
+import cn.yhq.page.core.OnPageCheckedChangeListener;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -89,6 +92,18 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     public final void setPageViewProvider(IPageViewProvider pageViewProvider) {
         this.mPageContext.setPageViewProvider(pageViewProvider);
+    }
+
+    public final void setPageChecker(IPageChecker<I> pageChecker) {
+        this.mPageContext.setPageChecker(pageChecker);
+    }
+
+    public final IPageChecker<I> getPageChecker() {
+        return mPageContext.getPageChecker();
+    }
+
+    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
+        this.mPageContext.setPageChecker(type, equals, listener);
     }
 
     @Override

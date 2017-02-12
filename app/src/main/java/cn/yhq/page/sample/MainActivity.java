@@ -71,6 +71,9 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
             case 9:
                 startActivity(RecyclerPageActivity.class);
                 break;
+            case 10:
+                startActivity(CheckedPageActivity.class);
+                break;
         }
     }
 
@@ -95,6 +98,7 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
         data.add("耗时返回网络数据对话框");
         data.add("自定义网络请求框架返回网络数据对话框");
         data.add("swipeRefreshLayout");
+        data.add("checked");
         return data;
     }
 

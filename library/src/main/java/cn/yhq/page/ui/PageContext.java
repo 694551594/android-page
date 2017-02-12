@@ -15,6 +15,7 @@ import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
+import cn.yhq.page.core.OnPageCheckedChangeListener;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -127,9 +128,10 @@ public final class PageContext<T, I> {
         this.mPageEngine.setPageChecker(pageChecker);
     }
 
-    public final IPageChecker<I> getPageChecker(int type, IEquals<I> equals) {
-        this.mPageEngine.setPageChecker(new PageChecker<>(type, equals));
-        return this.getPageChecker();
+    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
+        PageChecker<I> pageChecker = new PageChecker<>(type, equals);
+        pageChecker.setOnCheckedChangeListener(listener);
+        this.mPageEngine.setPageChecker(pageChecker);
     }
 
     public final void setPageSearcher(IPageSearcher<I> pageSearcher) {
