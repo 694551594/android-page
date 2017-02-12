@@ -50,7 +50,6 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
         }, new OnPageCheckedChangeListener<Tracks>() {
             @Override
             public void onPageCheckedChanged(List<Tracks> checkedList, int count) {
-                mPageAdapter.notifyDataSetChanged();
                 mAllCheckButton.setChecked(isAllChecked());
                 mOKButton.setText("选择(" + count + ")");
             }

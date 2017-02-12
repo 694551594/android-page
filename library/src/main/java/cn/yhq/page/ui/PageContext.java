@@ -7,6 +7,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.List;
+
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.DefaultPageSearcher;
 import cn.yhq.page.core.IEquals;
@@ -38,6 +40,7 @@ public final class PageContext<T, I> {
     private PageConfig mPageConfig = new PageConfig();
     private IPageContextProvider<T, I> mPageContextProvider;
     private IPageViewProvider mPageViewProvider;
+    private IPageAdapter<I> mPageAdapter;
 
     public PageContext(Context context, IPageContextProvider<T, I> provider) {
         this.mContext = context;
@@ -50,12 +53,12 @@ public final class PageContext<T, I> {
         View pageView = mPageContextProvider.getPageView();
         this.setPageViewProvider(new PageViewProvider(pageView));
         this.setOnPullToRefreshProvider(PullToRefreshContextFactory.getPullToRefreshProvider(pageView));
-        final IPageAdapter<I> pageAdapter = mPageContextProvider.getPageAdapter();
+        mPageAdapter = mPageContextProvider.getPageAdapter();
         final PageViewManager pageViewManager = new PageViewManager(mPageViewProvider);
         mPageEngine.addOnPageListener(new DefaultOnPageListener() {
             @Override
             public void onPageCancelRequests() {
-                pageViewManager.cancelPageRequest(pageAdapter.getPageDataCount());
+                pageViewManager.cancelPageRequest(mPageAdapter.getPageDataCount());
             }
 
             @Override
@@ -65,7 +68,7 @@ public final class PageContext<T, I> {
 
             @Override
             public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                pageViewManager.completePageRequest(pageAction, pageAdapter.getPageDataCount());
+                pageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
             }
         });
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
@@ -76,7 +79,7 @@ public final class PageContext<T, I> {
         });
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
         mPageEngine.setPageRequester(mPageContextProvider.getPageRequester());
-        mPageEngine.setPageAdapter(pageAdapter);
+        mPageEngine.setPageAdapter(mPageAdapter);
     }
 
     public final void start(Bundle savedInstanceState) {
@@ -128,9 +131,15 @@ public final class PageContext<T, I> {
         this.mPageEngine.setPageChecker(pageChecker);
     }
 
-    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
+    public final void setPageChecker(int type, IEquals<I> equals, final OnPageCheckedChangeListener<I> listener) {
         PageChecker<I> pageChecker = new PageChecker<>(type, equals);
-        pageChecker.setOnCheckedChangeListener(listener);
+        pageChecker.setOnCheckedChangeListener(new OnPageCheckedChangeListener<I>() {
+            @Override
+            public void onPageCheckedChanged(List<I> checkedList, int count) {
+                mPageAdapter.notifyDataSetChanged();
+                listener.onPageCheckedChanged(checkedList, count);
+            }
+        });
         this.mPageEngine.setPageChecker(pageChecker);
     }
 

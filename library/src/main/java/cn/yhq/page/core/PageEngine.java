@@ -31,6 +31,44 @@ public final class PageEngine<T, I> {
         this.mPageManager = new PageManager<>(mContext, pageSize);
         // 回调处理
         this.mPageManager.setPageDataCallback(mPageDataCallback);
+
+        this.addOnPageListener(new DefaultOnPageListener() {
+            @Override
+            public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+                if (mPageChecker != null) {
+                    mPageAdapter.setCheckedListData(new ArrayList<I>());
+                    mPageAdapter.setDisabledListData(new ArrayList<I>());
+                }
+
+                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                    if (mPageChecker != null) {
+                        mPageChecker.clearAllChecked();
+                    }
+                }
+
+                if (pageAction != PageAction.SEARCH) {
+                    if (mPageSearcher != null) {
+                        mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                    }
+                    if (mPageChecker != null) {
+                        mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                    }
+                }
+
+                if (mPageChecker != null) {
+                    mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
+                    mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
+                }
+
+                if (pageAction == PageAction.SEARCH) {
+                    mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
+                } else {
+                    mPageAdapter.setHighlightKeywords(null);
+                }
+
+                mPageAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private PageManager.IPageDataCallback<I> mPageDataCallback = new PageManager.IPageDataCallback<I>() {
@@ -46,7 +84,9 @@ public final class PageEngine<T, I> {
             List<I> oldPageData = mPageAdapter.getPageListData();
 
             // 初始化和刷新不会附加数据
-            if (pageAction == PageAction.SEARCH || pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+            if (pageAction == PageAction.SEARCH ||
+                    pageAction == PageAction.INIT ||
+                    pageAction == PageAction.REFRESH) {
                 if (mPageAdapter.getPageDataCount() != 0) {
                     mPageAdapter.clear();
                 }
@@ -64,32 +104,6 @@ public final class PageEngine<T, I> {
             if (mPageChecker != null) {
                 mPageAdapter.setCheckedListData(new ArrayList<I>());
                 mPageAdapter.setDisabledListData(new ArrayList<I>());
-            }
-
-            if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
-                if (mPageChecker != null) {
-                    mPageChecker.clearAllChecked();
-                }
-            }
-
-            if (pageAction != PageAction.SEARCH) {
-                if (mPageSearcher != null) {
-                    mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                }
-                if (mPageChecker != null) {
-                    mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                }
-            }
-
-            if (mPageChecker != null) {
-                mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
-                mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
-            }
-
-            if (pageAction == PageAction.SEARCH) {
-                mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
-            } else {
-                mPageAdapter.setHighlightKeywords(null);
             }
 
             if (beforeDataSize != afterDataSize) {
