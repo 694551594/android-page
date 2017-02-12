@@ -12,6 +12,7 @@ import cn.yhq.page.core.SearchHelper;
 public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implements IPageAdapter<T> {
     private List<String> mKeywords;
     private List<T> mCheckedList;
+    private List<T> mDisabledList;
 
     public PageRecyclerListAdapter(Context context) {
         super(context);
@@ -64,8 +65,17 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
         this.mCheckedList = data;
     }
 
+    @Override
+    public void setDisabledListData(List<T> data) {
+        this.mDisabledList = data;
+    }
+
     public boolean isChecked(int position) {
         return mCheckedList.contains(this.getItem(position));
+    }
+
+    public boolean isDisabled(int position) {
+        return mDisabledList.contains(this.getItem(position));
     }
 
 }

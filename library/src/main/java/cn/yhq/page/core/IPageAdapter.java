@@ -31,4 +31,6 @@ public interface IPageAdapter<I> {
     void setHighlightKeywords(List<String> keywords);
 
     void setCheckedListData(List<I> data);
+
+    void setDisabledListData(List<I> data);
 }

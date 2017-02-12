@@ -14,6 +14,7 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
         IPageAdapter<G> {
     private List<String> mKeywords;
     private List<G> mCheckedList;
+    private List<G> mDisabledList;
 
     public PageExpandableListAdapter(Context context, List<G> listData) {
         super(context, listData);
@@ -70,7 +71,16 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
         this.mCheckedList = data;
     }
 
+    @Override
+    public void setDisabledListData(List<G> data) {
+        this.mDisabledList = data;
+    }
+
     public boolean isChecked(int position) {
         return mCheckedList.contains(this.getGroup(position));
+    }
+
+    public boolean isDisabled(int position) {
+        return mDisabledList.contains(this.getGroup(position));
     }
 }

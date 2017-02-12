@@ -18,6 +18,7 @@ import cn.yhq.page.core.SearchHelper;
 public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T> {
     private List<String> mKeywords;
     private List<T> mCheckedList;
+    private List<T> mDisabledList;
 
     public PageListAdapter(Context context, List<T> listData) {
         super(context, listData);
@@ -74,7 +75,16 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
         this.mCheckedList = data;
     }
 
+    @Override
+    public void setDisabledListData(List<T> data) {
+        this.mDisabledList = data;
+    }
+
     public boolean isChecked(int position) {
         return mCheckedList.contains(this.getItem(position));
+    }
+
+    public boolean isDisabled(int position) {
+        return mDisabledList.contains(this.getItem(position));
     }
 }

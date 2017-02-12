@@ -61,7 +61,11 @@ public final class PageEngine<T, I> {
 
             int afterDataSize = mPageAdapter.getPageDataCount();
 
-            mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
+            if (mPageChecker != null) {
+                mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
+                mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
+
+            }
 
             if (pageAction == PageAction.SEARCH) {
                 mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());

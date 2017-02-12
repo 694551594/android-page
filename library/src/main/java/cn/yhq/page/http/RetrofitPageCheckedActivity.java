@@ -85,4 +85,9 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
     public void setPageData(List<I> pageData) {
         this.getPageContext().getPageChecker().setPageData(pageData);
     }
+
+    @Override
+    public List<I> getDisabledEntityList() {
+        return this.getPageContext().getPageChecker().getDisabledEntityList();
+    }
 }

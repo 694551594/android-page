@@ -222,4 +222,9 @@ public class PageChecker<T> implements IPageChecker<T> {
     public void setPageData(List<T> pageData) {
         this.setAllPageDataList(pageData);
     }
+
+    @Override
+    public List<T> getDisabledEntityList() {
+        return mDisabledList;
+    }
 }

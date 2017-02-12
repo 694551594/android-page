@@ -108,4 +108,5 @@ public interface IPageChecker<T> {
 
     void setPageData(List<T> pageData);
 
+    List<T> getDisabledEntityList();
 }
