@@ -67,7 +67,7 @@ public final class PageContext<T, I> {
         pageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
-                refreshPageData();
+                initPageData();
             }
         });
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
