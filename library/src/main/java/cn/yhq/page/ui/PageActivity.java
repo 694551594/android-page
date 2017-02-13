@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseActivity;
-import cn.yhq.page.core.IEquals;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
@@ -103,11 +103,11 @@ public abstract class PageActivity<T, I> extends BaseActivity
         return mPageContext.getPageChecker();
     }
 
-    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
+    public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
         this.mPageContext.setPageChecker(type, equals, listener);
     }
 
-    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
+    public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
         this.mPageContext.setPageChecker(type, equals, listener1, listener2);
     }
 

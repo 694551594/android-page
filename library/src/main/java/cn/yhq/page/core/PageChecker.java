@@ -19,10 +19,10 @@ public class PageChecker<T> implements IPageChecker<T> {
 
     public int mCheckModel = CHECK_MODEL_MUTIPLE;
 
-    private IEquals<T> mEquals;
+    private OnPageCheckedEquals<T> mEquals;
 
     public PageChecker(int type) {
-        this(type, new IEquals<T>() {
+        this(type, new OnPageCheckedEquals<T>() {
             @Override
             public boolean equals(T t1, T t2) {
                 return t1 == t2;
@@ -30,7 +30,7 @@ public class PageChecker<T> implements IPageChecker<T> {
         });
     }
 
-    public PageChecker(int type, IEquals<T> equals) {
+    public PageChecker(int type, OnPageCheckedEquals<T> equals) {
         this.mCheckModel = type;
         this.mEquals = equals;
         mCheckedList = new ArrayList<>();

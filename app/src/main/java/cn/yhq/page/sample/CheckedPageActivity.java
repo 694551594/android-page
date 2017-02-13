@@ -9,7 +9,7 @@ import java.util.List;
 
 import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
-import cn.yhq.page.core.IEquals;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
@@ -43,7 +43,7 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
         mListView = this.getView(R.id.list_view);
         mPageAdapter = new AlbumCheckedPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
-        this.setPageChecker(PageChecker.CHECK_MODEL_MUTIPLE, new IEquals<Tracks>() {
+        this.setPageChecker(PageChecker.CHECK_MODEL_MUTIPLE, new OnPageCheckedEquals<Tracks>() {
             @Override
             public boolean equals(Tracks t1, Tracks t2) {
                 return t1.getId() == t2.getId();

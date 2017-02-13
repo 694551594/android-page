@@ -11,7 +11,7 @@ import java.util.List;
 
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.DefaultPageSearcher;
-import cn.yhq.page.core.IEquals;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageChecker;
@@ -132,7 +132,7 @@ public final class PageContext<T, I> {
         this.mPageEngine.setPageChecker(pageChecker, onPageCheckedInitListener);
     }
 
-    public final void setPageChecker(int type, IEquals<I> equals, final OnPageCheckedChangeListener<I> listener) {
+    public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, final OnPageCheckedChangeListener<I> listener) {
         setPageChecker(type, equals, listener, new OnPageCheckedInitListener<I>() {
             @Override
             public boolean isEnable(int position, I entity) {
@@ -146,7 +146,7 @@ public final class PageContext<T, I> {
         });
     }
 
-    public final void setPageChecker(int type, IEquals<I> equals, final OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener<I> listener2) {
+    public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, final OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener<I> listener2) {
         PageChecker<I> pageChecker = new PageChecker<>(type, equals);
         pageChecker.setOnCheckedChangeListener(new OnPageCheckedChangeListener<I>() {
             @Override
