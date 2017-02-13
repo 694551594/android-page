@@ -93,6 +93,8 @@ public interface IPageChecker<T> {
 
     int getCheckEntityCount(boolean appendDisableEntity);
 
-    void init(List<T> pageData, OnPageCheckedInitListener<T> listener);
+    void setPageData(List<T> pageData);
+
+    void updatePageData(List<T> pageData);
 
 }

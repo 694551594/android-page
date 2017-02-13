@@ -22,7 +22,6 @@ public final class PageEngine<T, I> {
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
     private IPageSearcher<I> mPageSearcher;
     private IPageChecker<I> mPageChecker;
-    private OnPageCheckedInitListener<I> mOnPageCheckedInitListener;
 
     public PageEngine(Context context, int pageSize) {
         this.mContext = context;
@@ -43,16 +42,11 @@ public final class PageEngine<T, I> {
 
                 if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
                     if (mPageChecker != null) {
-                        mPageChecker.clearAllChecked();
+                        mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
                     }
-                }
-
-                if (pageAction != PageAction.SEARCH) {
-                    if (mPageSearcher != null) {
-                        mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                    }
+                } else if (pageAction == PageAction.LOADMORE) {
                     if (mPageChecker != null) {
-                        mPageChecker.init(new ArrayList<>(mPageAdapter.getPageListData()), mOnPageCheckedInitListener);
+                        mPageChecker.updatePageData(new ArrayList<>(mPageAdapter.getPageListData()));
                     }
                 }
 
@@ -65,6 +59,9 @@ public final class PageEngine<T, I> {
                     mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
                 } else {
                     mPageAdapter.setHighlightKeywords(null);
+                    if (mPageSearcher != null) {
+                        mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                    }
                 }
 
                 mPageAdapter.notifyDataSetChanged();
@@ -205,9 +202,8 @@ public final class PageEngine<T, I> {
         this.mPageSearcher = pageSearcher;
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener<I> onPageCheckedInitListener) {
+    public final void setPageChecker(IPageChecker<I> pageChecker) {
         this.mPageChecker = pageChecker;
-        this.mOnPageCheckedInitListener = onPageCheckedInitListener;
     }
 
     public final IPageChecker<I> getPageChecker() {

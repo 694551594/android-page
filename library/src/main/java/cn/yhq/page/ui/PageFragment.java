@@ -111,8 +111,8 @@ public abstract class PageFragment<T, I> extends BaseFragment
         this.mPageContext.setPageViewProvider(pageViewProvider);
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener listener) {
-        this.mPageContext.setPageChecker(pageChecker, listener);
+    public final void setPageChecker(IPageChecker<I> pageChecker) {
+        this.mPageContext.setPageChecker(pageChecker);
     }
 
     public final IPageChecker<I> getPageChecker() {

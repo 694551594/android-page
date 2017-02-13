@@ -187,10 +187,6 @@ public abstract class PageDialog<T, I> implements
         this.mPageContext.setPageViewProvider(pageViewProvider);
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener listener) {
-        this.mPageContext.setPageChecker(pageChecker, listener);
-    }
-
     public final IPageChecker<I> getPageChecker() {
         return mPageContext.getPageChecker();
     }

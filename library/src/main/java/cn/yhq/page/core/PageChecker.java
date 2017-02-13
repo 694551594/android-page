@@ -13,6 +13,7 @@ public class PageChecker<T> implements IPageChecker<T> {
     private List<T> mAllPageDataList;
     private List<T> mOriginalCheckedList;
     private OnPageCheckedChangeListener<T> mOnPageCheckedChangeListener;
+    private OnPageCheckedInitListener<T> mOnPageCheckedInitListener;
 
     public final static int CHECK_MODEL_SINGLE = 1;
     public final static int CHECK_MODEL_MUTIPLE = 2;
@@ -21,18 +22,10 @@ public class PageChecker<T> implements IPageChecker<T> {
 
     private OnPageCheckedEquals<T> mEquals;
 
-    public PageChecker(int type) {
-        this(type, new OnPageCheckedEquals<T>() {
-            @Override
-            public boolean equals(T t1, T t2) {
-                return t1 == t2;
-            }
-        });
-    }
-
-    public PageChecker(int type, OnPageCheckedEquals<T> equals) {
+    public PageChecker(int type, OnPageCheckedEquals<T> equals, OnPageCheckedInitListener<T> listener) {
         this.mCheckModel = type;
         this.mEquals = equals;
+        this.mOnPageCheckedInitListener = listener;
         mCheckedList = new ArrayList<>();
         mDisabledList = new ArrayList<>();
         mAllPageDataList = new ArrayList<>();
@@ -214,21 +207,27 @@ public class PageChecker<T> implements IPageChecker<T> {
     }
 
     @Override
-    public void init(List<T> pageData, OnPageCheckedInitListener<T> listener) {
+    public void setPageData(List<T> pageData) {
         mCheckedList.clear();
         mDisabledList.clear();
         mOriginalCheckedList.clear();
         this.setAllPageDataList(pageData);
         for (int i = 0; i < pageData.size(); i++) {
             T entity = pageData.get(i);
-            if (listener.isChecked(i, entity)) {
+            if (mOnPageCheckedInitListener.isChecked(i, entity)) {
                 this.setChecked(i, true);
                 mOriginalCheckedList.add(entity);
             }
-            if (!listener.isEnable(i, entity)) {
+            if (!mOnPageCheckedInitListener.isEnable(i, entity)) {
                 this.mDisabledList.add(entity);
             }
         }
+        this.listener();
+    }
+
+    @Override
+    public void updatePageData(List<T> pageData) {
+        this.setAllPageDataList(pageData);
         this.listener();
     }
 

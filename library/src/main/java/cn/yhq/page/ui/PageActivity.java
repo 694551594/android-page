@@ -95,10 +95,6 @@ public abstract class PageActivity<T, I> extends BaseActivity
         this.mPageContext.setPageViewProvider(pageViewProvider);
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener listener) {
-        this.mPageContext.setPageChecker(pageChecker, listener);
-    }
-
     public final IPageChecker<I> getPageChecker() {
         return mPageContext.getPageChecker();
     }

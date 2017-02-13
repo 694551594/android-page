@@ -3,7 +3,6 @@ package cn.yhq.page.http;
 import java.util.List;
 
 import cn.yhq.page.core.IPageChecker;
-import cn.yhq.page.core.OnPageCheckedInitListener;
 
 /**
  * Created by Administrator on 2017/2/12.
@@ -78,7 +77,12 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
     }
 
     @Override
-    public void init(List<I> pageData, OnPageCheckedInitListener<I> listener) {
-        this.getPageChecker().init(pageData, listener);
+    public void setPageData(List<I> pageData) {
+        this.getPageChecker().setPageData(pageData);
+    }
+
+    @Override
+    public void updatePageData(List<I> pageData) {
+        this.getPageChecker().updatePageData(pageData);
     }
 }
