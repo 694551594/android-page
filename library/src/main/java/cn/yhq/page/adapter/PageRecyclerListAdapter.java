@@ -71,7 +71,7 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
     }
 
     public boolean isChecked(int position) {
-        return mCheckedList.contains(this.getItem(position));
+        return mCheckedList.contains(this.getItem(position)) || isDisabled(position);
     }
 
     public boolean isDisabled(int position) {

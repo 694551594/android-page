@@ -3,6 +3,7 @@ package cn.yhq.page.http;
 import java.util.List;
 
 import cn.yhq.page.core.IPageChecker;
+import cn.yhq.page.core.OnPageCheckedInitListener;
 
 /**
  * Created by Administrator on 2017/2/12.
@@ -52,16 +53,6 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
     }
 
     @Override
-    public void setCheckedEntityList(List<I> list) {
-        this.getPageChecker().setCheckedEntityList(list);
-    }
-
-    @Override
-    public void setDisableEntityList(List<I> list) {
-        this.getPageChecker().setDisableEntityList(list);
-    }
-
-    @Override
     public List<I> getCheckedEntityList(boolean appendDisableEntity) {
         return this.getPageChecker().getCheckedEntityList(appendDisableEntity);
     }
@@ -82,12 +73,12 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
     }
 
     @Override
-    public void setPageData(List<I> pageData) {
-        this.getPageChecker().setPageData(pageData);
+    public List<I> getDisabledEntityList() {
+        return this.getPageChecker().getDisabledEntityList();
     }
 
     @Override
-    public List<I> getDisabledEntityList() {
-        return this.getPageChecker().getDisabledEntityList();
+    public void init(List<I> pageData, OnPageCheckedInitListener<I> listener) {
+        this.getPageChecker().init(pageData, listener);
     }
 }

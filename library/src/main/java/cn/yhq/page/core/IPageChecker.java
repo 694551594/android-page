@@ -69,25 +69,13 @@ public interface IPageChecker<T> {
     void setAllChecked(boolean isChecked);
 
     /**
-     * 设置选中的list
-     *
-     * @param list
-     */
-    void setCheckedEntityList(List<T> list);
-
-    /**
-     * 设置不可选的list
-     *
-     * @param list
-     */
-    void setDisableEntityList(List<T> list);
-
-    /**
      * 获取checked的list
      *
      * @return
      */
     List<T> getCheckedEntityList(boolean appendDisableEntity);
+
+    List<T> getDisabledEntityList();
 
     /**
      * 和初始化checked的list相比，新添加了哪些
@@ -103,10 +91,8 @@ public interface IPageChecker<T> {
      */
     List<T> getRemovedEntityList();
 
-
     int getCheckEntityCount(boolean appendDisableEntity);
 
-    void setPageData(List<T> pageData);
+    void init(List<T> pageData, OnPageCheckedInitListener<T> listener);
 
-    List<T> getDisabledEntityList();
 }

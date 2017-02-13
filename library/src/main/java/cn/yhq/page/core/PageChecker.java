@@ -36,6 +36,7 @@ public class PageChecker<T> implements IPageChecker<T> {
         mCheckedList = new ArrayList<>();
         mDisabledList = new ArrayList<>();
         mAllPageDataList = new ArrayList<>();
+        mOriginalCheckedList = new ArrayList<>();
     }
 
     public void setOnCheckedChangeListener(OnPageCheckedChangeListener<T> mOnPageCheckedChangeListener) {
@@ -149,30 +150,6 @@ public class PageChecker<T> implements IPageChecker<T> {
         }
     }
 
-    @Override
-    public void setCheckedEntityList(List<T> list) {
-        this.mOriginalCheckedList = list;
-        mCheckedList.clear();
-        for (int i = 0; i < this.mAllPageDataList.size(); i++) {
-            if (contains(this.getItem(i), list)) {
-                mCheckedList.add(this.getItem(i));
-            }
-        }
-        this.listener();
-    }
-
-    @Override
-    public void setDisableEntityList(List<T> list) {
-        this.mDisabledList = list;
-        mDisabledList.clear();
-        for (int i = 0; i < this.mAllPageDataList.size(); i++) {
-            if (contains(this.getItem(i), list)) {
-                mDisabledList.add(this.getItem(i));
-            }
-        }
-        this.listener();
-    }
-
     public List<T> getCheckedEntityList() {
         return getCheckedEntityList(false);
     }
@@ -237,8 +214,22 @@ public class PageChecker<T> implements IPageChecker<T> {
     }
 
     @Override
-    public void setPageData(List<T> pageData) {
+    public void init(List<T> pageData, OnPageCheckedInitListener<T> listener) {
+        mCheckedList.clear();
+        mDisabledList.clear();
+        mOriginalCheckedList.clear();
         this.setAllPageDataList(pageData);
+        for (int i = 0; i < pageData.size(); i++) {
+            T entity = pageData.get(i);
+            if (listener.isChecked(i, entity)) {
+                this.setChecked(i, true);
+                mOriginalCheckedList.add(entity);
+            }
+            if (!listener.isEnable(i, entity)) {
+                this.mDisabledList.add(entity);
+            }
+        }
+        this.listener();
     }
 
     @Override

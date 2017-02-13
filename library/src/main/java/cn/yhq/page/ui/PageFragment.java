@@ -11,6 +11,7 @@ import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -110,8 +111,8 @@ public abstract class PageFragment<T, I> extends BaseFragment
         this.mPageContext.setPageViewProvider(pageViewProvider);
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker) {
-        this.mPageContext.setPageChecker(pageChecker);
+    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener listener) {
+        this.mPageContext.setPageChecker(pageChecker, listener);
     }
 
     public final IPageChecker<I> getPageChecker() {
@@ -120,6 +121,10 @@ public abstract class PageFragment<T, I> extends BaseFragment
 
     public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
         this.mPageContext.setPageChecker(type, equals, listener);
+    }
+
+    public final void setPageChecker(int type, IEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
+        this.mPageContext.setPageChecker(type, equals, listener1, listener2);
     }
 
     @Override

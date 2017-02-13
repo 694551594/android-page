@@ -22,6 +22,7 @@ public final class PageEngine<T, I> {
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
     private IPageSearcher<I> mPageSearcher;
     private IPageChecker<I> mPageChecker;
+    private OnPageCheckedInitListener<I> mOnPageCheckedInitListener;
 
     public PageEngine(Context context, int pageSize) {
         this.mContext = context;
@@ -51,7 +52,7 @@ public final class PageEngine<T, I> {
                         mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
                     }
                     if (mPageChecker != null) {
-                        mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                        mPageChecker.init(new ArrayList<>(mPageAdapter.getPageListData()), mOnPageCheckedInitListener);
                     }
                 }
 
@@ -204,8 +205,9 @@ public final class PageEngine<T, I> {
         this.mPageSearcher = pageSearcher;
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker) {
+    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener<I> onPageCheckedInitListener) {
         this.mPageChecker = pageChecker;
+        this.mOnPageCheckedInitListener = onPageCheckedInitListener;
     }
 
     public final IPageChecker<I> getPageChecker() {

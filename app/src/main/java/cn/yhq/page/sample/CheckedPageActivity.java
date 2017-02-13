@@ -13,6 +13,7 @@ import cn.yhq.page.core.IEquals;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.PageChecker;
 import cn.yhq.page.http.RetrofitPageCheckedActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
@@ -52,6 +53,23 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
             public void onPageCheckedChanged(List<Tracks> checkedList, int count) {
                 mAllCheckButton.setChecked(isAllChecked());
                 mOKButton.setText("选择(" + count + ")");
+            }
+        }, new OnPageCheckedInitListener<Tracks>() {
+
+            @Override
+            public boolean isEnable(int position, Tracks entity) {
+                if (position == 0) {
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public boolean isChecked(int position, Tracks entity) {
+                if (position == 1) {
+                    return true;
+                }
+                return false;
             }
         });
         mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {

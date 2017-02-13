@@ -18,6 +18,7 @@ import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -127,20 +128,34 @@ public final class PageContext<T, I> {
         return mPageEngine.getPageChecker();
     }
 
-    public final void setPageChecker(IPageChecker<I> pageChecker) {
-        this.mPageEngine.setPageChecker(pageChecker);
+    public final void setPageChecker(IPageChecker<I> pageChecker, OnPageCheckedInitListener<I> onPageCheckedInitListener) {
+        this.mPageEngine.setPageChecker(pageChecker, onPageCheckedInitListener);
     }
 
     public final void setPageChecker(int type, IEquals<I> equals, final OnPageCheckedChangeListener<I> listener) {
+        setPageChecker(type, equals, listener, new OnPageCheckedInitListener<I>() {
+            @Override
+            public boolean isEnable(int position, I entity) {
+                return true;
+            }
+
+            @Override
+            public boolean isChecked(int position, I entity) {
+                return false;
+            }
+        });
+    }
+
+    public final void setPageChecker(int type, IEquals<I> equals, final OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener<I> listener2) {
         PageChecker<I> pageChecker = new PageChecker<>(type, equals);
         pageChecker.setOnCheckedChangeListener(new OnPageCheckedChangeListener<I>() {
             @Override
             public void onPageCheckedChanged(List<I> checkedList, int count) {
                 mPageAdapter.notifyDataSetChanged();
-                listener.onPageCheckedChanged(checkedList, count);
+                listener1.onPageCheckedChanged(checkedList, count);
             }
         });
-        this.mPageEngine.setPageChecker(pageChecker);
+        this.mPageEngine.setPageChecker(pageChecker, listener2);
     }
 
     public final void setPageSearcher(IPageSearcher<I> pageSearcher) {

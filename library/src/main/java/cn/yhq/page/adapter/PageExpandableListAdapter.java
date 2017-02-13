@@ -77,7 +77,7 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
     }
 
     public boolean isChecked(int position) {
-        return mCheckedList.contains(this.getGroup(position));
+        return mCheckedList.contains(this.getGroup(position)) || isDisabled(position);
     }
 
     public boolean isDisabled(int position) {

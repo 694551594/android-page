@@ -81,7 +81,7 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
     }
 
     public boolean isChecked(int position) {
-        return mCheckedList.contains(this.getItem(position));
+        return mCheckedList.contains(this.getItem(position)) || isDisabled(position);
     }
 
     public boolean isDisabled(int position) {
