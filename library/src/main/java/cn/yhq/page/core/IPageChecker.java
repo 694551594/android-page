@@ -95,6 +95,6 @@ public interface IPageChecker<T> {
 
     void setPageData(List<T> pageData);
 
-    void updatePageData(List<T> pageData);
+    void appendPageData(List<T> pageData);
 
 }

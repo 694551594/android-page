@@ -35,26 +35,6 @@ public final class PageEngine<T, I> {
         this.addOnPageListener(new DefaultOnPageListener() {
             @Override
             public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                if (mPageChecker != null) {
-                    mPageAdapter.setCheckedListData(new ArrayList<I>());
-                    mPageAdapter.setDisabledListData(new ArrayList<I>());
-                }
-
-                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
-                    if (mPageChecker != null) {
-                        mPageChecker.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                    }
-                } else if (pageAction == PageAction.LOADMORE) {
-                    if (mPageChecker != null) {
-                        mPageChecker.updatePageData(new ArrayList<>(mPageAdapter.getPageListData()));
-                    }
-                }
-
-                if (mPageChecker != null) {
-                    mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
-                    mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
-                }
-
                 if (pageAction == PageAction.SEARCH) {
                     mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
                 } else {
@@ -63,7 +43,6 @@ public final class PageEngine<T, I> {
                         mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
                     }
                 }
-
                 mPageAdapter.notifyDataSetChanged();
             }
         });
@@ -99,11 +78,6 @@ public final class PageEngine<T, I> {
 
             int afterDataSize = mPageAdapter.getPageDataCount();
 
-            if (mPageChecker != null) {
-                mPageAdapter.setCheckedListData(new ArrayList<I>());
-                mPageAdapter.setDisabledListData(new ArrayList<I>());
-            }
-
             if (beforeDataSize != afterDataSize) {
                 mPageAdapter.notifyDataSetChanged();
             } else {
@@ -136,6 +110,18 @@ public final class PageEngine<T, I> {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
             } else {
                 mOnPageListenerDispatcher.onPageLoadComplete(pageAction, isFromCache, true);
+            }
+
+            if (mPageChecker != null) {
+
+                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                    mPageChecker.setPageData(new ArrayList<>(data));
+                } else if (pageAction == PageAction.LOADMORE) {
+                    mPageChecker.appendPageData(new ArrayList<>(data));
+                }
+
+                mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
+                mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
             }
 
         }

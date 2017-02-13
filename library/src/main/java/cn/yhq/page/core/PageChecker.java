@@ -50,7 +50,6 @@ public class PageChecker<T> implements IPageChecker<T> {
     @Override
     public void clearAllChecked() {
         mCheckedList.clear();
-        mDisabledList.clear();
         this.listener();
     }
 
@@ -103,9 +102,6 @@ public class PageChecker<T> implements IPageChecker<T> {
     @Override
     public boolean isAllEnable() {
         for (T entity : mAllPageDataList) {
-            if (entity == null) {
-                continue;
-            }
             if (!containsDisable(entity)) {
                 return true;
             }
@@ -211,9 +207,16 @@ public class PageChecker<T> implements IPageChecker<T> {
         mCheckedList.clear();
         mDisabledList.clear();
         mOriginalCheckedList.clear();
-        this.setAllPageDataList(pageData);
-        for (int i = 0; i < pageData.size(); i++) {
-            T entity = pageData.get(i);
+        mAllPageDataList.clear();
+        appendPageData(pageData);
+    }
+
+    @Override
+    public void appendPageData(List<T> pageData) {
+        int size = this.mAllPageDataList.size();
+        this.mAllPageDataList.addAll(pageData);
+        for (int i = size; i < mAllPageDataList.size(); i++) {
+            T entity = mAllPageDataList.get(i);
             if (mOnPageCheckedInitListener.isChecked(i, entity)) {
                 this.setChecked(i, true);
                 mOriginalCheckedList.add(entity);
@@ -222,12 +225,7 @@ public class PageChecker<T> implements IPageChecker<T> {
                 this.mDisabledList.add(entity);
             }
         }
-        this.listener();
-    }
 
-    @Override
-    public void updatePageData(List<T> pageData) {
-        this.setAllPageDataList(pageData);
         this.listener();
     }
 

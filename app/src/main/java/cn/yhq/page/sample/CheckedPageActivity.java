@@ -9,10 +9,10 @@ import java.util.List;
 
 import cn.yhq.adapter.recycler.OnRecyclerViewItemClickListener;
 import cn.yhq.http.core.ICall;
-import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.PageChecker;
 import cn.yhq.page.http.RetrofitPageCheckedActivity;
@@ -58,7 +58,7 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
 
             @Override
             public boolean isEnable(int position, Tracks entity) {
-                if (position == 0) {
+                if (position == 0 || position == 8) {
                     return false;
                 }
                 return true;
@@ -66,7 +66,7 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
 
             @Override
             public boolean isChecked(int position, Tracks entity) {
-                if (position == 1) {
+                if (position == 1 || position == 9) {
                     return true;
                 }
                 return false;
@@ -74,7 +74,7 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
         });
         mListView.setOnRecyclerViewItemClickListener(new OnRecyclerViewItemClickListener() {
             @Override
-            public void onRecyclerViewItemClick(View itemView, int position) {
+            public void onRecyclerViewItemClick(View itemView, final int position) {
                 toggleChecked(position);
             }
         });

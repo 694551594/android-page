@@ -82,7 +82,7 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
     }
 
     @Override
-    public void updatePageData(List<I> pageData) {
-        this.getPageChecker().updatePageData(pageData);
+    public void appendPageData(List<I> pageData) {
+        this.getPageChecker().appendPageData(pageData);
     }
 }
