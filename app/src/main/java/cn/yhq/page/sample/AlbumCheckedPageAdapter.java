@@ -1,7 +1,9 @@
 package cn.yhq.page.sample;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import cn.yhq.adapter.recycler.ItemViewProvider2;
 import cn.yhq.adapter.recycler.ViewHolder;
@@ -13,6 +15,8 @@ import cn.yhq.page.sample.entity.Tracks;
  */
 
 public class AlbumCheckedPageAdapter extends PageRecyclerListAdapter<Tracks> {
+    private CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener;
+    private View.OnClickListener mOnCheckBoxClickListener;
 
     public AlbumCheckedPageAdapter(Context context) {
         super(context);
@@ -30,6 +34,9 @@ public class AlbumCheckedPageAdapter extends PageRecyclerListAdapter<Tracks> {
                 viewHolder.setChecked(R.id.checkbox, isChecked(position))
                         .setText(R.id.text, highlight(entity.getTitle()));
                 checkBox.setEnabled(!isDisabled(position));
+                checkBox.setTag(position);
+                checkBox.setOnCheckedChangeListener(mOnCheckedChangeListener);
+                checkBox.setOnClickListener(mOnCheckBoxClickListener);
             }
 
             @Override
@@ -39,4 +46,11 @@ public class AlbumCheckedPageAdapter extends PageRecyclerListAdapter<Tracks> {
         });
     }
 
+    public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener) {
+        this.mOnCheckedChangeListener = listener;
+    }
+
+    public void setOnCheckBoxClickListener(View.OnClickListener listener) {
+        this.mOnCheckBoxClickListener = listener;
+    }
 }

@@ -99,8 +99,16 @@ public abstract class PageActivity<T, I> extends BaseActivity
         return mPageContext.getPageChecker();
     }
 
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener) {
+        this.mPageContext.setPageChecker(type, listener);
+    }
+
     public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener) {
         this.mPageContext.setPageChecker(type, equals, listener);
+    }
+
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
+        this.mPageContext.setPageChecker(type, listener1, listener2);
     }
 
     public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {

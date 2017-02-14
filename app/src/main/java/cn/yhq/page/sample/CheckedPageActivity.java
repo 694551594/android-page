@@ -12,13 +12,13 @@ import cn.yhq.http.core.ICall;
 import cn.yhq.page.core.IPageAdapter;
 import cn.yhq.page.core.IPageDataParser;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
-import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.PageChecker;
 import cn.yhq.page.http.RetrofitPageCheckedActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
+import cn.yhq.utils.JsonUtils;
 import cn.yhq.widget.xrecyclerview.XRecyclerListView;
 
 /**
@@ -43,12 +43,13 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
         mListView = this.getView(R.id.list_view);
         mPageAdapter = new AlbumCheckedPageAdapter(getContext());
         mListView.setAdapter(mPageAdapter);
-        this.setPageChecker(PageChecker.CHECK_MODEL_MUTIPLE, new OnPageCheckedEquals<Tracks>() {
+        mPageAdapter.setOnCheckBoxClickListener(new View.OnClickListener() {
             @Override
-            public boolean equals(Tracks t1, Tracks t2) {
-                return t1.getId() == t2.getId();
+            public void onClick(View v) {
+                toggleChecked((Integer) v.getTag());
             }
-        }, new OnPageCheckedChangeListener<Tracks>() {
+        });
+        this.setPageChecker(PageChecker.CHECK_MODEL_MUTIPLE, new OnPageCheckedChangeListener<Tracks>() {
             @Override
             public void onPageCheckedChanged(List<Tracks> checkedList, int count) {
                 mAllCheckButton.setChecked(isAllChecked());
@@ -88,6 +89,7 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
             @Override
             public void onClick(View view) {
                 List<Tracks> list = getCheckedEntityList(false);
+                showToast(JsonUtils.toJson(list));
             }
         });
     }

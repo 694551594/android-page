@@ -132,6 +132,24 @@ public final class PageContext<T, I> {
         this.mPageEngine.setPageChecker(pageChecker);
     }
 
+    public final void setPageChecker(int type, final OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener<I> listener2) {
+        setPageChecker(type, new OnPageCheckedEquals<I>() {
+            @Override
+            public boolean equals(I t1, I t2) {
+                return t1 == t2;
+            }
+        }, listener1, listener2);
+    }
+
+    public final void setPageChecker(int type, final OnPageCheckedChangeListener<I> listener) {
+        setPageChecker(type, new OnPageCheckedEquals<I>() {
+            @Override
+            public boolean equals(I t1, I t2) {
+                return t1 == t2;
+            }
+        }, listener);
+    }
+
     public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, final OnPageCheckedChangeListener<I> listener) {
         setPageChecker(type, equals, listener, new OnPageCheckedInitListener<I>() {
             @Override

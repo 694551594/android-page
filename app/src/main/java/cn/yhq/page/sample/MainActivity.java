@@ -97,8 +97,8 @@ public class MainActivity extends SimpleListViewPageActivity<String> {
         data.add("耗时返回本地数据对话框");
         data.add("耗时返回网络数据对话框");
         data.add("自定义网络请求框架返回网络数据对话框");
-        data.add("swipeRefreshLayout");
-        data.add("checked");
+        data.add("带检索的列表");
+        data.add("可以多选的列表");
         return data;
     }
 

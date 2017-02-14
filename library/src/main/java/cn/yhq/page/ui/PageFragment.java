@@ -5,12 +5,12 @@ import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseFragment;
-import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
@@ -123,8 +123,16 @@ public abstract class PageFragment<T, I> extends BaseFragment
         this.mPageContext.setPageChecker(type, equals, listener);
     }
 
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
+        this.mPageContext.setPageChecker(type, listener1, listener2);
+    }
+
     public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
         this.mPageContext.setPageChecker(type, equals, listener1, listener2);
+    }
+
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener) {
+        this.mPageContext.setPageChecker(type, listener);
     }
 
     @Override

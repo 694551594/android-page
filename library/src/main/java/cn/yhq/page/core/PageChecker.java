@@ -22,6 +22,15 @@ public class PageChecker<T> implements IPageChecker<T> {
 
     private OnPageCheckedEquals<T> mEquals;
 
+    public PageChecker(int type, OnPageCheckedInitListener<T> listener) {
+        this(type, new OnPageCheckedEquals<T>() {
+            @Override
+            public boolean equals(T t1, T t2) {
+                return t1 == t2;
+            }
+        }, listener);
+    }
+
     public PageChecker(int type, OnPageCheckedEquals<T> equals, OnPageCheckedInitListener<T> listener) {
         this.mCheckModel = type;
         this.mEquals = equals;
@@ -34,11 +43,6 @@ public class PageChecker<T> implements IPageChecker<T> {
 
     public void setOnCheckedChangeListener(OnPageCheckedChangeListener<T> mOnPageCheckedChangeListener) {
         this.mOnPageCheckedChangeListener = mOnPageCheckedChangeListener;
-    }
-
-    public void setAllPageDataList(List<T> allPageDataList) {
-        this.mAllPageDataList = allPageDataList;
-        this.listener();
     }
 
     private void listener() {
@@ -139,10 +143,6 @@ public class PageChecker<T> implements IPageChecker<T> {
         }
     }
 
-    public List<T> getCheckedEntityList() {
-        return getCheckedEntityList(false);
-    }
-
     @Override
     public List<T> getCheckedEntityList(boolean appendDisableEntity) {
         if (appendDisableEntity) {
@@ -155,15 +155,15 @@ public class PageChecker<T> implements IPageChecker<T> {
     }
 
     private boolean containsDisable(T entity) {
-        return this.mDisabledList.contains(entity);
+        return contains(entity, mDisabledList);
     }
 
     private boolean containsOriginalChecked(T entity) {
-        return mOriginalCheckedList.contains(entity);
+        return contains(entity, mOriginalCheckedList);
     }
 
     private boolean containsChecked(T entity) {
-        return this.mCheckedList.contains(entity);
+        return contains(entity, mCheckedList);
     }
 
     private boolean contains(T entity, List<T> list) {

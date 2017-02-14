@@ -199,6 +199,14 @@ public abstract class PageDialog<T, I> implements
         this.mPageContext.setPageChecker(type, equals, listener1, listener2);
     }
 
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener) {
+        this.mPageContext.setPageChecker(type, listener);
+    }
+
+    public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
+        this.mPageContext.setPageChecker(type, listener1, listener2);
+    }
+
     @Override
     public void onPageCancelRequests() {
 
