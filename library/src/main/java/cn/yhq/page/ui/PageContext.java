@@ -44,6 +44,7 @@ public final class PageContext<T, I> {
     private IPageViewProvider mPageViewProvider;
     private IPageAdapter<I> mPageAdapter;
     private View mPageView;
+    private OnPullToRefreshProvider mOnPullToRefreshProvider;
 
     public PageContext(Context context, IPageContextProvider<T, I> provider) {
         this.mContext = context;
@@ -79,10 +80,15 @@ public final class PageContext<T, I> {
         View pageView = mPageContextProvider.getPageView();
         if (mPageView != pageView) {
             mPageView = pageView;
-            mPageViewProvider = new PageViewProvider(mPageView);
+            if (mPageViewProvider == null) {
+                mPageViewProvider = new PageViewProvider(mPageView);
+                this.setPageViewProvider(mPageViewProvider);
+            }
             mPageViewManager.inflate(mPageViewProvider);
-            OnPullToRefreshProvider onPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(mPageView);
-            this.setOnPullToRefreshProvider(onPullToRefreshProvider);
+            if (mOnPullToRefreshProvider == null) {
+                mOnPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(mPageView);
+                this.setOnPullToRefreshProvider(mOnPullToRefreshProvider);
+            }
         }
         mPageAdapter = mPageContextProvider.getPageAdapter();
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
