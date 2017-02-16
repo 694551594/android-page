@@ -27,11 +27,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'cn.yhq:android-base:1.5.0'
+    compile 'cn.yhq:android-base:1.6.0'
     compile 'cn.yhq:android-adapter:1.3.0'
     compile 'cn.yhq:android-recycler-adapter:1.3.0'
     compile 'cn.yhq:android-http:2.5'
-    compile 'com.belerweb:pinyin4j:2.5.1'
     compile 'cn.yhq:XRecyclerView:1.0'
 }
 
@@ -39,7 +38,7 @@ publish {
     userOrg = '694551594'
     groupId = 'cn.yhq'
     artifactId = 'android-page'
-    publishVersion = '3.0'
+    publishVersion = '3.2'
     desc = 'android分页列表加载引擎'
     website = 'https://github.com/694551594/android-page'
 }

@@ -40,44 +40,51 @@ public final class PageContext<T, I> {
     private PageEngine<T, I> mPageEngine;
     private PageConfig mPageConfig = new PageConfig();
     private IPageContextProvider<T, I> mPageContextProvider;
+    private PageViewManager mPageViewManager;
     private IPageViewProvider mPageViewProvider;
     private IPageAdapter<I> mPageAdapter;
+    private View mPageView;
 
     public PageContext(Context context, IPageContextProvider<T, I> provider) {
         this.mContext = context;
         this.mPageContextProvider = provider;
         provider.onPageConfig(mPageConfig);
         mPageEngine = new PageEngine(this.mContext, mPageConfig.pageSize);
-    }
-
-    private final void prepare() {
-        View pageView = mPageContextProvider.getPageView();
-        this.setPageViewProvider(new PageViewProvider(pageView));
-        this.setOnPullToRefreshProvider(PullToRefreshContextFactory.getPullToRefreshProvider(pageView));
-        mPageAdapter = mPageContextProvider.getPageAdapter();
-        final PageViewManager pageViewManager = new PageViewManager(mPageViewProvider);
-        mPageEngine.addOnPageListener(new DefaultOnPageListener() {
-            @Override
-            public void onPageCancelRequests() {
-                pageViewManager.cancelPageRequest(mPageAdapter.getPageDataCount());
-            }
-
-            @Override
-            public void onPageRequestStart(PageAction pageAction) {
-                pageViewManager.startPageRequest(pageAction);
-            }
-
-            @Override
-            public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                pageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
-            }
-        });
-        pageViewManager.setOnReRequestListener(new OnReRequestListener() {
+        mPageViewManager = new PageViewManager();
+        mPageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
                 initPageData();
             }
         });
+        mPageEngine.addOnPageListener(new DefaultOnPageListener() {
+            @Override
+            public void onPageCancelRequests() {
+                mPageViewManager.cancelPageRequest(mPageAdapter.getPageDataCount());
+            }
+
+            @Override
+            public void onPageRequestStart(PageAction pageAction) {
+                mPageViewManager.startPageRequest(pageAction);
+            }
+
+            @Override
+            public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
+                mPageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
+            }
+        });
+    }
+
+    private final void prepare() {
+        View pageView = mPageContextProvider.getPageView();
+        if (mPageView != pageView) {
+            mPageView = pageView;
+            mPageViewProvider = new PageViewProvider(mPageView);
+            mPageViewManager.inflate(mPageViewProvider);
+            OnPullToRefreshProvider onPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(mPageView);
+            this.setOnPullToRefreshProvider(onPullToRefreshProvider);
+        }
+        mPageAdapter = mPageContextProvider.getPageAdapter();
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
         mPageEngine.setPageRequester(mPageContextProvider.getPageRequester());
         mPageEngine.setPageAdapter(mPageAdapter);
