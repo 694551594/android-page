@@ -56,7 +56,7 @@ public final class PageContext<T, I> {
         mPageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
-                refreshPageData();
+                initPageData();
             }
         });
         mPageEngine.addOnPageListener(new DefaultOnPageListener() {
