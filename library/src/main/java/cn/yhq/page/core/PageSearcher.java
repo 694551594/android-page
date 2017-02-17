@@ -1,8 +1,10 @@
 package cn.yhq.page.core;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +13,14 @@ import java.util.List;
  */
 
 public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
-    protected Context context;
-    private PageManager.IPageDataCallback<I> callback;
-    private PageAction pageAction;
-    private List<I> pageData;
+    protected Context mContext;
+    private PageManager.IPageDataCallback<I> mCallback;
+    private PageAction mPageAction;
+    private List<I> mPageData;
     private List<String> mHighlightKeywords = new ArrayList<>();
 
     public PageSearcher(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     protected final void addHighlightKeyword(String keyword) {
@@ -43,27 +45,26 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     protected final void callSearchResponse(List<I> response) {
-        this.callback.onPageDataCallback(pageAction, response, false);
+        this.mCallback.onPageDataCallback(mPageAction, response, false);
     }
 
     protected final void callException(Throwable throwable) {
-        this.callback.onException(context, pageAction, throwable);
+        this.mCallback.onException(mContext, mPageAction, throwable);
     }
 
-    @Override
-    public final void setPageData(List<I> pageData) {
-        this.pageData = pageData;
+    public final void setPageData(List<I> mPageData) {
+        this.mPageData = mPageData;
     }
 
     @Override
     public final void onSearch(PageAction pageAction, String keyword, PageManager.IPageDataCallback<I> callback) {
         this.mHighlightKeywords.clear();
-        this.callback = callback;
-        this.pageAction = pageAction;
+        this.mCallback = callback;
+        this.mPageAction = pageAction;
         if (TextUtils.isEmpty(keyword)) {
-            this.callback.onPageDataCallback(PageAction.REFRESH, pageData, false);
+            this.mCallback.onPageDataCallback(PageAction.REFRESH, mPageData, false);
         } else {
-            executeSearch(pageData, keyword);
+            executeSearch(mPageData, keyword);
         }
     }
 
@@ -86,4 +87,15 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
         return new ArrayList<>(pageData);
     }
 
+    @Override
+    public boolean saveState(Bundle state) {
+        state.putSerializable("PageSearcher.mPageData", (Serializable) mPageData);
+        return true;
+    }
+
+    @Override
+    public boolean restoreState(Bundle state) {
+        mPageData = (List<I>) state.getSerializable("PageSearcher.mPageData");
+        return true;
+    }
 }

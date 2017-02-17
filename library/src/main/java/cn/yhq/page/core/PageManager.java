@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Yanghuiqiang on 2016/10/11.
  */
 
-public final class PageManager<T, I> {
+public final class PageManager<T, I> implements IStateSaved {
     private IPageRequester<T, I> mPageRequester;
     private IPageResponse<T> mPageResponse;
     private IPageDataParser<T, I> mPageDataParser;
@@ -153,12 +153,16 @@ public final class PageManager<T, I> {
         mPageRequester.onCancel();
     }
 
-    final void saveState(Bundle state) {
-        state.putSerializable("Page", mPage);
+    @Override
+    public boolean saveState(Bundle state) {
+        state.putSerializable("PageManager.Page", mPage);
+        return true;
     }
 
-    final void restoreState(Bundle state) {
-        this.mPage = (Page<I>) state.getSerializable("Page");
+    @Override
+    public boolean restoreState(Bundle state) {
+        this.mPage = (Page<I>) state.getSerializable("PageManager.Page");
+        return true;
     }
 
     public T getPageResponseData() {

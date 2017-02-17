@@ -56,7 +56,6 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
                 mOKButton.setText("选择(" + count + ")");
             }
         }, new OnPageCheckedInitListener<Tracks>() {
-
             @Override
             public boolean isEnable(int position, Tracks entity) {
                 if (position == 0 || position == 8) {
@@ -64,7 +63,6 @@ public class CheckedPageActivity extends RetrofitPageCheckedActivity<AlbumInfo, 
                 }
                 return true;
             }
-
             @Override
             public boolean isChecked(int position, Tracks entity) {
                 if (position == 1 || position == 9) {

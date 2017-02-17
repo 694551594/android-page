@@ -14,7 +14,7 @@ import timber.log.Timber;
  * <p>
  * Created by Yanghuiqiang on 2016/10/11.
  */
-public final class PageEngine<T, I> {
+public final class PageEngine<T, I> implements IStateSaved {
     private Context mContext;
     private PageManager<T, I> mPageManager;
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
@@ -63,7 +63,8 @@ public final class PageEngine<T, I> {
             // 初始化和刷新不会附加数据
             if (pageAction == PageAction.SEARCH ||
                     pageAction == PageAction.INIT ||
-                    pageAction == PageAction.REFRESH) {
+                    pageAction == PageAction.REFRESH ||
+                    pageAction == PageAction.RESTORE) {
                 if (mPageAdapter.getPageDataCount() != 0) {
                     mPageAdapter.clear();
                 }
@@ -113,7 +114,8 @@ public final class PageEngine<T, I> {
             }
 
             if (mPageChecker != null) {
-                if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
+                if (pageAction == PageAction.INIT
+                        || pageAction == PageAction.REFRESH) {
                     mPageChecker.setPageData(new ArrayList<>(data));
                 } else if (pageAction == PageAction.LOADMORE) {
                     mPageChecker.appendPageData(new ArrayList<>(data));
@@ -240,34 +242,39 @@ public final class PageEngine<T, I> {
         this.mPageSearcher.onSearch(PageAction.SEARCH, keyword, mPageDataCallback);
     }
 
+    @Override
     public final boolean saveState(Bundle state) {
         try {
             mPageManager.saveState(state);
-            if (mPageAdapter.getPageDataCount() != 0) {
-                // 判断是否序列化了。如果序列化就可以直接传值
-                if (mPageAdapter.getPageListData() instanceof Serializable) {
-                    state.putSerializable("PageData", (Serializable) mPageAdapter.getPageListData());
-                    return true;
-                }
+            if (mPageChecker != null) {
+                mPageChecker.saveState(state);
             }
+            if (mPageSearcher != null) {
+                mPageSearcher.saveState(state);
+            }
+            state.putSerializable("PageAdapter.PageData", (Serializable) mPageAdapter.getPageListData());
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e, e.getLocalizedMessage());
         }
         return false;
     }
 
+    @Override
     public final boolean restoreState(Bundle state) {
         try {
             mPageManager.restoreState(state);
-            List<I> listData = (List<I>) state.getSerializable("PageData");
-            if (listData != null) {
-                mPageAdapter.clear();
-                mPageAdapter.appendAfter(listData);
-                mPageAdapter.notifyDataSetChanged();
-                return true;
+            if (mPageChecker != null) {
+                mPageChecker.restoreState(state);
             }
+            if (mPageSearcher != null) {
+                mPageSearcher.restoreState(state);
+            }
+            List<I> listData = (List<I>) state.getSerializable("PageAdapter.PageData");
+            mPageDataCallback.onPageDataCallback(PageAction.RESTORE, listData, false);
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e, e.getLocalizedMessage());
         }
         return false;
     }

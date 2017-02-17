@@ -2,14 +2,14 @@ package cn.yhq.page.http;
 
 import java.util.List;
 
-import cn.yhq.page.core.IPageChecker;
+import cn.yhq.page.core.IPageCheckerImpl;
 
 /**
  * Created by Administrator on 2017/2/12.
  */
 
 public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActivity<T, I>
-        implements IPageChecker<I> {
+        implements IPageCheckerImpl<I> {
 
     @Override
     public void clearAllChecked() {
@@ -76,13 +76,4 @@ public abstract class RetrofitPageCheckedActivity<T, I> extends RetrofitPageActi
         return this.getPageChecker().getDisabledEntityList();
     }
 
-    @Override
-    public void setPageData(List<I> pageData) {
-        this.getPageChecker().setPageData(pageData);
-    }
-
-    @Override
-    public void appendPageData(List<I> pageData) {
-        this.getPageChecker().appendPageData(pageData);
-    }
 }

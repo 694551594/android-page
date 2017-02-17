@@ -1,5 +1,8 @@
 package cn.yhq.page.core;
 
+import android.os.Bundle;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -227,6 +230,25 @@ public class PageChecker<T> implements IPageChecker<T> {
         }
 
         this.listener();
+    }
+
+    @Override
+    public boolean saveState(Bundle state) {
+        state.putSerializable("PageChecker.mCheckedList", (Serializable) mCheckedList);
+        state.putSerializable("PageChecker.mDisabledList", (Serializable) mDisabledList);
+        state.putSerializable("PageChecker.mAllPageDataList", (Serializable) mAllPageDataList);
+        state.putSerializable("PageChecker.mOriginalCheckedList", (Serializable) mOriginalCheckedList);
+        return true;
+    }
+
+    @Override
+    public boolean restoreState(Bundle state) {
+        mCheckedList = (List<T>) state.getSerializable("PageChecker.mCheckedList");
+        mDisabledList = (List<T>) state.getSerializable("PageChecker.mDisabledList");
+        mAllPageDataList = (List<T>) state.getSerializable("PageChecker.mAllPageDataList");
+        mOriginalCheckedList = (List<T>) state.getSerializable("PageChecker.mOriginalCheckedList");
+        this.listener();
+        return true;
     }
 
     @Override

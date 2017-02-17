@@ -5,5 +5,5 @@ package cn.yhq.page.core;
  */
 
 public enum PageAction {
-    INIT, REFRESH, LOADMORE, SEARCH
+    INIT, REFRESH, LOADMORE, SEARCH, RESTORE
 }

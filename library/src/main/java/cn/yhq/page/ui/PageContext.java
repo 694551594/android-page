@@ -45,6 +45,7 @@ public final class PageContext<T, I> {
     private IPageAdapter<I> mPageAdapter;
     private View mPageView;
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
+    private boolean isPrepared;
 
     public PageContext(Context context, IPageContextProvider<T, I> provider) {
         this.mContext = context;
@@ -55,7 +56,7 @@ public final class PageContext<T, I> {
         mPageViewManager.setOnReRequestListener(new OnReRequestListener() {
             @Override
             public void onReRequest() {
-                initPageData();
+                refreshPageData();
             }
         });
         mPageEngine.addOnPageListener(new DefaultOnPageListener() {
@@ -202,6 +203,7 @@ public final class PageContext<T, I> {
     }
 
     public final boolean restorePageDataState(Bundle savedInstanceState) {
+        prepare();
         return mPageEngine.restoreState(savedInstanceState);
     }
 
@@ -224,6 +226,10 @@ public final class PageContext<T, I> {
     }
 
     public final void refreshPageData() {
+        if (!isPrepared) {
+            prepare();
+            isPrepared = true;
+        }
         mPageEngine.refreshPageData();
     }
 
