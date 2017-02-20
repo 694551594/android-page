@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Yanghuiqiang on 2017/2/17.
  */
 
-public interface IPageCheckerImpl<T> {
+public interface PageCheckerInterface<T> {
     /**
      * 清除所有的选中状态
      */

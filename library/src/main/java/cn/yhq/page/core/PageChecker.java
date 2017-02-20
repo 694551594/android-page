@@ -2,7 +2,6 @@ package cn.yhq.page.core;
 
 import android.os.Bundle;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,20 +232,20 @@ public class PageChecker<T> implements IPageChecker<T> {
     }
 
     @Override
-    public boolean saveState(Bundle state) {
-        state.putSerializable("PageChecker.mCheckedList", (Serializable) mCheckedList);
-        state.putSerializable("PageChecker.mDisabledList", (Serializable) mDisabledList);
-        state.putSerializable("PageChecker.mAllPageDataList", (Serializable) mAllPageDataList);
-        state.putSerializable("PageChecker.mOriginalCheckedList", (Serializable) mOriginalCheckedList);
+    public boolean saveState(Bundle state, OnPageDataStateSaved<T> listener) {
+        listener.onStateSaved(state, "PageChecker.mCheckedList", mCheckedList);
+        listener.onStateSaved(state, "PageChecker.mDisabledList", mDisabledList);
+        listener.onStateSaved(state, "PageChecker.mAllPageDataList", mAllPageDataList);
+        listener.onStateSaved(state, "PageChecker.mOriginalCheckedList", mOriginalCheckedList);
         return true;
     }
 
     @Override
-    public boolean restoreState(Bundle state) {
-        mCheckedList = (List<T>) state.getSerializable("PageChecker.mCheckedList");
-        mDisabledList = (List<T>) state.getSerializable("PageChecker.mDisabledList");
-        mAllPageDataList = (List<T>) state.getSerializable("PageChecker.mAllPageDataList");
-        mOriginalCheckedList = (List<T>) state.getSerializable("PageChecker.mOriginalCheckedList");
+    public boolean restoreState(Bundle state, OnPageDataStateSaved<T> listener) {
+        mCheckedList = listener.onStateRestored(state, "PageChecker.mCheckedList");
+        mDisabledList = listener.onStateRestored(state, "PageChecker.mDisabledList");
+        mAllPageDataList = listener.onStateRestored(state, "PageChecker.mAllPageDataList");
+        mOriginalCheckedList = listener.onStateRestored(state, "PageChecker.mOriginalCheckedList");
         this.listener();
         return true;
     }

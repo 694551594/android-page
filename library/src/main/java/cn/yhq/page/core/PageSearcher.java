@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,14 +87,14 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
     }
 
     @Override
-    public boolean saveState(Bundle state) {
-        state.putSerializable("PageSearcher.mPageData", (Serializable) mPageData);
+    public boolean saveState(Bundle state, OnPageDataStateSaved<I> listener) {
+        listener.onStateSaved(state, "PageSearcher.mPageData", mPageData);
         return true;
     }
 
     @Override
-    public boolean restoreState(Bundle state) {
-        mPageData = (List<I>) state.getSerializable("PageSearcher.mPageData");
+    public boolean restoreState(Bundle state, OnPageDataStateSaved<I> listener) {
+        mPageData = listener.onStateRestored(state, "PageSearcher.mPageData");
         return true;
     }
 }

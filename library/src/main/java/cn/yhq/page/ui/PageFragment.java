@@ -12,6 +12,7 @@ import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
 import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
+import cn.yhq.page.core.OnPageDataStateSaved;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -133,6 +134,10 @@ public abstract class PageFragment<T, I> extends BaseFragment
 
     public final void setPageChecker(int type, OnPageCheckedChangeListener<I> listener) {
         this.mPageContext.setPageChecker(type, listener);
+    }
+
+    public final void setOnPageDataStateSaved(OnPageDataStateSaved<I> onPageDataStateSaved) {
+        this.mPageContext.setOnPageDataStateSaved(onPageDataStateSaved);
     }
 
     @Override

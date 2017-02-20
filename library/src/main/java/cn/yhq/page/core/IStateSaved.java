@@ -6,8 +6,8 @@ import android.os.Bundle;
  * Created by Yanghuiqiang on 2017/2/17.
  */
 
-public interface IStateSaved {
-    boolean saveState(Bundle state);
+interface IStateSaved<I> {
+    boolean saveState(Bundle state, OnPageDataStateSaved<I> listener);
 
-    boolean restoreState(Bundle state);
+    boolean restoreState(Bundle state, OnPageDataStateSaved<I> listener);
 }

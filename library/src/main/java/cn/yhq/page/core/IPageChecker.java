@@ -9,7 +9,7 @@ import java.util.List;
  *         <p>
  *         2015-10-30
  */
-public interface IPageChecker<T> extends IPageCheckerImpl, IStateSaved {
+public interface IPageChecker<T> extends PageCheckerInterface, IStateSaved<T> {
 
     void setPageData(List<T> pageData);
 

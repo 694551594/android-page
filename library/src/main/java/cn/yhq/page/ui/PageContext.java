@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import java.util.List;
 
+import cn.yhq.page.core.DefaultOnPageDataStateSaved;
 import cn.yhq.page.core.DefaultOnPageListener;
 import cn.yhq.page.core.DefaultPageSearcher;
 import cn.yhq.page.core.IFilterName;
@@ -19,6 +20,7 @@ import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
 import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
+import cn.yhq.page.core.OnPageDataStateSaved;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -75,6 +77,7 @@ public final class PageContext<T, I> {
                 mPageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
             }
         });
+        this.setOnPageDataStateSaved(new DefaultOnPageDataStateSaved<I>());
     }
 
     private final void prepare() {
@@ -251,6 +254,10 @@ public final class PageContext<T, I> {
 
     public final void addPageDataIntercept(IPageDataIntercept<I> intercept) {
         this.mPageEngine.addPageDataIntercept(intercept);
+    }
+
+    public final void setOnPageDataStateSaved(OnPageDataStateSaved<I> onPageDataStateSaved) {
+        mPageEngine.setOnPageDataStateSaved(onPageDataStateSaved);
     }
 
 }

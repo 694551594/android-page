@@ -3,7 +3,6 @@ package cn.yhq.page.core;
 import android.content.Context;
 import android.os.Bundle;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import timber.log.Timber;
  * <p>
  * Created by Yanghuiqiang on 2016/10/11.
  */
-public final class PageEngine<T, I> implements IStateSaved {
+public final class PageEngine<T, I> {
     private Context mContext;
     private PageManager<T, I> mPageManager;
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
@@ -22,6 +21,7 @@ public final class PageEngine<T, I> implements IStateSaved {
     private OnPageListenerDispatcher mOnPageListenerDispatcher;
     private IPageSearcher<I> mPageSearcher;
     private IPageChecker<I> mPageChecker;
+    private OnPageDataStateSaved<I> mOnPageDataStateSaved;
 
     public PageEngine(Context context, int pageSize) {
         this.mContext = context;
@@ -242,17 +242,16 @@ public final class PageEngine<T, I> implements IStateSaved {
         this.mPageSearcher.onSearch(PageAction.SEARCH, keyword, mPageDataCallback);
     }
 
-    @Override
     public final boolean saveState(Bundle state) {
         try {
             mPageManager.saveState(state);
             if (mPageChecker != null) {
-                mPageChecker.saveState(state);
+                mPageChecker.saveState(state, mOnPageDataStateSaved);
             }
             if (mPageSearcher != null) {
-                mPageSearcher.saveState(state);
+                mPageSearcher.saveState(state, mOnPageDataStateSaved);
             }
-            state.putSerializable("PageAdapter.PageData", (Serializable) mPageAdapter.getPageListData());
+            mOnPageDataStateSaved.onStateSaved(state, "PageAdapter.PageData", mPageAdapter.getPageListData());
             return true;
         } catch (Exception e) {
             Timber.e(e, e.getLocalizedMessage());
@@ -260,17 +259,16 @@ public final class PageEngine<T, I> implements IStateSaved {
         return false;
     }
 
-    @Override
     public final boolean restoreState(Bundle state) {
         try {
             mPageManager.restoreState(state);
             if (mPageChecker != null) {
-                mPageChecker.restoreState(state);
+                mPageChecker.restoreState(state, mOnPageDataStateSaved);
             }
             if (mPageSearcher != null) {
-                mPageSearcher.restoreState(state);
+                mPageSearcher.restoreState(state, mOnPageDataStateSaved);
             }
-            List<I> listData = (List<I>) state.getSerializable("PageAdapter.PageData");
+            List<I> listData = mOnPageDataStateSaved.onStateRestored(state, "PageAdapter.PageData");
             mPageDataCallback.onPageDataCallback(PageAction.RESTORE, listData, false);
             return true;
         } catch (Exception e) {
@@ -279,5 +277,7 @@ public final class PageEngine<T, I> implements IStateSaved {
         return false;
     }
 
-
+    public final void setOnPageDataStateSaved(OnPageDataStateSaved<I> onPageDataStateSaved) {
+        this.mOnPageDataStateSaved = onPageDataStateSaved;
+    }
 }

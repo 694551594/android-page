@@ -11,6 +11,7 @@ import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
 import cn.yhq.page.core.OnPageCheckedInitListener;
+import cn.yhq.page.core.OnPageDataStateSaved;
 import cn.yhq.page.core.OnPageListener;
 import cn.yhq.page.core.OnPullToRefreshProvider;
 import cn.yhq.page.core.PageAction;
@@ -113,6 +114,10 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     public final void setPageChecker(int type, OnPageCheckedEquals<I> equals, OnPageCheckedChangeListener<I> listener1, OnPageCheckedInitListener listener2) {
         this.mPageContext.setPageChecker(type, equals, listener1, listener2);
+    }
+
+    public final void setOnPageDataStateSaved(OnPageDataStateSaved<I> onPageDataStateSaved) {
+        this.mPageContext.setOnPageDataStateSaved(onPageDataStateSaved);
     }
 
     @Override
