@@ -252,6 +252,7 @@ public final class PageEngine<T, I> {
                 mPageSearcher.saveState(state, mOnPageDataStateSaved);
             }
             mOnPageDataStateSaved.onStateSaved(state, "PageAdapter.PageData", mPageAdapter.getPageListData());
+            mPageAdapter.onStateSaved(state);
             return true;
         } catch (Exception e) {
             Timber.e(e, e.getLocalizedMessage());
@@ -270,6 +271,7 @@ public final class PageEngine<T, I> {
             }
             List<I> listData = mOnPageDataStateSaved.onStateRestored(state, "PageAdapter.PageData");
             mPageDataCallback.onPageDataCallback(PageAction.RESTORE, listData, false);
+            mPageAdapter.onStateRestored(state);
             return true;
         } catch (Exception e) {
             Timber.e(e, e.getLocalizedMessage());

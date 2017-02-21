@@ -1,6 +1,7 @@
 package cn.yhq.page.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -82,5 +83,15 @@ public abstract class PageExpandableListAdapter<G, C> extends BaseExpandableList
 
     public boolean isDisabled(int position) {
         return mDisabledList.contains(this.getGroup(position));
+    }
+
+    @Override
+    public void onStateRestored(Bundle state) {
+
+    }
+
+    @Override
+    public void onStateSaved(Bundle state) {
+
     }
 }

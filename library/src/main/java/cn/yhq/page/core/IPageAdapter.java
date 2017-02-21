@@ -1,5 +1,7 @@
 package cn.yhq.page.core;
 
+import android.os.Bundle;
+
 import java.util.List;
 
 /**
@@ -33,4 +35,8 @@ public interface IPageAdapter<I> {
     void setCheckedListData(List<I> data);
 
     void setDisabledListData(List<I> data);
+
+    void onStateSaved(Bundle state);
+
+    void onStateRestored(Bundle state);
 }

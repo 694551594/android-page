@@ -1,6 +1,7 @@
 package cn.yhq.page.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -76,6 +77,16 @@ public class PageRecyclerListAdapter<T> extends RecyclerListAdapter<T> implement
 
     public boolean isDisabled(int position) {
         return mDisabledList.contains(this.getItem(position));
+    }
+
+    @Override
+    public void onStateRestored(Bundle state) {
+
+    }
+
+    @Override
+    public void onStateSaved(Bundle state) {
+
     }
 
 }

@@ -1,6 +1,7 @@
 package cn.yhq.page.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -86,5 +87,15 @@ public class PageListAdapter<T> extends ListAdapter<T> implements IPageAdapter<T
 
     public boolean isDisabled(int position) {
         return mDisabledList.contains(this.getItem(position));
+    }
+
+    @Override
+    public void onStateRestored(Bundle state) {
+
+    }
+
+    @Override
+    public void onStateSaved(Bundle state) {
+
     }
 }
