@@ -169,8 +169,10 @@ public final class PageManager<T, I> {
     }
 
     void cancel() {
-        mInterceptorTask.cancel(true);
         mPageRequester.onCancel();
+        if (mInterceptorTask != null) {
+            mInterceptorTask.cancel(true);
+        }
     }
 
     public boolean saveState(Bundle state) {
