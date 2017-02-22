@@ -64,7 +64,7 @@ public final class PageContext<T, I> {
         mPageEngine.addOnPageListener(new DefaultOnPageListener() {
             @Override
             public void onPageCancelRequests() {
-                mPageViewManager.cancelPageRequest(mPageAdapter.getPageDataCount());
+                mPageViewManager.cancelPageRequest(mPageContextProvider.getPageAdapter().getPageDataCount());
             }
 
             @Override
@@ -74,7 +74,7 @@ public final class PageContext<T, I> {
 
             @Override
             public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                mPageViewManager.completePageRequest(pageAction, mPageAdapter.getPageDataCount());
+                mPageViewManager.completePageRequest(pageAction, mPageContextProvider.getPageAdapter().getPageDataCount());
             }
         });
         this.setOnPageDataStateSaved(new DefaultOnPageDataStateSaved<I>());
