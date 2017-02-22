@@ -1,6 +1,7 @@
 package cn.yhq.page.core;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public final class PageManager<T, I> {
     private IPageDataCallback<I> mPageDataCallback;
     private Page<I> mPage;
     private List<IPageDataIntercept<I>> mPageDataIntercepts = new ArrayList<>();
+    private AsyncTask<Object, Integer, Object[]> mInterceptorTask;
 
     public interface IPageDataCallback<I> {
         void onPageDataCallback(PageAction pageAction, List<I> data, boolean isFromCache);
@@ -48,13 +50,30 @@ public final class PageManager<T, I> {
                     mPage.mData = result.get(result.size() - 1);
                 }
 
-                try {
-                    List<I> data = getDataWithInterceptorChain(result);
-                    mPageDataCallback.onPageDataCallback(pageAction, data, isFromCache);
-                    // 最终要适配的数据
-                } catch (Exception e) {
-                    onException(context, pageAction, e);
-                }
+                mInterceptorTask = new AsyncTask<Object, Integer, Object[]>() {
+                    @Override
+                    protected Object[] doInBackground(Object... params) {
+                        try {
+                            List<I> data = getDataWithInterceptorChain((List<I>) params[0]);
+                            return new Object[]{data, params[1], params[2]};
+                            // 最终要适配的数据
+                        } catch (Exception e) {
+                            return new Object[]{e, params[1], params[2]};
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(Object[] result) {
+                        super.onPostExecute(result);
+                        if (result[0] instanceof Throwable) {
+                            onException(context, (PageAction) result[1], (Throwable) result[0]);
+                        } else {
+                            mPageDataCallback.onPageDataCallback((PageAction) result[1], (List<I>) result[0], (boolean) result[2]);
+                        }
+                    }
+                };
+                mInterceptorTask.execute(result, pageAction, isFromCache);
+
             }
 
             @Override
@@ -150,6 +169,7 @@ public final class PageManager<T, I> {
     }
 
     void cancel() {
+        mInterceptorTask.cancel(true);
         mPageRequester.onCancel();
     }
 
