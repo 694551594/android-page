@@ -81,6 +81,9 @@ public final class PageContext<T, I> {
     }
 
     private final void prepare() {
+        if (isPrepared) {
+            return;
+        }
         View pageView = mPageContextProvider.getPageView();
         if (mPageView != pageView) {
             mPageView = pageView;
@@ -98,6 +101,7 @@ public final class PageContext<T, I> {
         mPageEngine.setPageDataParser(mPageContextProvider.getPageDataParser());
         mPageEngine.setPageRequester(mPageContextProvider.getPageRequester());
         mPageEngine.setPageAdapter(mPageAdapter);
+        isPrepared = true;
     }
 
     public final void start(Bundle savedInstanceState) {
@@ -219,6 +223,7 @@ public final class PageContext<T, I> {
     }
 
     public final void initPageData() {
+        isPrepared = false;
         prepare();
 
         if (mPageConfig.clearPageDataBeforeRequest) {
@@ -229,15 +234,14 @@ public final class PageContext<T, I> {
     }
 
     public final void refreshPageData() {
-        if (!isPrepared) {
-            prepare();
-            isPrepared = true;
-        }
+        prepare();
         mPageEngine.refreshPageData();
     }
 
     public final void onDestroy() {
-        mPageEngine.cancel();
+        if (isPrepared) {
+            mPageEngine.cancel();
+        }
     }
 
     public final PageConfig getPageConfig() {

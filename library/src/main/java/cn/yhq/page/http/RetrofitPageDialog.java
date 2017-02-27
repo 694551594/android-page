@@ -3,7 +3,6 @@ package cn.yhq.page.http;
 import android.content.Context;
 
 import cn.yhq.page.core.IPageRequester;
-import cn.yhq.page.core.PageAction;
 import cn.yhq.page.ui.PageDialog;
 
 /**
@@ -19,14 +18,6 @@ public abstract class RetrofitPageDialog<T, I> extends PageDialog<T, I>
 
     public RetrofitPageDialog(Context context) {
         super(context);
-    }
-
-    @Override
-    public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-        super.onPageLoadComplete(pageAction, isFromCache, isSuccess);
-        if (pageAction == PageAction.INIT && isFromCache) {
-            this.refreshPageData();
-        }
     }
 
     @Override
