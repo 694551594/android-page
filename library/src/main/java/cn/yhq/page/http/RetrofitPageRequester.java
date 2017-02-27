@@ -9,6 +9,9 @@ import cn.yhq.page.core.Page;
 import cn.yhq.page.core.PageAction;
 import cn.yhq.page.core.PageRequester;
 
+import static cn.yhq.http.core.CacheStrategy.FIRST_CACHE_THEN_REQUEST;
+import static cn.yhq.http.core.CacheStrategy.ONLY_NETWORK;
+
 /**
  * 基于Retrofit的数据请求器
  * <p>
@@ -31,12 +34,11 @@ final class RetrofitPageRequester<T, I> extends PageRequester<T, I> {
     @Override
     public void executeRequest(Context context, final PageAction pageAction, final Page<I> page) {
         mCall = pageRequestExecutor.executePageRequest(page.getPageSize(), page.getCurrentPage(), page.getData());
-        if (pageAction == PageAction.REFRESH || pageAction == PageAction.LOADMORE) {
-            mCall.cacheStrategy(CacheStrategy.ONLY_NETWORK);
-        } else {
-            mCall.cacheStrategy(CacheStrategy.BOTH);
-        }
-        mCall.execute(context, null, new IHttpResponseListener<T>() {
+        CacheStrategy cacheStrategy =
+                pageAction == PageAction.REFRESH || pageAction == PageAction.LOADMORE ?
+                        ONLY_NETWORK :
+                        FIRST_CACHE_THEN_REQUEST;
+        mCall.cacheStrategy(cacheStrategy).execute(context, null, new IHttpResponseListener<T>() {
             @Override
             public void onResponse(Context context, int requestCode, T response, boolean isFromCache) {
                 if (isFromCache) {

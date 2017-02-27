@@ -11,7 +11,7 @@ import cn.yhq.page.core.Page;
 import cn.yhq.page.core.PageAction;
 import cn.yhq.page.core.PageRequester;
 
-import static cn.yhq.http.core.CacheStrategy.BOTH;
+import static cn.yhq.http.core.CacheStrategy.FIRST_CACHE_THEN_REQUEST;
 import static cn.yhq.http.core.CacheStrategy.ONLY_NETWORK;
 
 /**
@@ -35,7 +35,7 @@ final class RetrofitPageRequester2<T, I> extends PageRequester<T, I> {
         CacheStrategy cacheStrategy =
                 pageAction == PageAction.REFRESH || pageAction == PageAction.LOADMORE ?
                         ONLY_NETWORK :
-                        BOTH;
+                        FIRST_CACHE_THEN_REQUEST;
         mHttpRequester = new HttpRequester.Builder<T>(context)
                 .cacheStrategy(cacheStrategy)
                 .call(call)
