@@ -15,7 +15,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {url "https://clojars.org/repo/"}
     }
     tasks.withType(Javadoc) {
         options{
