@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.yhq.widget.AutoRefreshListView;
+import cn.yhq.widget.AutoRefreshRecyclerListView;
 import cn.yhq.widget.xrecyclerview.RecyclerListView;
 import cn.yhq.widget.xrecyclerview.XRecyclerListView;
 
@@ -24,6 +25,7 @@ public final class PullToRefreshContextFactory {
 
     static {
         // 注册默认的上拉加载下拉刷新组件
+        register(AutoRefreshRecyclerListView.class, PullToRefreshAutoRefreshRecyclerListViewContext.class);
         register(AutoRefreshListView.class, PullToRefreshAutoRefreshListViewContext.class);
         register(XListView.class, PullToRefreshXListViewContextWrapper.class);
         register(XExpandableListView.class, PullToRefreshXExpandableListViewContextWrapper.class);

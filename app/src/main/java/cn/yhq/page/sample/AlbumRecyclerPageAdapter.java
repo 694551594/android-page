@@ -5,6 +5,7 @@ import android.content.Context;
 import cn.yhq.adapter.recycler.ItemViewProvider2;
 import cn.yhq.adapter.recycler.ViewHolder;
 import cn.yhq.page.adapter.PageRecyclerListAdapter;
+import cn.yhq.page.core.DataAppendMode;
 import cn.yhq.page.sample.entity.Tracks;
 
 /**
@@ -33,6 +34,11 @@ public class AlbumRecyclerPageAdapter extends PageRecyclerListAdapter<Tracks> {
                 return android.R.layout.simple_list_item_1;
             }
         });
+    }
+
+    @Override
+    public DataAppendMode getDataAppendMode() {
+        return DataAppendMode.MODE_BEFORE;
     }
 
 }

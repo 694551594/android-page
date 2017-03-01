@@ -10,15 +10,15 @@ import cn.yhq.page.http.RetrofitPageActivity;
 import cn.yhq.page.sample.entity.AlbumInfo;
 import cn.yhq.page.sample.entity.Tracks;
 import cn.yhq.page.ui.PageConfig;
-import cn.yhq.widget.AutoRefreshListView;
+import cn.yhq.widget.AutoRefreshRecyclerListView;
 
 /**
  * Created by Yanghuiqiang on 2016/10/12.
  */
 
 public class AutoRefreshPageActivity extends RetrofitPageActivity<AlbumInfo, Tracks> {
-    private AutoRefreshListView mListView;
-    private AlbumPageAdapter mPageAdapter;
+    private AutoRefreshRecyclerListView mListView;
+    private AlbumRecyclerPageAdapter mPageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,8 @@ public class AutoRefreshPageActivity extends RetrofitPageActivity<AlbumInfo, Tra
     @Override
     public void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        mListView = (AutoRefreshListView) this.findViewById(R.id.list_view);
-        mPageAdapter = new AlbumPageAdapter(this);
+        mListView = (AutoRefreshRecyclerListView) this.findViewById(R.id.list_view);
+        mPageAdapter = new AlbumRecyclerPageAdapter(this);
         mListView.setAdapter(mPageAdapter);
     }
 
