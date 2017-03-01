@@ -87,13 +87,13 @@ class PageViewManager implements IPageViewManager {
                     cancelPageRequest(count);
                 } else {
                     if (count != 0) {
-                        this.mPageLayout.setVisibility(View.VISIBLE);
+                        cancelPageRequest(count);
                     }
                 }
             } else {
                 if (this.isFromNetwork) {
                     if (count != 0) {
-                        this.mPageLayout.setVisibility(View.VISIBLE);
+                        cancelPageRequest(count);
                     }
                 }
             }
