@@ -52,7 +52,6 @@ class PageViewManager implements IPageViewManager {
 
     private void reset() {
         this.mPageLayout.setVisibility(View.GONE);
-        // this.mParentView.removeView(this.mPageLayout);
         if (this.mEmptyView != null) {
             this.mParentView.removeView(this.mEmptyView);
         }
@@ -71,14 +70,32 @@ class PageViewManager implements IPageViewManager {
         }
     }
 
+    private boolean isFromCache;
+    private boolean isFromNetwork;
+
     @Override
     public void completePageRequest(PageAction pageAction, boolean isFromCache, int count) {
         if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
-            if (isFromCache && count == 0) {
-                reset();
-                this.mPageLayout.setVisibility(View.VISIBLE);
+            if (!this.isFromCache && isFromCache) {
+                this.isFromCache = isFromCache;
+            }
+            if (!this.isFromNetwork && !isFromCache) {
+                this.isFromNetwork = !isFromCache;
+            }
+            if (this.isFromCache) {
+                if (this.isFromNetwork) {
+                    cancelPageRequest(count);
+                } else {
+                    if (count != 0) {
+                        this.mPageLayout.setVisibility(View.VISIBLE);
+                    }
+                }
             } else {
-                cancelPageRequest(count);
+                if (this.isFromNetwork) {
+                    if (count != 0) {
+                        this.mPageLayout.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     }
@@ -91,7 +108,6 @@ class PageViewManager implements IPageViewManager {
                 this.mParentView.addView(this.mEmptyView, mParams);
             }
         } else {
-            // this.mParentView.addView(this.mPageLayout, mParams);
             this.mPageLayout.setVisibility(View.VISIBLE);
         }
     }
