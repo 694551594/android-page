@@ -74,7 +74,7 @@ public final class PageContext<T, I> {
 
             @Override
             public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
-                mPageViewManager.completePageRequest(pageAction, mPageContextProvider.getPageAdapter().getPageDataCount());
+                mPageViewManager.completePageRequest(pageAction, isFromCache, mPageContextProvider.getPageAdapter().getPageDataCount());
             }
         });
         this.setOnPageDataStateSaved(new DefaultOnPageDataStateSaved<I>());

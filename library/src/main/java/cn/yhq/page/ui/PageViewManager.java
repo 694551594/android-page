@@ -72,9 +72,14 @@ class PageViewManager implements IPageViewManager {
     }
 
     @Override
-    public void completePageRequest(PageAction pageAction, int count) {
-        if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH || pageAction == PageAction.SEARCH) {
-            cancelPageRequest(count);
+    public void completePageRequest(PageAction pageAction, boolean isFromCache, int count) {
+        if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
+            if (isFromCache && count == 0) {
+                reset();
+                this.mPageLayout.setVisibility(View.VISIBLE);
+            } else {
+                cancelPageRequest(count);
+            }
         }
     }
 
