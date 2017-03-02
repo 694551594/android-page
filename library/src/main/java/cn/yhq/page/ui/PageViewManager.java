@@ -84,24 +84,23 @@ class PageViewManager implements IPageViewManager {
             }
             if (this.isFromCache) {
                 if (this.isFromNetwork) {
-                    cancelPageRequest(count);
+                    completePageRequest(count);
                 } else {
                     if (count != 0) {
-                        cancelPageRequest(count);
+                        completePageRequest(count);
                     }
                 }
             } else {
                 if (this.isFromNetwork) {
                     if (count != 0) {
-                        cancelPageRequest(count);
+                        completePageRequest(count);
                     }
                 }
             }
         }
     }
 
-    @Override
-    public void cancelPageRequest(int count) {
+    private void completePageRequest(int count) {
         reset();
         if (count == 0) {
             if (this.mEmptyView != null) {
@@ -110,6 +109,11 @@ class PageViewManager implements IPageViewManager {
         } else {
             this.mPageLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void cancelPageRequest(int count) {
+        completePageRequest(count);
     }
 
     @Override
