@@ -40,12 +40,11 @@ public final class PageManager<T, I> {
                 if (pageAction == PageAction.INIT) {
                     mPageResponseData = response;
                 }
-
                 if (pageAction == PageAction.INIT || pageAction == PageAction.REFRESH) {
-                    mPage.dataSize = mPageDataParser.getPageTotal(response, isFromCache);
+                    mPage.dataSize = response == null ? 0 : mPageDataParser.getPageTotal(response, isFromCache);
                     mPage.init();
                 }
-                List<I> result = mPageDataParser.getPageList(response, isFromCache);
+                List<I> result = response == null ? new ArrayList<I>() : mPageDataParser.getPageList(response, isFromCache);
                 if (result != null && result.size() != 0) {
                     mPage.mData = result.get(result.size() - 1);
                 }
