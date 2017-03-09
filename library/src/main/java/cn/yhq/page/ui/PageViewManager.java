@@ -75,26 +75,24 @@ class PageViewManager implements IPageViewManager {
 
     @Override
     public void completePageRequest(PageAction pageAction, boolean isFromCache, int count) {
-        if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
-            if (!this.isFromCache && isFromCache) {
-                this.isFromCache = isFromCache;
-            }
-            if (!this.isFromNetwork && !isFromCache) {
-                this.isFromNetwork = !isFromCache;
-            }
-            if (this.isFromCache) {
-                if (this.isFromNetwork) {
-                    completePageRequest(count);
-                } else {
-                    if (count != 0) {
-                        completePageRequest(count);
-                    }
-                }
+        if (!this.isFromCache && isFromCache) {
+            this.isFromCache = isFromCache;
+        }
+        if (!this.isFromNetwork && !isFromCache) {
+            this.isFromNetwork = !isFromCache;
+        }
+        if (this.isFromCache) {
+            if (this.isFromNetwork) {
+                completePageRequest(count);
             } else {
-                if (this.isFromNetwork) {
-                    if (count != 0) {
-                        completePageRequest(count);
-                    }
+                if (count != 0) {
+                    completePageRequest(count);
+                }
+            }
+        } else {
+            if (this.isFromNetwork) {
+                if (count != 0) {
+                    completePageRequest(count);
                 }
             }
         }
