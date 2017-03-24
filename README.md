@@ -7,6 +7,9 @@ android 分页列表数据加载引擎，主要封装了android分页列表数�
 - 支持上拉加载下拉刷新组件的扩展。
 - 支持加载视图、空视图的定制。
 - 支持加载失败点击重试的功能。
+- 支持当前列表数据的检索。
+- 支持当前列表数据的选择（单选和多选）
+- 支持列表数据的状态保存与恢复
 
 [![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164901.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164901.png)
 [![](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164912.png)](https://raw.githubusercontent.com/694551594/android-page/master/screenshots/截屏_20161012_164912.png)
@@ -26,16 +29,18 @@ android 分页列表数据加载引擎，主要封装了android分页列表数�
 - 上拉加载下拉刷新组件提供器：OnPullToRefreshProvider，主要负责提供上拉加载下拉刷新组件，我们这里提供了XListView、XExpandableListView以及google的SwipeRefreshLayout组件，如果你使用的是其他的上拉加载下拉刷新组件，你需要实现OnPullToRefreshProvider接口。
 - 分页列表主引擎：PageEngine，主要对上述各组件进行调度管理，以及对外提供主要操作接口。
 - 分页列表视图、加载视图、空视图提供器：IPageViewProvider，主要提供分页列表视图、正在加载视图以及空视图的布局，如果你想定制正在加载以及空视图的布局，你需要实现此接口。
-- 分页列表视图、加载视图、空视图管理器：IPageViewManager，主要是对IPageViewProvider提供的视图进行管理的，还有一个点击空视图重试的功能，它里面实现了分页列表监听器OnPageListener，根据分页列表请求的生命周期来显示不同的视图。如果你想自定义分页列表请求生命周期过程的UI，你可以实现此接口。
 - 分页列表监听器：OnPageListener，涵盖了整个请求过程的生命周期。最常用的可能就是onPageLoadComplete方法了，这个方法在数据适配到adapter后回调，也就是说，你可以在这个方法里面拿到最终适配并显示出来的数据。
 - 分页上下文：PageContext，是对PageEngine的UI层级的封装了，主要封装一些接口给Activity以及Fragment提供了，此外，PageContext里面提供了一个分页的配置类PageConfig，用于一些分页的基本配置，比如分页大小、是否在初始的时候自动加载数据等等。
 - 分页上下文提供器：IPageContextProvider，其实就是对PageContext需要的一些组件的对外接口了，Activity以及Fragment需要实现此接口里面的方法。
+- 分页列表数据检索器：IPageSearcher，主要负责对当前列表数据进行检索。
+- 分页列表数据选择器：IPageChecker，主要负责对当前列表数据的单选或者多选功能。
+- 分页列表数据状态保存与恢复：OnPageDataStateSaved，默认是列表数据实现Serializable接口，如果你使用的是其它序列化方式，你需要实现自己的OnPageDataStateSaved。
 
 主要流程：
 客户端发起加载请求，调用IPageRequester请求数据并回调，IPageDataParser解析回调数据，获取要适配的数据以及数据总数，IPageDataIntercept拦截器对数据进行拦截，IPageAdapter将解析后的数据适配到PageView上。此过程第一次请求会根据pageSize以及dataTotal初始化一个page对象，然后上拉加载下拉刷新的时候增加页号，以后的每一次请求都会将此对象传递给数据请求器请求数据。
 
 ## gradle 配置
-``compile 'cn.yhq:android-page:2.4'``
+``compile 'cn.yhq:android-page:3.5.1'``
 
 ## 使用方式
 
@@ -436,7 +441,7 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
 
 ### 6、拦截器的用法
 
-（1）目前拦截器是处于UI线程，所以不适用于耗时操作
+（1）拦截器是处于IO线程，不可以直接更新UI。
 
 （2）在当前的当前的Activity里面实现public void addPageDataIntercepts(List<IPageDataIntercept<String>> intercepts)方法，调用intercepts.add(new IPageDataIntercept() {}) 添加拦截器。
       
@@ -479,4 +484,48 @@ public abstract class OkHttpPageRequester<T, I> extends PageRequester<T, I> {
             }
         };
     }
+```
+
+### 8、列表数据检索
+
+（1）最简单的方式是调用attachSearchEditText方法，直接附加检索的EditText控件，这样当EditText检索内容改变时，列表会自动检索关键字并刷新界面。注意：此接口还需要传递IFilterName接口的实现，用来获取你要参与检索的文本内容。
+
+（2）如果你要自定义检索接口，请调用setPageSearcher方法，并实现IPageSearcher接口，具体可以参考系统默认的实现cn.yhq.page.core.DefaultPageSearcher。
+
+```java
+this.attachSearchEditText(mEditText, new IFilterName<Tracks>() {
+            @Override
+            public String getFilterName(Tracks entity) {
+                return entity.getTitle();
+            }
+        });
+```
+
+### 9、列表数据选择
+
+（1）如果你的列表需要实现单选或者多选功能，你需要继承RetrofitPageCheckedActivity类，并调用setPageChecker方法设置选择器的选择类型和默认选择以及不可选择的数据接口。然后通过调用getPageChecker()方法获取数据选择器调用相关的方法。
+
+```java
+this.setPageChecker(PageChecker.CHECK_MODEL_MUTIPLE, new OnPageCheckedChangeListener<Tracks>() {
+            @Override
+            public void onPageCheckedChanged(List<Tracks> checkedList, int count) {
+                mAllCheckButton.setChecked(isAllChecked());
+                mOKButton.setText("选择(" + count + ")");
+            }
+        }, new OnPageCheckedInitListener<Tracks>() {
+            @Override
+            public boolean isEnable(int position, Tracks entity) {
+                if (position == 0 || position == 8) {
+                    return false;
+                }
+                return true;
+            }
+            @Override
+            public boolean isChecked(int position, Tracks entity) {
+                if (position == 1 || position == 9) {
+                    return true;
+                }
+                return false;
+            }
+        });
 ```
