@@ -40,7 +40,7 @@ public final class PageEngine<T, I> {
                 } else {
                     mPageAdapter.setHighlightKeywords(null);
                     if (mPageSearcher != null) {
-                        mPageSearcher.setPageData(new ArrayList<>(mPageAdapter.getPageListData()));
+                        mPageSearcher.setPageData(mPageAdapter.getPageListData());
                     }
                 }
                 mPageAdapter.notifyDataSetChanged();

@@ -3,7 +3,6 @@ package cn.yhq.page.ui;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import cn.yhq.page.core.PageAction;
 
@@ -16,10 +15,12 @@ class PageViewManager implements IPageViewManager {
     private View mPageView;
     private View mLoadingView;
     private View mEmptyView;
-    private ViewGroup mParentView;
-    private ViewGroup mPageLayout;
+    //    private ViewGroup mParentView;
+//    private ViewGroup mPageLayout;
     private OnReRequestListener mOnReRequestListener;
-    private ViewGroup.LayoutParams mParams;
+//    private ViewGroup.LayoutParams mParams;
+
+    private IPageViewHandler mPageViewHandler;
 
     public PageViewManager() {
 
@@ -27,6 +28,7 @@ class PageViewManager implements IPageViewManager {
 
     public void inflate(IPageViewProvider pageViewProvider) {
         this.mPageView = pageViewProvider.getPageView();
+        this.mPageViewHandler = PageViewHandlerFactory.createPageViewHandler(this.mPageView);
         this.mContext = this.mPageView.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (pageViewProvider.getPageLoadingView() != 0) {
@@ -44,28 +46,31 @@ class PageViewManager implements IPageViewManager {
             });
         }
 
-        this.mPageLayout = (ViewGroup) this.mPageView.getParent();
-        this.mParentView = (ViewGroup) mPageLayout.getParent();
+        this.mPageViewHandler.setup(mPageView, mLoadingView, mEmptyView);
 
-        mParams = this.mPageLayout.getLayoutParams();
+//        this.mPageLayout = (ViewGroup) this.mPageView.getParent();
+//        this.mParentView = (ViewGroup) mPageLayout.getParent();
+//
+//        mParams = this.mPageLayout.getLayoutParams();
     }
 
-    private void reset() {
-        this.mPageLayout.setVisibility(View.GONE);
-        if (this.mEmptyView != null) {
-            this.mParentView.removeView(this.mEmptyView);
-        }
-        if (this.mLoadingView != null) {
-            this.mParentView.removeView(this.mLoadingView);
-        }
-    }
+//    private void reset() {
+//        this.mPageLayout.setVisibility(View.GONE);
+//        if (this.mEmptyView != null) {
+//            this.mParentView.removeView(this.mEmptyView);
+//        }
+//        if (this.mLoadingView != null) {
+//            this.mParentView.removeView(this.mLoadingView);
+//        }
+//    }
 
     @Override
     public void startPageRequest(PageAction pageAction) {
         if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
-            reset();
+            // reset();
             if (this.mLoadingView != null) {
-                this.mParentView.addView(this.mLoadingView, mParams);
+                // this.mParentView.addView(this.mLoadingView, mParams);
+                this.mPageViewHandler.showPageLoadingView(mPageView, mLoadingView, mEmptyView);
             }
         }
     }
@@ -99,13 +104,15 @@ class PageViewManager implements IPageViewManager {
     }
 
     private void completePageRequest(int count) {
-        reset();
+        // reset();
         if (count == 0) {
             if (this.mEmptyView != null) {
-                this.mParentView.addView(this.mEmptyView, mParams);
+                // this.mParentView.addView(this.mEmptyView, mParams);
+                this.mPageViewHandler.showPageEmptyView(mPageView, mLoadingView, mEmptyView);
             }
         } else {
-            this.mPageLayout.setVisibility(View.VISIBLE);
+            // this.mPageLayout.setVisibility(View.VISIBLE);
+            this.mPageViewHandler.showPageView(mPageView);
         }
     }
 
