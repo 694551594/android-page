@@ -1,15 +1,16 @@
 package cn.yhq.page.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseActivity;
-import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.IFilterName;
 import cn.yhq.page.core.IPageChecker;
 import cn.yhq.page.core.IPageDataIntercept;
 import cn.yhq.page.core.IPageSearcher;
 import cn.yhq.page.core.OnPageCheckedChangeListener;
+import cn.yhq.page.core.OnPageCheckedEquals;
 import cn.yhq.page.core.OnPageCheckedInitListener;
 import cn.yhq.page.core.OnPageDataStateSaved;
 import cn.yhq.page.core.OnPageListener;
@@ -118,6 +119,10 @@ public abstract class PageActivity<T, I> extends BaseActivity
 
     public final void setOnPageDataStateSaved(OnPageDataStateSaved<I> onPageDataStateSaved) {
         this.mPageContext.setOnPageDataStateSaved(onPageDataStateSaved);
+    }
+
+    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+        this.mPageContext.setPageViewHandler(pageViewHandler);
     }
 
     @Override

@@ -2,6 +2,7 @@ package cn.yhq.page.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.EditText;
 
 import cn.yhq.base.BaseFragment;
@@ -71,6 +72,10 @@ public abstract class PageFragment<T, I> extends BaseFragment
 
     public final void attachSearchEditText(EditText searchEditText, IPageSearcher<I> pageSearcher) {
         mPageContext.attachSearchEditText(searchEditText, pageSearcher);
+    }
+
+    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+        this.mPageContext.setPageViewHandler(pageViewHandler);
     }
 
     /**

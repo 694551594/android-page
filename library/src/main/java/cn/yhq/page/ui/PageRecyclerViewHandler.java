@@ -3,18 +3,19 @@ package cn.yhq.page.ui;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+
+import cn.yhq.widget.xrecyclerview.BaseRecyclerView;
 
 /**
  * Created by Administrator on 2017/3/27.
  */
 
-public class PageListViewHandler extends PageViewHandler<AbsListView> {
+public class PageRecyclerViewHandler extends PageViewHandler<BaseRecyclerView> {
     private ViewGroup.LayoutParams mParams;
     private ViewGroup mSwipeRefreshLayout;
 
     @Override
-    public void setup(AbsListView pageView, View loadingView, View emptyView) {
+    public void setup(BaseRecyclerView pageView, View loadingView, View emptyView) {
         super.setup(pageView, loadingView, emptyView);
         ViewGroup viewGroup = (ViewGroup) pageView.getParent();
         if (viewGroup instanceof SwipeRefreshLayout) {
@@ -55,6 +56,4 @@ public class PageListViewHandler extends PageViewHandler<AbsListView> {
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
-
-
 }

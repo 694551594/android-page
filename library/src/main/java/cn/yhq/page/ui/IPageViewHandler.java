@@ -6,13 +6,13 @@ import android.view.View;
  * Created by Administrator on 2017/3/27.
  */
 
-public interface IPageViewHandler<V> {
+public interface IPageViewHandler<V extends View> {
 
     void setup(V pageView, View loadingView, View emptyView);
 
-    void showPageLoadingView(V pageView, View loadingView, View emptyView);
+    void showPageLoadingView();
 
-    void showPageEmptyView(V pageView, View loadingView, View emptyView);
+    void showPageEmptyView();
 
-    void showPageView(V pageView);
+    void showPageView();
 }

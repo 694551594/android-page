@@ -15,10 +15,7 @@ class PageViewManager implements IPageViewManager {
     private View mPageView;
     private View mLoadingView;
     private View mEmptyView;
-    //    private ViewGroup mParentView;
-//    private ViewGroup mPageLayout;
     private OnReRequestListener mOnReRequestListener;
-//    private ViewGroup.LayoutParams mParams;
 
     private IPageViewHandler mPageViewHandler;
 
@@ -26,9 +23,9 @@ class PageViewManager implements IPageViewManager {
 
     }
 
-    public void inflate(IPageViewProvider pageViewProvider) {
+    public void inflate(IPageViewProvider pageViewProvider, IPageViewHandler pageViewHandler) {
         this.mPageView = pageViewProvider.getPageView();
-        this.mPageViewHandler = PageViewHandlerFactory.createPageViewHandler(this.mPageView);
+        this.mPageViewHandler = pageViewHandler;
         this.mContext = this.mPageView.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (pageViewProvider.getPageLoadingView() != 0) {
@@ -47,30 +44,13 @@ class PageViewManager implements IPageViewManager {
         }
 
         this.mPageViewHandler.setup(mPageView, mLoadingView, mEmptyView);
-
-//        this.mPageLayout = (ViewGroup) this.mPageView.getParent();
-//        this.mParentView = (ViewGroup) mPageLayout.getParent();
-//
-//        mParams = this.mPageLayout.getLayoutParams();
     }
-
-//    private void reset() {
-//        this.mPageLayout.setVisibility(View.GONE);
-//        if (this.mEmptyView != null) {
-//            this.mParentView.removeView(this.mEmptyView);
-//        }
-//        if (this.mLoadingView != null) {
-//            this.mParentView.removeView(this.mLoadingView);
-//        }
-//    }
 
     @Override
     public void startPageRequest(PageAction pageAction) {
         if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
-            // reset();
             if (this.mLoadingView != null) {
-                // this.mParentView.addView(this.mLoadingView, mParams);
-                this.mPageViewHandler.showPageLoadingView(mPageView, mLoadingView, mEmptyView);
+                this.mPageViewHandler.showPageLoadingView();
             }
         }
     }
@@ -104,15 +84,12 @@ class PageViewManager implements IPageViewManager {
     }
 
     private void completePageRequest(int count) {
-        // reset();
         if (count == 0) {
             if (this.mEmptyView != null) {
-                // this.mParentView.addView(this.mEmptyView, mParams);
-                this.mPageViewHandler.showPageEmptyView(mPageView, mLoadingView, mEmptyView);
+                this.mPageViewHandler.showPageEmptyView();
             }
         } else {
-            // this.mPageLayout.setVisibility(View.VISIBLE);
-            this.mPageViewHandler.showPageView(mPageView);
+            this.mPageViewHandler.showPageView();
         }
     }
 

@@ -47,6 +47,7 @@ public final class PageContext<T, I> {
     private IPageAdapter<I> mPageAdapter;
     private View mPageView;
     private OnPullToRefreshProvider mOnPullToRefreshProvider;
+    private IPageViewHandler<? extends View> mPageViewHandler;
     private boolean isPrepared;
 
     public PageContext(Context context, IPageContextProvider<T, I> provider) {
@@ -91,7 +92,11 @@ public final class PageContext<T, I> {
                 mPageViewProvider = new PageViewProvider(mPageView);
                 this.setPageViewProvider(mPageViewProvider);
             }
-            mPageViewManager.inflate(mPageViewProvider);
+            if (mPageViewHandler == null) {
+                mPageViewHandler = PageViewHandlerFactory.createPageViewHandler(mPageView);
+                this.setPageViewHandler(mPageViewHandler);
+            }
+            mPageViewManager.inflate(mPageViewProvider, mPageViewHandler);
             if (mOnPullToRefreshProvider == null) {
                 mOnPullToRefreshProvider = PullToRefreshContextFactory.getPullToRefreshProvider(mPageView);
                 this.setOnPullToRefreshProvider(mOnPullToRefreshProvider);
@@ -139,6 +144,10 @@ public final class PageContext<T, I> {
                 searchPageData(searchEditText.getText().toString());
             }
         });
+    }
+
+    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+        this.mPageViewHandler = pageViewHandler;
     }
 
     public final void setOnPullToRefreshProvider(OnPullToRefreshProvider onPullToRefreshProvider) {
