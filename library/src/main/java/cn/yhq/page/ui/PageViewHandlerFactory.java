@@ -30,15 +30,19 @@ public final class PageViewHandlerFactory {
     }
 
     public static IPageViewHandler createPageViewHandler(Class<? extends View> clazz) {
-        Class<? extends IPageViewHandler<?>> handler = handlers.get(clazz);
-        if (handler != null) {
-            try {
+        try {
+            Class<? extends IPageViewHandler<?>> handler = handlers.get(clazz);
+            if (handler != null) {
                 return handler.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            Class<?> superClass = clazz.getSuperclass();
+            if (superClass == Object.class) {
+                return null;
+            }
+            return createPageViewHandler((Class<? extends View>) superClass);
+        } catch (Exception e) {
+            return null;
         }
-        return createPageViewHandler((Class<? extends View>) clazz.getSuperclass());
     }
 
     public static void register(Class<? extends View> viewClass, Class<? extends IPageViewHandler<?>> handlerClass) {

@@ -74,7 +74,7 @@ public abstract class PageFragment<T, I> extends BaseFragment
         mPageContext.attachSearchEditText(searchEditText, pageSearcher);
     }
 
-    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+    public final void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
         this.mPageContext.setPageViewHandler(pageViewHandler);
     }
 

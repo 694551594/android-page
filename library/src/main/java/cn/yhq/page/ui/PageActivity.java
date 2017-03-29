@@ -121,7 +121,7 @@ public abstract class PageActivity<T, I> extends BaseActivity
         this.mPageContext.setOnPageDataStateSaved(onPageDataStateSaved);
     }
 
-    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+    public final void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
         this.mPageContext.setPageViewHandler(pageViewHandler);
     }
 

@@ -153,7 +153,7 @@ public abstract class PageDialog<T, I> implements
         mPageContext.attachSearchEditText(searchEditText, pageSearcher);
     }
 
-    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+    public final void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
         this.mPageContext.setPageViewHandler(pageViewHandler);
     }
 

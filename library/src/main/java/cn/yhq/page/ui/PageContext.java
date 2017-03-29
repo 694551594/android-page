@@ -146,7 +146,7 @@ public final class PageContext<T, I> {
         });
     }
 
-    public void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
+    public final void setPageViewHandler(IPageViewHandler<? extends View> pageViewHandler) {
         this.mPageViewHandler = pageViewHandler;
     }
 

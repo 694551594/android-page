@@ -16,16 +16,32 @@ public class PageViewHandler<V extends View> implements IPageViewHandler<V> {
         this.mPageView = pageView;
         this.mLoadingView = loadingView;
         this.mEmptyView = emptyView;
+        if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
+        }
+        if (loadingView != null) {
+            loadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showPageLoadingView() {
-
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showPageEmptyView() {
-
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

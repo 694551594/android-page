@@ -22,14 +22,20 @@ public class DefaultPageViewHandler extends PageViewHandler<View> {
 
     @Override
     public void showPageLoadingView() {
+        super.showPageLoadingView();
         reset();
-        this.mParentView.addView(this.mLoadingView, mParams);
+        if (this.mLoadingView != null) {
+            this.mParentView.addView(this.mLoadingView, mParams);
+        }
     }
 
     @Override
     public void showPageEmptyView() {
+        super.showPageEmptyView();
         reset();
-        this.mParentView.addView(this.mEmptyView, mParams);
+        if (this.mEmptyView != null) {
+            this.mParentView.addView(this.mEmptyView, mParams);
+        }
     }
 
     private void reset() {
