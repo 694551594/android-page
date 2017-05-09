@@ -51,8 +51,8 @@ public abstract class PageSearcher<I> implements IPageSearcher<I>, IFilter<I> {
         this.mCallback.onException(mContext, mPageAction, throwable);
     }
 
-    public final void setPageData(List<I> mPageData) {
-        this.mPageData = mPageData;
+    public final void setPageData(List<I> pageData) {
+        this.mPageData = new ArrayList<>(pageData);
     }
 
     @Override
