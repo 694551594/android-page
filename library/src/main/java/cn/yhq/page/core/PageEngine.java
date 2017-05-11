@@ -38,14 +38,17 @@ public final class PageEngine<T, I> {
                 if (pageAction == PageAction.SEARCH) {
                     mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
                 } else {
-                    mPageAdapter.setHighlightKeywords(null);
-                    if (mPageSearcher != null) {
-                        mPageSearcher.setPageData(mPageAdapter.getPageListData());
+                    if (pageAction != PageAction.RESTORE) {
+                        mPageAdapter.setHighlightKeywords(null);
+                        if (mPageSearcher != null) {
+                            mPageSearcher.setPageData(mPageAdapter.getPageListData());
+                        }
                     }
                 }
                 mPageAdapter.notifyDataSetChanged();
             }
         });
+
     }
 
     private PageManager.IPageDataCallback<I> mPageDataCallback = new PageManager.IPageDataCallback<I>() {
@@ -123,6 +126,19 @@ public final class PageEngine<T, I> {
                 mPageAdapter.setCheckedListData(mPageChecker.getCheckedEntityList(false));
                 mPageAdapter.setDisabledListData(mPageChecker.getDisabledEntityList());
             }
+
+            if (pageAction == PageAction.SEARCH) {
+                mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
+            } else {
+                if (pageAction != PageAction.RESTORE) {
+                    mPageAdapter.setHighlightKeywords(null);
+                    if (mPageSearcher != null) {
+                        mPageSearcher.setPageData(mPageAdapter.getPageListData());
+                    }
+                }
+            }
+
+            mPageAdapter.notifyDataSetChanged();
 
         }
 
