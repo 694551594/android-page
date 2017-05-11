@@ -48,6 +48,8 @@ class PageViewManager implements IPageViewManager {
 
     @Override
     public void startPageRequest(PageAction pageAction) {
+        this._isFromCache = false;
+        this._isFromNetwork = false;
         if (pageAction == PageAction.INIT || pageAction == PageAction.SEARCH) {
             if (this.mLoadingView != null) {
                 this.mPageViewHandler.showPageLoadingView();
@@ -55,19 +57,19 @@ class PageViewManager implements IPageViewManager {
         }
     }
 
-    private boolean isFromCache;
-    private boolean isFromNetwork;
+    private boolean _isFromCache;
+    private boolean _isFromNetwork;
 
     @Override
     public void completePageRequest(PageAction pageAction, boolean isFromCache, int count) {
-        if (!this.isFromCache && isFromCache) {
-            this.isFromCache = isFromCache;
+        if (!this._isFromCache && isFromCache) {
+            this._isFromCache = isFromCache;
         }
-        if (!this.isFromNetwork && !isFromCache) {
-            this.isFromNetwork = !isFromCache;
+        if (!this._isFromNetwork && !isFromCache) {
+            this._isFromNetwork = !isFromCache;
         }
-        if (this.isFromCache) {
-            if (this.isFromNetwork) {
+        if (this._isFromCache) {
+            if (this._isFromNetwork) {
                 completePageRequest(count);
             } else {
                 if (count != 0) {
@@ -75,7 +77,7 @@ class PageViewManager implements IPageViewManager {
                 }
             }
         } else {
-            if (this.isFromNetwork) {
+            if (this._isFromNetwork) {
                 if (count != 0) {
                     completePageRequest(count);
                 }

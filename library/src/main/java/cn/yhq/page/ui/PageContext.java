@@ -234,11 +234,7 @@ public final class PageContext<T, I> {
     public final void initPageData() {
         isPrepared = false;
         prepare();
-
-        if (mPageConfig.clearPageDataBeforeRequest) {
-            clearPageData();
-        }
-
+        clearPageData();
         mPageEngine.initPageData();
     }
 

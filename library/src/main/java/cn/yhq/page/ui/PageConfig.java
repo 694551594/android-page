@@ -12,22 +12,18 @@ public final class PageConfig {
     int pageSize;
     // 是否自动载入数据
     boolean autoInitPageData;
-    // 是否在请求前清空listview的数据
-    boolean clearPageDataBeforeRequest;
 
     static final String KEY_SAVED_STATE = "saved_state_pageconfig";
 
     PageConfig() {
         pageSize = 20;
         autoInitPageData = true;
-        clearPageDataBeforeRequest = false;
     }
 
     void onSaveInstanceState(Bundle bundle) {
         Bundle b = new Bundle();
         b.putInt("pageSize", pageSize);
         b.putBoolean("autoInitPageData", autoInitPageData);
-        b.putBoolean("clearPageDataBeforeRequest", clearPageDataBeforeRequest);
         bundle.putBundle(KEY_SAVED_STATE, b);
     }
 
@@ -35,7 +31,6 @@ public final class PageConfig {
         Bundle b = bundle.getBundle(KEY_SAVED_STATE);
         pageSize = b.getInt("pageSize");
         autoInitPageData = b.getBoolean("autoInitPageData");
-        clearPageDataBeforeRequest = b.getBoolean("clearPageDataBeforeRequest");
     }
 
     public PageConfig setPageSize(int pageSize) {
@@ -45,11 +40,6 @@ public final class PageConfig {
 
     public PageConfig setAutoInitPageData(boolean autoInitPageData) {
         this.autoInitPageData = autoInitPageData;
-        return this;
-    }
-
-    public PageConfig setClearPageDataBeforeRequest(boolean clearPageDataBeforeRequest) {
-        this.clearPageDataBeforeRequest = clearPageDataBeforeRequest;
         return this;
     }
 }
