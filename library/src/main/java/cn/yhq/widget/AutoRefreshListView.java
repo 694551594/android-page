@@ -104,13 +104,17 @@ public class AutoRefreshListView extends ListView {
     }
 
     public void refreshComplete(int newDataSize) {
-        int headerCount = this.getHeaderViewsCount();
-        int firstVisiblePos = this.getFirstVisiblePosition();
-        int newCursorPosition =
+        final int headerCount = this.getHeaderViewsCount();
+        final int firstVisiblePos = this.getFirstVisiblePosition();
+        final int newCursorPosition =
                 getPositionInNewCursor(newDataSize + this.getAdapter().getCount(), firstVisiblePos);
-        int offsetY = getOffsetY(firstVisiblePos, newCursorPosition);
-
-        this.setSelectionFromTop(newCursorPosition + headerCount, offsetY);
+        final int offsetY = getOffsetY(firstVisiblePos);
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                setSelectionFromTop(newCursorPosition + headerCount, offsetY);
+            }
+        });
         isRefreshing = false;
     }
 
@@ -126,7 +130,7 @@ public class AutoRefreshListView extends ListView {
         return newCursorPos;
     }
 
-    private int getOffsetY(int firstVisiblePos, int newCursorPosition) {
+    private int getOffsetY(int firstVisiblePos) {
         int y;
 
         View firstVisibleItem = null;
@@ -160,7 +164,7 @@ public class AutoRefreshListView extends ListView {
             setAutoRefreshEnable(false);
         } else {
             mHintTextView.setVisibility(View.GONE);
-            mLoadingView.setVisibility(View.VISIBLE );
+            mLoadingView.setVisibility(View.VISIBLE);
             setAutoRefreshEnable(true);
         }
     }

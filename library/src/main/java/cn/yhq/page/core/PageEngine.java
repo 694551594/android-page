@@ -37,15 +37,16 @@ public final class PageEngine<T, I> {
             public void onPageLoadComplete(PageAction pageAction, boolean isFromCache, boolean isSuccess) {
                 if (pageAction == PageAction.SEARCH) {
                     mPageAdapter.setHighlightKeywords(mPageSearcher.getHighlightKeywords());
+                    mPageAdapter.notifyDataSetChanged();
                 } else {
                     if (pageAction != PageAction.RESTORE) {
                         mPageAdapter.setHighlightKeywords(null);
                         if (mPageSearcher != null) {
                             mPageSearcher.setPageData(mPageAdapter.getPageListData());
                         }
+                        mPageAdapter.notifyDataSetChanged();
                     }
                 }
-                mPageAdapter.notifyDataSetChanged();
             }
         });
 
