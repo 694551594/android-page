@@ -119,7 +119,9 @@ public final class PageEngine<T, I> {
 
             if (mPageChecker != null) {
                 if (pageAction == PageAction.INIT
-                        || pageAction == PageAction.REFRESH) {
+                        || pageAction == PageAction.REFRESH
+                        || pageAction == PageAction.SEARCH
+                        || pageAction == PageAction.RESTORE) {
                     mPageChecker.setPageData(new ArrayList<>(data));
                 } else if (pageAction == PageAction.LOADMORE) {
                     mPageChecker.appendPageData(new ArrayList<>(data));
