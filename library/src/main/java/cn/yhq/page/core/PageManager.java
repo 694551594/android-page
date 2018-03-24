@@ -152,6 +152,8 @@ public final class PageManager<T, I> {
         switch (action) {
             case SEARCH:
                 break;
+            case RESTORE:
+                break;
             case INIT:
                 mPage.reset();
                 this.mPageRequester.onRequest(action, mPage, mPageResponse);

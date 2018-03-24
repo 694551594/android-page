@@ -40,7 +40,7 @@ android 分页列表数据加载引擎，主要封装了android分页列表数�
 客户端发起加载请求，调用IPageRequester请求数据并回调，IPageDataParser解析回调数据，获取要适配的数据以及数据总数，IPageDataIntercept拦截器对数据进行拦截，IPageAdapter将解析后的数据适配到PageView上。此过程第一次请求会根据pageSize以及dataTotal初始化一个page对象，然后上拉加载下拉刷新的时候增加页号，以后的每一次请求都会将此对象传递给数据请求器请求数据。
 
 ## gradle 配置
-``compile 'cn.yhq:android-page:3.5.1'``
+``compile 'cn.yhq:android-page:3.6.0'``
 
 ## 使用方式
 
